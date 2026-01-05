@@ -1,0 +1,9858 @@
+<!doctype html>
+
+
+
+<html lang="fr">
+
+
+
+<head>
+
+
+
+  <meta charset="utf-8">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+  <title>Délais des Greffes (GTC)  Observatoire participatif</title>
+
+
+
+  <style>
+
+
+
+    /* ============================= */
+    /* BLOC CSS : Variables & Base */
+    /* Rôle : palette, tokens UI, reset global */
+    /* ============================= */
+    :root {
+
+      --bg: #f7f5f0;
+
+      --ink: #1c2129;
+
+      --muted: #5a626d;
+
+      --primary: #364f6b;
+
+      --accent: #dfca82;
+
+      --accent-2: #c3b06b;
+
+      --card: #fffdf8;
+
+      --card-strong: #fff;
+
+      --border: #e2ded3;
+
+      --border-strong: #cfc8b4;
+
+      --shadow: 0 12px 30px rgba(28, 33, 41, 0.12);
+
+      --shadow-soft: 0 8px 20px rgba(28, 33, 41, 0.08);
+
+      --tab-bg: #efe9dc;
+
+      --tab-active: #fffdf8;
+
+      --tab-inactive: #e7e0d0;
+
+      --panel-height: auto;
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : Structure globale */
+    /* Rôle : règles de base pour le layout et la grille */
+    /* ============================= */
+    * { box-sizing: border-box; }
+
+
+
+
+
+
+
+    html, body {
+
+
+
+      height: 100%;
+
+
+
+    }
+
+
+
+
+
+
+
+    body {
+
+
+
+      margin: 0;
+
+
+
+      font-family: "Segoe UI", "Trebuchet MS", "Verdana", sans-serif;
+
+
+
+      color: var(--ink);
+
+
+
+      background: radial-gradient(1200px 600px at 80% -10%, #f4ecd6 0%, transparent 60%),
+
+                  radial-gradient(900px 500px at -10% 20%, #e8edf2 0%, transparent 55%),
+
+                  var(--bg);
+
+
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : En-tête / Hero */
+    /* Rôle : présentation principale et accroche */
+    /* ============================= */
+    header {
+
+
+
+      padding: 32px 18px 12px;
+
+
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : Conteneurs & Sections */
+    /* Rôle : centrage, cartes, sections empilées */
+    /* ============================= */
+    .wrap {
+
+
+
+      max-width: 1180px;
+
+
+
+      margin: 0 auto;
+
+
+
+      padding: 0 18px 48px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .hero {
+
+
+
+      background: linear-gradient(135deg, #24364c 0%, #364f6b 55%, #1f2f42 100%);
+
+
+
+      color: #fef7f1;
+
+
+
+      border-radius: 22px;
+
+
+
+      padding: 28px;
+
+
+
+      box-shadow: var(--shadow);
+
+
+
+      position: relative;
+
+
+
+      overflow: hidden;
+
+
+
+    }
+
+
+
+
+
+
+
+    .hero::after {
+
+
+
+      content: "";
+
+
+
+      position: absolute;
+
+
+
+      right: -80px;
+
+
+
+      top: -60px;
+
+
+
+      width: 200px;
+
+
+
+      height: 200px;
+
+
+
+      border-radius: 50%;
+
+
+
+      background: rgba(223, 202, 130, 0.35);
+
+
+
+    }
+
+
+
+
+
+
+
+    h1 {
+
+
+
+      font-size: clamp(24px, 4vw, 36px);
+
+
+
+      margin: 0 0 8px;
+
+
+
+      letter-spacing: 0.5px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .hero p {
+
+
+
+      margin: 0;
+
+
+
+      max-width: 720px;
+
+
+
+      line-height: 1.5;
+
+
+
+      color: rgba(254, 247, 241, 0.9);
+
+
+
+    }
+
+
+
+
+
+
+
+    .meta {
+
+
+
+      margin-top: 12px;
+
+
+
+      display: inline-block;
+
+
+
+      padding: 6px 12px;
+
+
+
+      background: rgba(255, 255, 255, 0.12);
+
+
+
+      border-radius: 999px;
+
+
+
+      font-size: 12px;
+
+
+
+      letter-spacing: 0.3px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .page-header {
+
+
+
+      display: flex;
+
+
+
+      flex-direction: column;
+
+
+
+      gap: 6px;
+
+
+
+    }
+
+
+
+
+
+
+
+    main {
+
+
+
+      display: grid;
+
+
+
+      gap: 22px;
+
+
+
+      margin-top: 0;
+
+
+
+    }
+
+
+
+
+
+
+
+    .grid {
+
+
+
+      display: grid;
+
+
+
+      grid-template-columns: minmax(0, 1fr);
+
+
+
+      gap: 22px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .card {
+
+
+
+      background: var(--card);
+
+
+
+      border-radius: 20px;
+
+
+
+      padding: 24px;
+
+
+
+      box-shadow: var(--shadow);
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      animation: fadeIn 0.6s ease;
+
+
+
+    }
+
+
+
+
+
+
+
+    .section-stack {
+
+
+
+      display: grid;
+
+
+
+      gap: 28px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .section-head {
+
+
+
+      display: flex;
+
+
+
+      align-items: center;
+
+
+
+      justify-content: space-between;
+
+
+
+      gap: 12px;
+
+
+
+      flex-wrap: wrap;
+
+
+
+    }
+
+
+
+
+
+
+
+    .section-divider {
+
+
+
+      height: 1px;
+
+
+
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+
+
+
+      margin: 10px 0;
+
+
+
+    }
+
+
+
+
+
+
+
+    @keyframes fadeIn {
+
+
+
+      from { opacity: 0; transform: translateY(12px); }
+
+
+
+      to { opacity: 1; transform: translateY(0); }
+
+
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : Typographie */
+    /* Rôle : titres, sous-titres et notes */
+    /* ============================= */
+    h2 {
+
+
+
+      margin: 0 0 12px;
+
+
+
+      font-size: 22px;
+
+
+
+      letter-spacing: 0.3px;
+
+
+
+    }
+
+
+
+
+
+
+
+    h3 {
+
+
+
+      margin: 16px 0 8px;
+
+
+
+      font-size: 16px;
+
+
+
+      color: var(--muted);
+
+
+
+    }
+
+
+
+
+
+
+
+    .subtle {
+
+
+
+      font-size: 13px;
+
+
+
+      color: var(--muted);
+
+
+
+      margin-top: -4px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .note {
+
+
+
+      font-size: 13px;
+
+
+
+      color: var(--muted);
+
+
+
+      line-height: 1.5;
+
+
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : Formulaires */
+    /* Rôle : champs, labels, grilles de saisie */
+    /* ============================= */
+    form {
+
+
+
+      display: grid;
+
+
+
+      gap: 14px;
+
+
+
+    }
+
+
+
+
+
+
+
+    label {
+
+
+
+      font-size: 13px;
+
+
+
+      text-transform: uppercase;
+
+
+
+      letter-spacing: 0.6px;
+
+
+
+      color: var(--muted);
+
+
+
+      display: block;
+
+
+
+      margin-bottom: 6px;
+
+
+
+    }
+
+
+
+
+
+
+
+    input, select, textarea {
+
+
+
+      width: 100%;
+
+
+
+      padding: 10px 12px;
+
+
+
+      border-radius: 12px;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      background: #fff;
+
+
+
+      font-size: 15px;
+
+
+
+      font-family: inherit;
+
+
+
+    }
+
+
+
+
+
+
+
+    input:focus, select:focus, textarea:focus {
+
+
+
+      outline: 2px solid rgba(223, 202, 130, 0.55);
+
+      border-color: var(--accent);
+
+
+
+    }
+
+
+
+
+
+
+
+    textarea { resize: vertical; min-height: 90px; }
+
+
+
+
+
+
+
+    .row {
+
+
+
+      display: grid;
+
+
+
+      gap: 12px;
+
+
+
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : Actions & Boutons */
+    /* Rôle : CTA, variants, états */
+    /* ============================= */
+    .actions {
+
+
+
+      display: flex;
+
+
+
+      flex-wrap: wrap;
+
+
+
+      gap: 10px;
+
+
+
+      align-items: center;
+
+
+
+    }
+
+
+
+
+
+
+
+    button {
+
+
+
+      border: none;
+
+
+
+      border-radius: 999px;
+
+
+
+      padding: 10px 18px;
+
+
+
+      font-size: 14px;
+
+
+
+      font-weight: 600;
+
+
+
+      letter-spacing: 0.4px;
+
+
+
+      cursor: pointer;
+
+
+
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+
+
+    }
+
+
+
+
+
+
+
+    button:hover { transform: translateY(-1px); }
+
+
+
+
+
+
+
+    .primary {
+
+
+
+      background: var(--primary);
+
+
+
+      color: #ffffff;
+
+
+
+      box-shadow: 0 10px 20px rgba(54, 79, 107, 0.28);
+
+
+
+    }
+
+    .autocomplete {
+      position: relative;
+      width: 100%;
+    }
+
+    .autocomplete input {
+      width: 100%;
+    }
+
+    .autocomplete-panel {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      max-height: 260px;
+      overflow-y: auto;
+      background: #fff;
+      border: 1px solid var(--border-strong);
+      border-radius: 16px;
+      box-shadow: var(--shadow-soft);
+      padding: 8px 0;
+      opacity: 0;
+      transform: translateY(-4px);
+      pointer-events: none;
+      z-index: 60;
+    }
+
+    .autocomplete-panel.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .autocomplete-group {
+      padding: 8px 18px 4px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+    }
+
+    .autocomplete-item {
+      width: 100%;
+      border: none;
+      background: transparent;
+      text-align: left;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .autocomplete-item:hover,
+    .autocomplete-item.active {
+      background: rgba(54, 79, 107, 0.08);
+    }
+
+
+
+
+
+
+
+    .primary.big {
+
+
+
+      padding: 12px 22px;
+
+
+
+      font-size: 15px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .ghost {
+
+
+
+      background: #fff;
+
+
+
+      color: var(--primary);
+
+
+
+      border: 1px solid var(--primary);
+
+
+
+    }
+
+
+
+
+
+
+
+    .warn {
+
+
+
+      background: #b42318;
+
+
+
+      color: #fff;
+
+
+
+    }
+
+
+
+
+
+
+
+    .success {
+
+
+
+      color: var(--primary);
+
+
+
+      background: #eef3f7;
+
+
+
+      border-radius: 12px;
+
+
+
+      padding: 8px 12px;
+
+
+
+      font-size: 14px;
+
+
+
+      display: none;
+
+
+
+    }
+
+
+
+    .form-error {
+
+
+
+      color: #7a4a14;
+
+
+
+      background: #f6f1e3;
+
+
+
+      border-radius: 12px;
+
+
+
+      padding: 10px 12px;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      font-size: 13px;
+
+
+
+      display: none;
+
+
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : Filtres d'analyse */
+    /* Rôle : regroupements, listes et états actifs */
+    /* ============================= */
+    .filters {
+
+
+
+      display: grid;
+
+
+
+      gap: 12px;
+
+
+
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+
+
+    }
+
+
+
+
+
+
+
+    .filter-groups {
+
+
+
+      display: grid;
+
+
+
+      gap: 14px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .filter-group {
+
+
+
+      padding: 14px;
+
+
+
+      border-radius: 16px;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      background: #fff;
+
+
+
+      box-shadow: var(--shadow-soft);
+
+
+
+    }
+
+
+
+
+
+
+
+    .filter-group.is-active {
+
+
+
+      border-color: var(--accent);
+
+
+
+      box-shadow: 0 12px 22px rgba(223, 202, 130, 0.32);
+
+
+
+    }
+
+
+
+
+
+
+
+    .filter-group h3 {
+
+
+
+      margin-top: 0;
+
+
+
+    }
+
+
+
+
+
+
+
+    .filter-meta {
+
+
+
+      display: flex;
+
+
+
+      align-items: center;
+
+
+
+      justify-content: space-between;
+
+
+
+      gap: 12px;
+
+
+
+      flex-wrap: wrap;
+
+
+
+    }
+
+
+
+
+
+
+
+    .filter-actions {
+
+
+
+      display: flex;
+
+
+
+      gap: 8px;
+
+
+
+      align-items: center;
+
+
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : Données & Statistiques */
+    /* Rôle : stats rapides et tableaux */
+    /* ============================= */
+    .stats {
+
+
+
+      display: grid;
+
+
+
+      gap: 12px;
+
+
+
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+
+
+
+      margin: 14px 0;
+
+
+
+    }
+
+
+
+
+
+
+
+    .stat {
+
+
+
+      background: #fff;
+
+
+
+      border-radius: 16px;
+
+
+
+      padding: 12px;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      text-align: center;
+
+
+
+    }
+
+
+
+
+
+
+
+    .stat strong { display: block; font-size: 20px; }
+
+
+
+
+
+
+
+    table {
+
+
+
+      width: 100%;
+
+
+
+      border-collapse: collapse;
+
+
+
+      font-size: 14px;
+
+
+
+    }
+
+
+
+
+
+
+
+    th, td {
+
+
+
+      padding: 10px 8px;
+
+
+
+      border-bottom: 1px solid var(--border);
+
+
+
+      text-align: left;
+
+
+
+      vertical-align: top;
+
+
+
+    }
+
+
+
+
+
+
+
+    th {
+
+
+
+      font-size: 12px;
+
+
+
+      text-transform: uppercase;
+
+
+
+      color: var(--muted);
+
+
+
+      position: sticky;
+
+
+
+      top: 0;
+
+
+
+      background: #fffdf8;
+
+
+
+      z-index: 1;
+
+
+
+    }
+
+
+
+
+
+
+
+    tbody tr:hover {
+
+
+
+      background: rgba(54, 79, 107, 0.08);
+
+
+
+    }
+
+
+
+
+
+
+
+    .table-scroll {
+
+
+
+      max-height: 360px;
+
+
+
+      overflow: auto;
+
+
+
+      border-radius: 12px;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      background: #fff;
+
+
+
+    }
+
+
+
+
+
+
+
+    #graph-table .table-scroll {
+
+
+
+      max-height: 440px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .empty {
+
+
+
+      padding: 14px;
+
+
+
+      border-radius: 12px;
+
+
+
+      background: #f6f1e3;
+
+
+
+      color: #7a4a14;
+
+
+
+      font-size: 14px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .footer-note {
+
+
+
+      margin-top: 16px;
+
+
+
+      font-size: 12px;
+
+
+
+      color: var(--muted);
+
+
+
+    }
+
+
+
+
+
+
+
+    .toggle {
+
+
+
+      display: flex;
+
+
+
+      align-items: center;
+
+
+
+      gap: 8px;
+
+
+
+      font-size: 14px;
+
+
+
+      color: var(--muted);
+
+
+
+      cursor: pointer;
+
+
+
+      margin: 10px 0;
+
+
+
+    }
+
+
+
+
+    .toggle input[type="checkbox"],
+    .select-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: var(--accent);
+    }
+
+
+
+
+
+
+
+    .chips {
+
+
+
+      display: flex;
+
+
+
+      flex-wrap: wrap;
+
+
+
+      gap: 8px;
+
+
+
+    }
+
+
+
+
+
+
+
+    #filter-summary {
+
+
+
+      margin-top: 12px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .filter-chip {
+
+
+
+      padding: 6px 10px;
+
+
+
+      border-radius: 999px;
+
+
+
+      background: #fff;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      font-size: 12px;
+
+
+
+      color: var(--muted);
+
+
+
+    }
+
+
+
+
+
+
+
+    .chip-btn {
+
+
+
+      border-radius: 999px;
+
+
+
+      padding: 6px 12px;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      background: #fff;
+
+
+
+      color: var(--muted);
+
+
+
+      font-size: 12px;
+
+
+
+      cursor: pointer;
+
+
+
+    }
+
+
+
+
+
+
+
+    .chip-btn.active {
+
+
+
+      background: var(--accent);
+
+      color: var(--ink);
+
+
+
+      border-color: transparent;
+
+
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : UX globale */
+    /* Rôle : bouton retour haut, feedback visuel */
+    /* ============================= */
+    #back-to-top {
+
+
+
+      margin-top: 12px;
+
+
+
+      opacity: 0;
+
+
+
+      transition: opacity 0.2s ease;
+
+
+
+      pointer-events: none;
+
+
+
+    }
+
+
+
+
+
+
+
+    .back-top {
+
+
+
+      position: fixed;
+
+
+
+      left: 22px;
+
+
+
+      bottom: 22px;
+
+
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : Bouton flottant */
+    /* Rôle : accès rapide à la contribution */
+    /* ============================= */
+    .fab {
+
+
+
+      position: fixed;
+
+
+
+      right: 22px;
+
+
+
+      bottom: 22px;
+
+
+
+      display: inline-flex;
+
+
+
+      align-items: center;
+
+
+
+      gap: 8px;
+
+
+
+      padding: 12px 18px;
+
+
+
+      border-radius: 999px;
+
+
+
+      background: var(--primary);
+
+
+
+      color: #fff;
+
+
+
+      font-weight: 700;
+
+
+
+      box-shadow: 0 16px 26px rgba(54, 79, 107, 0.28);
+
+
+
+      z-index: 50;
+
+
+
+      opacity: 0;
+
+
+
+      transform: translateY(10px);
+
+
+
+      animation: fabIn 0.4s ease forwards;
+
+
+
+    }
+
+
+
+
+
+
+
+    .fab span {
+
+
+
+      font-size: 18px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .fab:hover {
+
+
+
+      transform: translateY(6px) scale(1.02);
+
+
+
+    }
+
+
+
+
+
+
+
+    .fab:active {
+
+
+
+      transform: translateY(6px) scale(0.98);
+
+
+
+    }
+
+
+
+
+
+
+
+    @keyframes fabIn {
+
+
+
+      to { opacity: 1; transform: translateY(0); }
+
+
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : Modale de contribution */
+    /* Rôle : overlay, panneau et actions */
+    /* ============================= */
+    .modal-overlay {
+
+
+
+      position: fixed;
+
+
+
+      inset: 0;
+
+
+
+      background: rgba(28, 33, 41, 0.45);
+
+
+
+      backdrop-filter: blur(6px);
+
+
+
+      display: flex;
+
+
+
+      align-items: center;
+
+
+
+      justify-content: center;
+
+
+
+      opacity: 0;
+
+
+
+      pointer-events: none;
+
+
+
+      transition: opacity 0.2s ease;
+
+
+
+      z-index: 60;
+
+
+
+      padding: 18px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .modal-overlay.open {
+
+
+
+      opacity: 1;
+
+
+
+      pointer-events: auto;
+
+
+
+    }
+
+
+
+
+
+
+
+    .modal {
+
+
+
+      width: min(640px, 100%);
+
+
+
+      max-height: 85vh;
+
+
+
+      background: #fffdf8;
+
+
+
+      border-radius: 20px;
+
+
+
+      box-shadow: 0 18px 40px rgba(31, 26, 23, 0.2);
+
+
+
+      display: flex;
+
+
+
+      flex-direction: column;
+
+
+
+      overflow: hidden;
+
+
+
+    }
+
+
+
+
+
+
+
+    .modal-header {
+
+
+
+      position: sticky;
+
+
+
+      top: 0;
+
+
+
+      background: #fffdf8;
+
+
+
+      padding: 18px 20px;
+
+
+
+      border-bottom: 1px solid var(--border);
+
+
+
+      display: flex;
+
+
+
+      justify-content: space-between;
+
+
+
+      align-items: center;
+
+
+
+      z-index: 2;
+
+
+
+    }
+
+
+
+
+
+
+
+    .modal-body {
+
+
+
+      padding: 18px 20px;
+
+
+
+      overflow: auto;
+
+
+
+    }
+
+
+
+
+
+
+
+    .modal-footer {
+
+
+
+      position: sticky;
+
+
+
+      bottom: 0;
+
+
+
+      background: #fffdf8;
+
+
+
+      padding: 14px 20px;
+
+
+
+      border-top: 1px solid var(--border);
+
+
+
+      display: flex;
+
+
+
+      justify-content: flex-end;
+
+
+
+      gap: 10px;
+
+
+
+      z-index: 2;
+
+
+
+    }
+
+
+
+
+
+
+
+    .modal-close {
+
+
+
+      border-radius: 999px;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      background: #fff;
+
+
+
+      color: var(--muted);
+
+
+
+      width: 32px;
+
+
+
+      height: 32px;
+
+
+
+      display: inline-flex;
+
+
+
+      align-items: center;
+
+
+
+      justify-content: center;
+
+
+
+      font-size: 16px;
+
+
+
+      cursor: pointer;
+
+
+
+    }
+
+
+
+
+
+
+
+    body.modal-open {
+
+
+
+      overflow: hidden;
+
+
+
+    }
+
+
+
+
+
+
+
+    @media (max-width: 720px) {
+
+
+
+      .fab {
+
+
+
+        right: 18px;
+
+
+
+        bottom: 18px;
+
+
+
+        padding: 14px 16px;
+
+
+
+        border-radius: 999px;
+
+
+
+      }
+
+
+
+
+
+
+
+      .fab span {
+
+
+
+        font-size: 20px;
+
+
+
+      }
+
+
+
+
+
+
+
+      .fab .fab-label {
+
+
+
+        display: none;
+
+
+
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : Graphiques */
+    /* Rôle : cartes, légendes et tooltips */
+    /* ============================= */
+    .chart-grid {
+
+
+
+      display: grid;
+
+
+
+      gap: 18px;
+
+
+
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
+
+
+    }
+
+
+
+
+
+
+
+    .chart-card {
+
+
+
+      background: #fff;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      border-radius: 18px;
+
+
+
+      padding: 14px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .chart-title {
+
+
+
+      display: flex;
+
+
+
+      align-items: center;
+
+
+
+      justify-content: space-between;
+
+
+
+      gap: 10px;
+
+
+
+      margin-bottom: 8px;
+
+
+
+      font-size: 14px;
+
+
+
+      color: var(--muted);
+
+
+
+    }
+
+
+
+
+
+
+
+    .chart-subtitle {
+
+
+
+      font-size: 12px;
+
+
+
+      color: var(--muted);
+
+
+
+      margin-bottom: 8px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .chart-wrap {
+
+
+
+      position: relative;
+
+
+
+      overflow: visible;
+
+
+
+    }
+
+
+
+
+
+
+
+    .chart-legend {
+
+
+
+      display: flex;
+
+
+
+      gap: 8px;
+
+
+
+      flex-wrap: wrap;
+
+
+
+      margin-top: 8px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .legend-item {
+
+
+
+      display: flex;
+
+
+
+      align-items: center;
+
+
+
+      gap: 6px;
+
+
+
+      padding: 6px 10px;
+
+
+
+      border-radius: 999px;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      background: #fff;
+
+
+
+      font-size: 12px;
+
+
+
+      cursor: pointer;
+
+
+
+    }
+
+
+
+
+
+
+
+    .legend-item span {
+
+
+
+      width: 10px;
+
+
+
+      height: 10px;
+
+
+
+      border-radius: 50%;
+
+
+
+      display: inline-block;
+
+
+
+    }
+
+
+
+
+
+
+
+    .legend-item.inactive {
+
+
+
+      opacity: 0.35;
+
+
+
+      text-decoration: line-through;
+
+
+
+      border-style: dashed;
+
+
+
+    }
+
+
+
+
+
+
+
+    .chart-tooltip {
+
+
+
+      position: absolute;
+
+
+
+      pointer-events: none;
+
+
+
+      background: #1f1a17;
+
+
+
+      color: #fff;
+
+
+
+      padding: 8px 12px;
+
+
+
+      font-size: 12px;
+
+
+
+      border-radius: 10px;
+
+
+
+      box-shadow: 0 8px 20px rgba(31, 26, 23, 0.2);
+
+
+
+      transform: translate(-50%, -120%);
+
+
+
+      white-space: nowrap;
+
+
+
+      opacity: 0;
+
+
+
+      transition: opacity 0.12s ease;
+
+
+
+    }
+
+
+
+
+
+
+
+    .chart-empty {
+
+
+
+      position: absolute;
+
+
+
+      inset: 0;
+
+
+
+      display: flex;
+
+
+
+      align-items: center;
+
+
+
+      justify-content: center;
+
+
+
+      text-align: center;
+
+
+
+      padding: 18px;
+
+
+
+      background: rgba(255, 253, 248, 0.95);
+
+
+
+      border-radius: 12px;
+
+
+
+      color: var(--muted);
+
+
+
+      font-size: 13px;
+
+
+
+      line-height: 1.5;
+
+
+
+      opacity: 0;
+
+
+
+      pointer-events: none;
+
+
+
+      transition: opacity 0.2s ease;
+
+
+
+    }
+
+
+
+
+
+
+
+    .chart-empty.visible {
+
+
+
+      opacity: 1;
+
+
+
+    }
+
+
+
+
+
+
+
+    canvas {
+
+
+
+      width: 100%;
+
+
+
+      height: 240px;
+
+
+
+      display: block;
+
+
+
+    }
+
+
+
+
+
+
+
+    .chart-card canvas.tall {
+
+
+
+      height: 320px;
+
+
+
+    }
+
+
+
+
+
+
+
+    /* ============================= */
+    /* BLOC CSS : KPI */
+    /* Rôle : filtres KPI et cartes indicateurs */
+    /* ============================= */
+    .kpi-grid {
+
+
+
+      display: grid;
+
+
+
+      gap: 12px;
+
+
+
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+
+
+
+      margin-bottom: 16px;
+
+
+
+    }
+
+
+
+
+    .kpi-filters {
+
+
+
+      display: grid;
+
+
+
+      gap: 12px;
+
+
+
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+
+
+      margin-bottom: 16px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .kpi {
+
+
+
+      background: #fff;
+
+
+
+      border-radius: 16px;
+
+
+
+      padding: 16px;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      text-align: left;
+
+
+
+      display: grid;
+
+
+
+      gap: 6px;
+
+
+
+      position: relative;
+
+
+
+      overflow: hidden;
+
+
+
+    }
+
+
+
+
+
+
+
+    .kpi strong { display: block; font-size: 26px; }
+
+
+
+
+
+
+
+    .kpi small {
+
+
+
+      color: var(--muted);
+
+
+
+      font-size: 12px;
+
+
+
+      text-transform: uppercase;
+
+
+
+      letter-spacing: 0.4px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .kpi::after {
+
+
+
+      content: "";
+
+
+
+      position: absolute;
+
+
+
+      right: -30px;
+
+
+
+      top: -30px;
+
+
+
+      width: 80px;
+
+
+
+      height: 80px;
+
+
+
+      background: rgba(54, 79, 107, 0.08);
+
+
+
+      border-radius: 50%;
+
+
+
+    }
+
+
+
+
+
+
+
+    .kpi.pulse {
+
+
+
+      animation: kpiPulse 0.3s ease;
+
+
+
+    }
+
+
+
+
+
+
+
+    @keyframes kpiPulse {
+
+
+
+      from { transform: scale(0.98); opacity: 0.7; }
+
+
+
+      to { transform: scale(1); opacity: 1; }
+
+
+
+    }
+
+
+
+
+
+
+
+    .pagination {
+
+
+
+      display: flex;
+
+
+
+      gap: 8px;
+
+
+
+      align-items: center;
+
+
+
+      margin-top: 12px;
+
+
+
+      flex-wrap: wrap;
+
+
+
+    }
+
+
+
+
+
+
+
+    .page-pill {
+
+
+
+      background: #fff;
+
+
+
+      padding: 6px 12px;
+
+
+
+      border-radius: 999px;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      font-weight: 600;
+
+
+
+      color: var(--muted);
+
+
+
+    }
+
+
+
+
+
+
+
+    .multi-select {
+
+
+
+      min-height: 120px;
+
+
+
+      max-height: 160px;
+
+
+
+      overflow: auto;
+
+
+
+    }
+
+
+
+
+
+
+
+    .select-list {
+
+
+
+      max-height: 200px;
+
+
+
+      overflow: auto;
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      border-radius: 12px;
+
+
+
+      padding: 8px;
+
+
+
+      background: #fff;
+
+
+
+      display: grid;
+
+
+
+      gap: 6px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .select-item {
+
+
+
+      display: flex;
+
+
+
+      align-items: center;
+
+
+
+      gap: 8px;
+
+
+
+      padding: 6px 8px;
+
+
+
+      cursor: pointer;
+
+
+
+      border-radius: 10px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .select-item:hover {
+
+
+
+      background: rgba(54, 79, 107, 0.08);
+
+
+
+    }
+
+
+
+
+
+
+
+    .hint {
+
+
+
+      display: inline-flex;
+
+
+
+      align-items: center;
+
+
+
+      justify-content: center;
+
+
+
+      width: 16px;
+
+
+
+      height: 16px;
+
+
+
+      border-radius: 50%;
+
+
+
+      background: var(--border);
+
+
+
+      color: var(--muted);
+
+
+
+      font-size: 11px;
+
+
+
+      margin-left: 6px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .scrollbar::-webkit-scrollbar {
+
+
+
+      width: 8px;
+
+
+
+      height: 8px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .scrollbar::-webkit-scrollbar-track {
+
+
+
+      background: #f0e5da;
+
+
+
+      border-radius: 999px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .scrollbar::-webkit-scrollbar-thumb {
+
+
+
+      background: #ccb8aa;
+
+
+
+      border-radius: 999px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .scrollbar {
+
+
+
+      scrollbar-width: thin;
+
+
+
+      scrollbar-color: #ccb8aa #f0e5da;
+
+
+
+    }
+
+
+
+
+
+
+
+    .filters-panel {
+
+
+
+      margin-top: 8px;
+
+
+
+    }
+
+
+
+
+
+
+
+    .filters-panel.is-collapsed {
+
+
+
+      display: none;
+
+
+
+    }
+
+
+
+
+
+
+
+    @media (min-width: 900px) {
+
+
+
+      .grid { grid-template-columns: 1.1fr 1.4fr; }
+
+
+
+      header { padding-top: 44px; }
+
+
+
+    }
+
+
+
+
+
+
+
+    @media (max-width: 720px) {
+
+
+
+      .table-scroll {
+
+
+
+        overflow-x: auto;
+
+
+
+      }
+
+
+
+    }
+
+
+
+  </style>
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+  <!-- ============================= -->
+  <!-- BLOC : En-tête / Hero -->
+  <!-- Rôle : titre, description et statut de stockage -->
+  <!-- Impact : positionne le contexte et les alertes -->
+  <!-- ============================= -->
+  <header class="wrap">
+
+
+
+    <div class="hero">
+
+
+
+      <h1>Délais des Greffes (GTC)  Observatoire participatif</h1>
+
+
+
+      <p>Contributions anonymes  Données indicatives  Analyse par période, greffe et formalité.</p>
+
+
+
+      <div class="page-header">
+
+
+
+        <span class="meta">Plateforme participative anonyme  données indicatives</span>
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+    <p class="note" id="storage-warning" role="status" aria-live="polite" style="display: none;"></p>
+
+
+
+
+  </header>
+
+
+
+
+
+
+
+  <main class="wrap" id="main-content">
+
+
+
+    <div class="section-stack">
+
+      <!-- ============================= -->
+      <!-- BLOC : Indicateurs clés (KPI) -->
+      <!-- Rôle : synthèse rapide des délais et volumes -->
+      <!-- Impact : alimente les cartes KPI et les filtres dédiés -->
+      <!-- ============================= -->
+      <section class="card" id="kpi-block">
+        <h2>Indicateurs clés</h2>
+        <!-- ============================= -->
+        <!-- BLOC : Filtres KPI -->
+        <!-- Rôle : filtrer les indicateurs par greffe / période / formalité -->
+        <!-- Impact : met à jour les cartes KPI et les graphiques -->
+        <!-- ============================= -->
+        <div class="kpi-filters">
+          <div>
+            <label for="kpi-filter-greffe-input">Greffe</label>
+            <div class="autocomplete">
+              <input id="kpi-filter-greffe-input" type="text" placeholder="Tous" autocomplete="off">
+              <div class="autocomplete-panel" id="kpi-filter-greffe-panel"></div>
+              <select id="kpi-filter-greffe" hidden></select>
+            </div>
+          </div>
+          <div>
+            <label for="kpi-filter-periode">Période</label>
+            <select id="kpi-filter-periode"></select>
+          </div>
+          <div>
+            <label for="kpi-filter-formalite">Type de formalité</label>
+            <select id="kpi-filter-formalite"></select>
+          </div>
+        </div>
+        <!-- ============================= -->
+        <!-- BLOC : Cartes KPI individuelles -->
+        <!-- Rôle : afficher les valeurs clés calculées -->
+        <!-- Impact : reflète les filtres KPI actifs -->
+        <!-- ============================= -->
+        <div class="kpi-grid">
+          <div class="kpi" id="kpi-card-count"><small>Contributions</small><strong id="kpi-count">0</strong><span class="note"> Volume total</span></div>
+          <div class="kpi" id="kpi-card-mean"><small>Moyenne</small><strong id="kpi-mean">-</strong><span class="note"> Délai moyen</span></div>
+          <div class="kpi" id="kpi-card-median"><small>Médiane</small><strong id="kpi-median">-</strong><span class="note"> Délai central</span></div>
+          <div class="kpi" id="kpi-card-minmax"><small>Min / Max</small><strong id="kpi-minmax">-</strong><span class="note"> Plage observée</span></div>
+          <div class="kpi" id="kpi-card-last"><small>Dernière période</small><strong id="kpi-last">-</strong><span class="note"> Mois récent</span></div>
+        </div>
+      </section>
+
+      <!-- ============================= -->
+      <!-- BLOC : Graphiques -->
+      <!-- Rôle : visualiser tendances et répartitions -->
+      <!-- Impact : dépend des filtres d'analyse -->
+      <!-- ============================= -->
+      <section class="chart-grid">
+
+
+
+        <!-- ============================= -->
+        <!-- BLOC : Évolution mensuelle -->
+        <!-- Rôle : courbe des délais dans le temps -->
+        <!-- Impact : interagit avec la légende et les filtres -->
+        <!-- ============================= -->
+        <div class="chart-card">
+
+
+
+          <div class="chart-title">
+
+
+
+            <span>Évolution mensuelle</span>
+
+
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+
+
+
+              <select id="graph-metric">
+
+
+
+                <option value="moyenne">Moyenne</option>
+
+
+
+                <option value="mediane">Médiane</option>
+
+
+
+              </select>
+
+
+
+              <label class="toggle"><input type="checkbox" id="graph-multi"> Courbes multiples</label>
+
+
+
+            </div>
+
+
+
+          </div>
+
+
+
+          <div class="chart-subtitle">Délai mensuel (jours) selon le filtre actif</div>
+
+
+
+          <div class="chart-wrap">
+
+
+
+            <canvas id="chart-monthly" class="tall"></canvas>
+
+
+
+            <div class="chart-tooltip" id="tooltip-monthly"></div>
+
+
+
+            <div class="chart-empty" id="empty-monthly">Aucune donnée pour ces filtres.<br>Essayez d'élargir la période ou de sélectionner « Tous » les greffes.</div>
+
+
+
+          </div>
+
+
+
+          <div class="chart-legend" id="legend-monthly"></div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <!-- ============================= -->
+        <!-- BLOC : Comparatif par greffe -->
+        <!-- Rôle : comparaison des délais par greffe -->
+        <!-- Impact : tri et top N pilotent l'affichage -->
+        <!-- ============================= -->
+        <div class="chart-card">
+
+
+
+          <div class="chart-title">
+
+
+
+            <span>Comparatif par greffe</span>
+
+
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+
+
+
+              <select id="graph-sort">
+
+
+
+                <option value="desc">Décroissant</option>
+
+
+
+                <option value="asc">Croissant</option>
+
+
+
+              </select>
+
+
+
+              <select id="graph-top">
+
+
+
+                <option value="10">Top 10</option>
+
+
+
+                <option value="20">Top 20</option>
+
+
+
+              </select>
+
+
+
+            </div>
+
+
+
+          </div>
+
+
+
+          <div class="chart-subtitle">Délai moyen par greffe (tri dynamique)</div>
+
+
+
+          <div class="chart-wrap">
+
+
+
+            <canvas id="chart-greffe" class="tall"></canvas>
+
+
+
+            <div class="chart-tooltip" id="tooltip-greffe"></div>
+
+
+
+            <div class="chart-empty" id="empty-greffe">Aucune donnée pour ces filtres.<br>Essayez d'élargir la période ou de sélectionner « Tous » les greffes.</div>
+
+
+
+          </div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <!-- ============================= -->
+        <!-- BLOC : Répartition des délais (histogramme) -->
+        <!-- Rôle : distribution des délais par tranche -->
+        <!-- Impact : dépend des filtres et du binning auto -->
+        <!-- ============================= -->
+        <div class="chart-card">
+
+
+
+          <div class="chart-title">
+
+
+
+            <span>Répartition des délais</span>
+
+
+
+            <span class="note">Bins auto</span>
+
+
+
+          </div>
+
+
+
+          <div class="chart-subtitle">Nombre de contributions par tranche de délai</div>
+
+
+
+          <div class="chart-wrap">
+
+
+
+            <canvas id="chart-histo"></canvas>
+
+
+
+            <div class="chart-tooltip" id="tooltip-histo"></div>
+
+
+
+            <div class="chart-empty" id="empty-histo">Aucune donnée pour ces filtres.<br>Essayez d'élargir la période ou de sélectionner « Tous » les greffes.</div>
+
+
+
+          </div>
+
+
+
+        </div>
+
+
+
+      </section>
+<!-- ============================= -->
+      <!-- BLOC : Actions -->
+      <!-- Rôle : import/export/démo/reset des données -->
+      <!-- Impact : modifie le stockage local et les vues -->
+      <!-- ============================= -->
+      <section class="card">
+
+
+
+          <h2>Actions</h2>
+
+
+
+          <div class="actions">
+
+
+
+            <!-- ============================= -->
+            <!-- BLOC : Export JSON -->
+            <!-- Rôle : exporter les contributions locales -->
+            <!-- Impact : génère un fichier JSON à partager -->
+            <!-- ============================= -->
+            <button class="ghost" id="export-btn" type="button">Exporter JSON</button>
+
+
+
+            <!-- ============================= -->
+            <!-- BLOC : Import JSON -->
+            <!-- Rôle : importer un fichier JSON utilisateur -->
+            <!-- Impact : fusionne ou remplace les données locales -->
+            <!-- ============================= -->
+            <button class="ghost" id="import-btn" type="button">Importer JSON</button>
+
+
+
+            <!-- ============================= -->
+            <!-- BLOC : Données de démonstration -->
+            <!-- Rôle : charger un jeu d'exemple pour l'analyse -->
+            <!-- Impact : remplit le stockage local selon le mode -->
+            <!-- ============================= -->
+            <button class="ghost" id="demo-btn-analytics" type="button">Charger des données de démo</button>
+
+
+
+            <!-- ============================= -->
+            <!-- BLOC : Réinitialisation -->
+            <!-- Rôle : purge complète du stockage local -->
+            <!-- Impact : remet à zéro tableaux et graphiques -->
+            <!-- ============================= -->
+            <button class="warn" id="reset-btn" type="button">Réinitialiser</button>
+
+
+
+            <input id="import-file" type="file" accept="application/json" hidden>
+
+
+
+            <input id="demo-file" type="file" accept="application/json" hidden>
+
+
+
+          </div>
+
+
+
+      </section>
+
+
+
+      <!-- ============================= -->
+      <!-- BLOC : Détail (filtres KPI) -->
+      <!-- Rôle : récapitulatif des filtres actifs -->
+      <!-- Impact : reflète les indicateurs clés -->
+      <!-- ============================= -->
+      <section class="card" id="kpi-detail-card">
+        <h2>Détail</h2>
+        <p class="subtle">Filtres actifs des indicateurs clés.</p>
+        <div id="kpi-detail" class="chips"></div>
+        <div id="kpi-detail-table"></div>
+        <div class="pagination">
+          <button class="ghost" id="kpi-page-prev" type="button">Page précédente</button>
+          <span class="page-pill" id="kpi-page-info">Page 1</span>
+          <button class="ghost" id="kpi-page-next" type="button">Page suivante</button>
+        </div>
+      </section>
+
+
+
+
+
+
+
+      <!-- ============================= -->
+      <!-- BLOC : Informations / RGPD -->
+      <!-- Rôle : contexte et conformité des données -->
+      <!-- Impact : information utilisateur uniquement -->
+      <!-- ============================= -->
+      <section class="card">
+
+
+
+          <h2>Comment lire ces données </h2>
+
+
+
+          <p class="note">Les délais sont des moyennes et médianes calculées à partir des contributions locales. Les résultats peuvent varier selon la période, la charge du greffe ou la complexité des dossiers. Ce prototype n'établit aucun classement officiel.</p>
+
+
+
+          <h3>RGPD</h3>
+
+
+
+          <p class="note">Aucune donnée personnelle collectée. Données stockées localement sur votre navigateur.</p>
+
+
+
+      </section>
+
+
+
+    </div>
+
+
+
+  </main>
+
+
+
+
+
+
+
+  <!-- ============================= -->
+  <!-- BLOC : Bouton flottant "Revenir en haut" -->
+  <!-- Rôle : remonter rapidement au sommet -->
+  <!-- Impact : UX globale lors du scroll -->
+  <!-- ============================= -->
+  <button class="ghost back-top" id="back-to-top" type="button">Revenir en haut</button>
+
+
+
+
+
+
+
+  <!-- ============================= -->
+  <!-- BLOC : Bouton flottant "Contribuer" -->
+  <!-- Rôle : ouverture rapide de la modale -->
+  <!-- Impact : déclenche la contribution -->
+  <!-- ============================= -->
+  <button class="fab" id="fab-contribute" type="button" aria-label="Ajouter une contribution">
+
+
+
+    <span></span>
+
+
+
+    <span class="fab-label">+ Contribuer</span>
+
+
+
+  </button>
+
+
+
+
+
+
+
+  <!-- ============================= -->
+  <!-- BLOC : Modale de contribution -->
+  <!-- Rôle : collecte des nouvelles contributions -->
+  <!-- Impact : modifie le stockage local et rafraîchit les vues -->
+  <!-- ============================= -->
+  <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+
+
+
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc" tabindex="-1">
+
+
+
+      <div class="modal-header">
+
+
+
+        <div>
+
+
+
+          <h2 id="modal-title">Ajouter une contribution</h2>
+
+
+
+          <p class="subtle">Aucune donnée personnelle. Stockage local (prototype).</p>
+
+
+
+        </div>
+
+
+
+        <button class="modal-close" id="modal-close" type="button" aria-label="Fermer"></button>
+
+
+
+      </div>
+
+
+
+      <div class="modal-body scrollbar">
+
+
+
+        <form id="contribution-form">
+
+          <p class="form-error" id="form-error" role="alert"></p>
+
+
+
+          <div class="row">
+
+
+
+            <div>
+
+
+
+              <label for="greffe-input">Greffe (GTC)</label>
+              <div class="autocomplete">
+                <input id="greffe-input" type="text" placeholder="Sélectionner" autocomplete="off">
+                <div class="autocomplete-panel" id="greffe-panel"></div>
+                <select id="greffe" required hidden>
+                  <option value="">Sélectionner</option>
+                </select>
+              </div>
+
+
+
+            </div>
+
+
+
+            <div id="greffe-autre-wrap" style="display:none;">
+
+
+
+              <label for="greffe-autre">Précisez le greffe</label>
+
+
+
+              <input id="greffe-autre" type="text" placeholder="Ex: Versailles">
+
+
+
+            </div>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <div class="row">
+
+
+
+            <div>
+
+
+
+              <label for="formalite">Type de formalité</label>
+
+
+
+              <select id="formalite" required>
+
+
+
+                <option value="">Sélectionner</option>
+
+
+
+                <option value="Immatriculation">Immatriculation</option>
+
+
+
+                <option value="Modification">Modification</option>
+
+
+
+                <option value="Depot des comptes">Dépôt des comptes</option>
+
+
+
+                <option value="Radiation">Radiation</option>
+
+
+
+              </select>
+
+
+
+            </div>
+
+
+
+            <div>
+
+
+
+              <label for="delai">Délai constaté (jours)</label>
+
+
+
+              <input id="delai" type="number" min="1" max="365" step="1" required>
+
+
+
+            </div>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <div class="row">
+
+
+
+            <div>
+
+
+
+              <label for="periode">Période (mois/année)</label>
+
+
+
+              <select id="periode" required></select>
+
+
+
+            </div>
+
+
+
+            <div>
+
+
+
+              <label for="commentaire">Commentaire (optionnel)</label>
+
+
+
+              <textarea id="commentaire" maxlength="250" placeholder="Contexte utile, sans aucune donnée personnelle."></textarea>
+
+
+
+            </div>
+
+
+
+          </div>
+
+
+
+
+
+
+
+          <div class="actions">
+
+
+
+            <button class="ghost" id="demo-btn" type="button">Charger des données de démo</button>
+
+
+
+            <span class="success" id="success-msg" role="status" aria-live="polite">Merci ! Votre contribution est enregistrée localement.</span>
+
+
+
+          </div>
+
+
+
+        </form>
+
+
+
+      </div>
+
+
+
+      <div class="modal-footer">
+
+
+
+        <button class="ghost" id="modal-cancel" type="button">Annuler</button>
+
+
+
+        <button class="primary" form="contribution-form" type="submit">Enregistrer</button>
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+  <script>
+
+
+
+    const STORAGE_KEY = "gtcContributions";
+
+
+
+    const FORMALITES = ["Immatriculation", "Modification", "Depot des comptes", "Radiation"];
+
+
+
+    const FORMALITE_LABELS = {
+
+
+
+      Immatriculation: "Immatriculation",
+
+
+
+      Modification: "Modification",
+
+
+
+      "Depot des comptes": "Dépôt des comptes",
+
+
+
+      Radiation: "Radiation"
+
+
+
+    };
+
+
+
+        const GREFFES_PAR_REGION = {
+      "Auvergne-Rhône-Alpes": [
+        "Bourg-en-Bresse",
+        "Montluçon",
+        "Cusset",
+        "Aubenas",
+        "Aurillac",
+        "Romans-sur-Isère",
+        "Puy-en-Velay",
+        "Grenoble",
+        "Vienne",
+        "Roanne",
+        "Saint-Etienne",
+        "Clermont-Ferrand",
+        "Lyon",
+        "Villefranche-sur-Saône",
+        "Annecy",
+        "Thonon-les-Bains",
+        "Chambéry"
+      ],
+      "Bourgogne-Franche-Comté": [
+        "Dijon",
+        "Besançon",
+        "Lons-le-Saunier",
+        "Nevers",
+        "Vesoul",
+        "Mâcon",
+        "Chalon-sur-Saône",
+        "Belfort",
+        "Auxerre",
+        "Sens"
+      ],
+      "Bretagne": [
+        "Brest",
+        "Quimper",
+        "Saint-Brieuc",
+        "Lorient",
+        "Vannes",
+        "Rennes",
+        "Saint-Malo"
+      ],
+      "Centre-Val de Loire": [
+        "Orléans",
+        "Blois",
+        "Châteauroux",
+        "Tours",
+        "Bourges",
+        "Chartres"
+      ],
+      "Corse": [
+        "Ajaccio",
+        "Bastia"
+      ],
+      "Grand Est": [
+        "Sedan",
+        "Troyes",
+        "Reims",
+        "Châlons-en-Champagne",
+        "Chaumont",
+        "Briey",
+        "Nancy",
+        "Bar-le-Duc",
+        "Metz",
+        "Sarreguemines",
+        "Thionville",
+        "Epinal"
+      ],
+      "Hauts-de-France": [
+        "Lille",
+        "Douai",
+        "Dunkerque",
+        "Valenciennes",
+        "Arras",
+        "Boulogne-sur-Mer",
+        "Beauvais",
+        "Compiègne",
+        "Soissons",
+        "Saint-Quentin",
+        "Amiens"
+      ],
+      "Île-de-France": [
+        "Paris",
+        "Evry",
+        "Nanterre",
+        "Bobigny",
+        "Pontoise",
+        "Créteil",
+        "Versailles",
+        "Meaux",
+        "Melun"
+      ],
+      "Normandie": [
+        "Rouen",
+        "Le Havre",
+        "Dieppe",
+        "Evreux",
+        "Bernay",
+        "Alençon",
+        "Caen",
+        "Lisieux",
+        "Coutances",
+        "Cherbourg"
+      ],
+      "Nouvelle-Aquitaine": [
+        "Bordeaux",
+        "Libourne",
+        "Angoulême",
+        "La Rochelle",
+        "Saintes",
+        "Brive-la-Gaillarde",
+        "Guéret",
+        "Niort",
+        "Périgueux",
+        "Bergerac",
+        "Dax",
+        "Mont-de-Marsan",
+        "Agen",
+        "Bayonne",
+        "Pau",
+        "Poitiers",
+        "Limoges"
+      ],
+      "Occitanie": [
+        "Foix",
+        "Narbonne",
+        "Carcassonne",
+        "Rodez",
+        "Toulouse",
+        "Nîmes",
+        "Auch",
+        "Montpellier",
+        "Béziers",
+        "Cahors",
+        "Mende",
+        "Perpignan",
+        "Tarbes",
+        "Albi",
+        "Castres",
+        "Montauban"
+      ],
+      "Pays de la Loire": [
+        "Nantes",
+        "Saint-Nazaire",
+        "Angers",
+        "Laval",
+        "Le Mans",
+        "La Roche-sur-Yon"
+      ],
+      "Provence-Alpes-Côte d'Azur": [
+        "Nice",
+        "Cannes",
+        "Grasse",
+        "Antibes",
+        "Manosque",
+        "Gap",
+        "Marseille",
+        "Aix-en-Provence",
+        "Tarascon",
+        "Salon-de-Provence",
+        "Toulon",
+        "Draguignan",
+        "Fréjus",
+        "Avignon"
+      ]
+    };
+
+    const METRIC_LABELS = {
+
+
+
+      moyenne: "Moyenne",
+
+
+
+      mediane: "Médiane"
+
+
+
+    };
+
+    // =============================
+    // Motion System (anime.js)
+    // Dur?es : micro 140-200ms, transitions 260-420ms
+    // Easing : easeOutCubic / easeOutQuad
+    // Accessibilit? : reduced-motion = animations d?sactiv?es
+    // =============================
+    const motionPrefs = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const motion = {
+      micro: 160,
+      fast: 220,
+      medium: 320,
+      slow: 420,
+      easingIn: "easeOutQuad",
+      easingOut: "easeOutCubic"
+    };
+    const motionEnabled = () => !motionPrefs.matches && typeof window.anime === "function";
+    const motionDuration = duration => (motionPrefs.matches ? 1 : duration);
+    const animateIn = (targets, opts = {}) => {
+      if (!motionEnabled()) return;
+      window.anime.remove(targets);
+      window.anime({
+        targets,
+        opacity: [0, 1],
+        translateY: [8, 0],
+        duration: motionDuration(opts.duration || motion.fast),
+        easing: opts.easing || motion.easingOut
+      });
+    };
+    const animateOut = (targets, opts = {}) => {
+      if (!motionEnabled()) return;
+      window.anime.remove(targets);
+      window.anime({
+        targets,
+        opacity: [1, 0],
+        translateY: [0, 8],
+        duration: motionDuration(opts.duration || motion.fast),
+        easing: opts.easing || motion.easingIn
+      });
+    };
+    const pulse = (targets, opts = {}) => {
+      if (!motionEnabled()) return;
+      window.anime.remove(targets);
+      window.anime({
+        targets,
+        scale: [1, 1.03, 1],
+        duration: motionDuration(opts.duration || motion.micro),
+        easing: opts.easing || motion.easingOut
+      });
+    };
+    const animateCount = (el, toValue, opts = {}) => {
+      if (!el || !motionEnabled()) {
+        if (el) el.textContent = opts.format ? opts.format(toValue) : String(toValue);
+        return;
+      }
+      const from = Number(el.dataset.value || 0);
+      el.dataset.value = String(toValue);
+      window.anime.remove(el);
+      window.anime({
+        targets: { value: from },
+        value: toValue,
+        duration: motionDuration(opts.duration || motion.fast),
+        easing: opts.easing || motion.easingOut,
+        update: anim => {
+          const val = anim.animations[0].currentValue;
+          el.textContent = opts.format ? opts.format(val) : Math.round(val);
+        }
+      });
+    };
+
+
+
+
+
+
+
+
+    const form = document.getElementById("contribution-form");
+
+
+
+    const greffeSelect = document.getElementById("greffe");
+    const greffeInput = document.getElementById("greffe-input");
+    const greffePanel = document.getElementById("greffe-panel");
+
+
+
+    const greffeAutreWrap = document.getElementById("greffe-autre-wrap");
+
+
+
+    const greffeAutreInput = document.getElementById("greffe-autre");
+
+
+
+    const periodeSelect = document.getElementById("periode");
+
+
+
+    const successMsg = document.getElementById("success-msg");
+
+
+
+
+
+
+
+    const filterGreffe = document.getElementById("filter-greffe");
+
+
+
+    const filterFormalite = document.getElementById("filter-formalite");
+
+
+
+    const toggleComments = document.getElementById("toggle-comments");
+
+
+
+    const tableWrap = document.getElementById("table-wrap");
+
+
+
+
+
+
+
+    const statMoy = document.getElementById("stat-moy");
+
+
+
+    const statMed = document.getElementById("stat-med");
+
+
+
+    const statCount = document.getElementById("stat-count");
+
+
+
+
+
+
+
+    const exportBtn = document.getElementById("export-btn");
+
+
+
+    const importBtn = document.getElementById("import-btn");
+
+
+
+    const resetBtn = document.getElementById("reset-btn");
+
+
+
+    const importFile = document.getElementById("import-file");
+
+
+
+
+
+
+
+    const demoBtn = document.getElementById("demo-btn");
+
+
+
+    const demoBtnAnalytics = document.getElementById("demo-btn-analytics");
+
+
+
+    const demoFile = document.getElementById("demo-file");
+
+
+
+
+
+
+
+    const fabButton = document.getElementById("fab-contribute");
+
+
+
+    const modalOverlay = document.getElementById("modal-overlay");
+
+    const modal = document.getElementById("modal");
+
+    const modalClose = document.getElementById("modal-close");
+
+
+
+    const modalCancel = document.getElementById("modal-cancel");
+
+
+
+    let lastFocusedElement = null;
+
+
+
+
+
+
+
+    const graphGreffeList = document.getElementById("graph-greffe-list");
+
+
+
+    const graphGreffeSearch = document.getElementById("graph-greffe-search");
+
+
+
+    const graphFormaliteList = document.getElementById("graph-formalite-list");
+
+
+
+    const graphFormaliteSearch = document.getElementById("graph-formalite-search");
+
+
+
+    const graphPeriodeFrom = document.getElementById("graph-periode-from");
+
+
+
+    const graphPeriodeTo = document.getElementById("graph-periode-to");
+
+
+
+    const graphDelaiMin = document.getElementById("graph-delai-min");
+
+
+
+    const graphDelaiMax = document.getElementById("graph-delai-max");
+
+
+
+    const graphSearch = document.getElementById("graph-search");
+
+
+
+    const graphSearchComments = document.getElementById("graph-search-comments");
+
+
+
+    const graphApply = document.getElementById("graph-apply");
+
+
+
+    const graphReset = document.getElementById("graph-reset");
+
+
+
+    const graphMetric = document.getElementById("graph-metric");
+
+
+
+    const graphMulti = document.getElementById("graph-multi");
+
+
+
+    const graphSort = document.getElementById("graph-sort");
+
+
+
+    const graphTop = document.getElementById("graph-top");
+
+
+
+    const greffeSelectAll = document.getElementById("greffe-select-all");
+
+
+
+    const greffeDeselectAll = document.getElementById("greffe-deselect-all");
+
+
+
+    const formaliteSelectAll = document.getElementById("formalite-select-all");
+
+
+
+    const formaliteDeselectAll = document.getElementById("formalite-deselect-all");
+
+
+
+    const greffeCount = document.getElementById("greffe-count");
+
+
+
+    const formaliteCount = document.getElementById("formalite-count");
+
+
+
+    const filterToggle = document.getElementById("filter-toggle");
+
+    const kpiFilterGreffe = document.getElementById("kpi-filter-greffe");
+    const kpiFilterGreffeInput = document.getElementById("kpi-filter-greffe-input");
+    const kpiFilterGreffePanel = document.getElementById("kpi-filter-greffe-panel");
+
+    const kpiFilterPeriode = document.getElementById("kpi-filter-periode");
+
+    const kpiFilterFormalite = document.getElementById("kpi-filter-formalite");
+
+    const kpiDetail = document.getElementById("kpi-detail");
+
+    const kpiDetailTable = document.getElementById("kpi-detail-table");
+
+    const kpiPagePrev = document.getElementById("kpi-page-prev");
+
+    const kpiPageNext = document.getElementById("kpi-page-next");
+
+    const kpiPageInfo = document.getElementById("kpi-page-info");
+
+
+
+    const kpiCount = document.getElementById("kpi-count");
+
+
+
+    const kpiMean = document.getElementById("kpi-mean");
+
+
+
+    const kpiMedian = document.getElementById("kpi-median");
+
+
+
+    const kpiMinMax = document.getElementById("kpi-minmax");
+
+
+
+    const kpiLast = document.getElementById("kpi-last");
+
+
+
+    const kpiCards = [
+
+
+
+      document.getElementById("kpi-card-count"),
+
+
+
+      document.getElementById("kpi-card-mean"),
+
+
+
+      document.getElementById("kpi-card-median"),
+
+
+
+      document.getElementById("kpi-card-minmax"),
+
+
+
+      document.getElementById("kpi-card-last")
+
+
+
+    ];
+
+
+
+
+
+
+
+    const chartMonthly = document.getElementById("chart-monthly");
+
+
+
+    const chartGreffe = document.getElementById("chart-greffe");
+
+
+
+    const chartHisto = document.getElementById("chart-histo");
+
+
+
+    const legendMonthly = document.getElementById("legend-monthly");
+
+
+
+    const tooltipMonthly = document.getElementById("tooltip-monthly");
+
+
+
+    const tooltipGreffe = document.getElementById("tooltip-greffe");
+
+
+
+    const tooltipHisto = document.getElementById("tooltip-histo");
+
+
+
+
+
+
+
+    const filterGroups = document.querySelectorAll(".filter-group");
+
+
+
+
+
+
+
+    const graphTable = document.getElementById("graph-table");
+
+
+
+    const pagePrev = document.getElementById("page-prev");
+
+
+
+    const pageNext = document.getElementById("page-next");
+
+
+
+    const pageInfo = document.getElementById("page-info");
+
+
+
+    const backToTop = document.getElementById("back-to-top");
+
+
+
+    const filterPanel = document.querySelector("[data-panel]");
+
+
+
+
+
+
+
+    const pageSize = 25;
+
+    let currentPage = 1;
+
+    const kpiPageSize = 25;
+
+    let kpiDetailPage = 1;
+
+
+
+
+
+
+
+    const SERIES_COLORS = {
+
+
+
+      Immatriculation: "#0f5f5c",
+
+
+
+      Modification: "#d97706",
+
+
+
+      "Depot des comptes": "#3a5e8c",
+
+
+
+      Radiation: "#7b3f00",
+
+
+
+      moyenne: "#0f5f5c",
+
+
+
+      mediane: "#d97706"
+
+
+
+    };
+
+
+
+
+
+
+
+    // UX state: keep active series + hover geometry to drive tooltips/legends.
+
+
+
+    const chartState = {
+
+      monthly: { activeSeries: new Set(), points: [], seriesKeys: [] },
+
+      greffe: { bars: [] },
+
+      histo: { bars: [] }
+
+    };
+
+    const listState = {
+
+      greffes: new Set(),
+
+      formalites: new Set()
+
+    };
+
+
+
+
+
+    function loadData() {
+
+
+
+      const raw = localStorage.getItem(STORAGE_KEY);
+
+
+
+      if (!raw) return [];
+
+
+
+      try {
+
+
+
+        const parsed = JSON.parse(raw);
+
+
+
+        return Array.isArray(parsed) ? parsed : [];
+
+
+
+      } catch {
+
+
+
+        return [];
+
+
+
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    function saveData(data) {
+
+
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+
+
+    }
+
+
+
+
+
+
+
+    function parsePeriode(periode) {
+
+
+
+      if (!periode) return null;
+
+
+
+      const [mm, yyyy] = periode.split("/").map(Number);
+
+
+
+      if (!mm || !yyyy) return null;
+
+
+
+      return new Date(yyyy, mm - 1, 1);
+
+
+
+    }
+
+
+
+
+
+
+
+    function formatPeriode(date) {
+
+
+
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+
+
+
+      return `${month}/${date.getFullYear()}`;
+
+
+
+    }
+
+    function getCurrentPeriod() {
+      return formatPeriode(new Date());
+    }
+
+    function buildPeriodRange({ monthsBack = 24, minDate } = {}) {
+      const now = new Date();
+      const end = new Date(now.getFullYear(), now.getMonth(), 1);
+      const start = minDate instanceof Date ? new Date(minDate.getFullYear(), minDate.getMonth(), 1) : null;
+      const fallbackStart = new Date(end.getFullYear(), end.getMonth() - Math.max(0, monthsBack - 1), 1);
+      const from = start && !Number.isNaN(start) ? start : fallbackStart;
+      const items = [];
+      let cursor = new Date(from.getFullYear(), from.getMonth(), 1);
+      while (cursor <= end) {
+        items.push(formatPeriode(cursor));
+        cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
+      }
+      return items;
+    }
+
+    function getMinPeriodDate(data) {
+      const dates = data
+        .map(item => parsePeriode(item.periode))
+        .filter(Boolean)
+        .sort((a, b) => a - b);
+      return dates.length ? dates[0] : null;
+    }
+
+    function getAvailablePeriods(data, monthsBack = 24) {
+      const minDate = getMinPeriodDate(data);
+      return buildPeriodRange({ monthsBack, minDate });
+    }
+
+
+
+
+
+
+
+    function buildPeriodeOptions() {
+
+
+
+      if (!periodeSelect) return;
+      const data = loadData();
+      const periodes = getAvailablePeriods(data, 24);
+      const current = getCurrentPeriod();
+      const currentValue = periodeSelect.value;
+      const options = ["<option value=\"\">Sélectionner</option>"];
+
+
+
+      periodes.forEach(label => {
+        options.push(`<option value="${label}">${label}</option>`);
+      });
+      periodeSelect.innerHTML = options.join("");
+      if (currentValue && periodes.includes(currentValue)) {
+        periodeSelect.value = currentValue;
+      } else if (periodes.includes(current)) {
+        periodeSelect.value = current;
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    function normalizeGreffe() {
+
+
+
+      const value = greffeSelect.value.trim();
+
+
+
+      if (value === "Autre") {
+
+
+
+        return greffeAutreInput.value.trim();
+
+
+
+      }
+
+
+
+      return value;
+
+
+
+    }
+
+
+
+
+
+
+
+    function renderGreffeFilters(data) {
+      if (!filterGreffe) return;
+
+
+
+      const greffes = [...new Set(data.map(item => item.greffe))].sort();
+
+
+
+      const options = ["<option value=\"\">Tous</option>"]
+
+
+
+        .concat(greffes.map(g => `<option value=\"${g}\">${g}</option>`));
+
+
+
+      filterGreffe.innerHTML = options.join("");
+
+
+
+    }
+
+
+
+
+
+
+
+    function formatNumber(value) {
+
+
+
+      if (!Number.isFinite(value)) return "-";
+
+
+
+      return value.toFixed(1).replace(".0", "");
+
+
+
+    }
+
+
+
+
+
+
+
+    function computeStats(items) {
+
+
+
+      const delays = items.map(item => item.delai).sort((a, b) => a - b);
+
+
+
+      if (!delays.length) return { moyenne: null, mediane: null, count: 0 };
+
+
+
+      const sum = delays.reduce((acc, val) => acc + val, 0);
+
+
+
+      const moyenne = sum / delays.length;
+
+
+
+      const mid = Math.floor(delays.length / 2);
+
+
+
+      const mediane = delays.length % 2 ? delays[mid] : (delays[mid - 1] + delays[mid]) / 2;
+
+
+
+      return { moyenne, mediane, count: delays.length };
+
+
+
+    }
+
+
+
+
+
+
+
+    function renderTable(items, targetWrap, showComments) {
+      if (!targetWrap) return;
+
+
+
+      if (!items.length) {
+
+
+
+        targetWrap.innerHTML = "<div class=\"empty\">Aucune contribution pour ces filtres.</div>";
+
+
+
+        return;
+
+
+
+      }
+
+
+
+
+
+
+
+      const header = `
+
+
+
+        <div class="table-scroll scrollbar">
+
+
+
+          <table>
+
+
+
+            <thead>
+
+
+
+              <tr>
+
+
+
+                <th>Date saisie</th>
+
+
+
+                <th>Greffe</th>
+
+
+
+                <th>Formalité</th>
+
+
+
+                <th>Délai (jours)</th>
+
+
+
+                <th>Période</th>
+
+
+
+                ${showComments ? "<th>Commentaire</th>" : ""}
+
+
+
+              </tr>
+
+
+
+            </thead>
+
+
+
+            <tbody>
+
+
+
+              ${items.map(item => {
+
+
+
+                const date = new Date(item.createdAt).toLocaleDateString("fr-FR");
+
+
+
+                const formaliteLabel = FORMALITE_LABELS[item.formalite] || item.formalite;
+
+
+
+                return `
+
+
+
+                  <tr>
+
+
+
+                    <td>${date}</td>
+
+
+
+                    <td>${item.greffe}</td>
+
+
+
+                    <td>${formaliteLabel}</td>
+
+
+
+                    <td>${item.delai}</td>
+
+
+
+                    <td>${item.periode}</td>
+
+
+
+                    ${showComments ? `<td>${item.commentaire || "-"}</td>` : ""}
+
+
+
+                  </tr>
+
+
+
+                `;
+
+
+
+              }).join("")}
+
+
+
+            </tbody>
+
+
+
+          </table>
+
+
+
+        </div>
+
+
+
+      `;
+
+
+
+      targetWrap.innerHTML = header;
+
+
+
+    }
+
+
+
+
+
+
+
+    function applyFilters(data) {
+      if (!filterGreffe || !filterFormalite) return data;
+
+
+
+      return data.filter(item => {
+
+
+
+        if (filterGreffe.value && item.greffe !== filterGreffe.value) return false;
+
+
+
+        if (filterFormalite.value && item.formalite !== filterFormalite.value) return false;
+
+
+
+        return true;
+
+
+
+      });
+
+
+
+    }
+
+
+
+
+
+
+
+    function renderDashboard() {
+      if (!tableWrap || !statMoy || !statMed || !statCount) return;
+
+
+
+      const data = loadData();
+
+
+
+      renderGreffeFilters(data);
+
+
+
+      const filtered = applyFilters(data);
+
+
+
+      const stats = computeStats(filtered);
+
+
+
+      statMoy.textContent = formatNumber(stats.moyenne);
+
+
+
+      statMed.textContent = formatNumber(stats.mediane);
+
+
+
+      statCount.textContent = stats.count;
+
+
+
+      renderTable(filtered, tableWrap, toggleComments.checked);
+
+
+
+    }
+
+
+
+
+
+
+
+    function resetSuccess() {
+
+
+
+      successMsg.style.display = "none";
+
+
+
+    }
+
+
+
+
+
+
+
+    function openModal() {
+
+
+
+      lastFocusedElement = document.activeElement;
+
+
+
+      modalOverlay.classList.add("open");
+
+
+
+      document.body.classList.add("modal-open");
+
+
+
+      resetSuccess();
+
+      if (motionEnabled() && modalOverlay && modal) {
+        window.anime.remove([modalOverlay, modal]);
+        window.anime.timeline()
+          .add({
+            targets: modalOverlay,
+            opacity: [0, 1],
+            duration: motionDuration(motion.fast),
+            easing: motion.easingOut
+          }, 0)
+          .add({
+            targets: modal,
+            opacity: [0, 1],
+            translateY: [12, 0],
+            scale: [0.98, 1],
+            duration: motionDuration(motion.medium),
+            easing: motion.easingOut
+          }, 0);
+      }
+
+
+
+      setTimeout(() => {
+
+
+
+        greffeSelect.focus();
+
+
+
+      }, 50);
+
+
+
+    }
+
+
+
+
+
+
+
+    function closeModal() {
+
+
+
+      if (motionEnabled() && modalOverlay && modal) {
+        window.anime.remove([modalOverlay, modal]);
+        window.anime.timeline({
+          complete: () => {
+            modalOverlay.classList.remove("open");
+            document.body.classList.remove("modal-open");
+            if (lastFocusedElement && lastFocusedElement.focus) {
+              lastFocusedElement.focus();
+            }
+          }
+        })
+          .add({
+            targets: modal,
+            opacity: [1, 0],
+            translateY: [0, 10],
+            scale: [1, 0.98],
+            duration: motionDuration(motion.fast),
+            easing: motion.easingIn
+          }, 0)
+          .add({
+            targets: modalOverlay,
+            opacity: [1, 0],
+            duration: motionDuration(motion.fast),
+            easing: motion.easingIn
+          }, 0);
+        return;
+      }
+
+      modalOverlay.classList.remove("open");
+
+      document.body.classList.remove("modal-open");
+
+      if (lastFocusedElement && lastFocusedElement.focus) {
+
+        lastFocusedElement.focus();
+
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    function collectPeriodes(data) {
+
+
+
+      const set = new Set();
+
+
+
+      data.forEach(item => {
+
+
+
+        if (item.periode) set.add(item.periode);
+
+
+
+      });
+
+
+
+      const items = [...set].map(p => ({ label: p, date: parsePeriode(p) }))
+
+
+
+        .filter(item => item.date)
+
+
+
+        .sort((a, b) => a.date - b.date);
+
+
+
+      if (!items.length) {
+
+
+
+        const now = new Date();
+
+
+
+        for (let i = 0; i < 24; i += 1) {
+
+
+
+          items.push({ label: formatPeriode(new Date(now.getFullYear(), now.getMonth() - i, 1)), date: null });
+
+
+
+        }
+
+
+
+        items.reverse();
+
+
+
+      }
+
+
+
+      return items.map(item => item.label);
+
+
+
+    }
+
+
+
+    function setSelectOptions(select, options, placeholder, currentValue) {
+      if (!select) return;
+      const fragment = document.createDocumentFragment();
+      if (placeholder !== undefined) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = placeholder;
+        fragment.appendChild(opt);
+      }
+      options.forEach(optionValue => {
+        const opt = document.createElement("option");
+        opt.value = optionValue;
+        opt.textContent = optionValue;
+        fragment.appendChild(opt);
+      });
+      select.replaceChildren(fragment);
+      if (currentValue && options.includes(currentValue)) {
+        select.value = currentValue;
+      }
+    }
+    function normalizeText(value) {
+      return (value || "")
+        .trim()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+    }
+    function buildGreffeSelectOptions(select, config = {}) {
+      if (!select) return;
+      const currentValue = select.value;
+      const fragment = document.createDocumentFragment();
+      if (config.placeholder !== undefined) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.textContent = config.placeholder;
+        fragment.appendChild(opt);
+      }
+      Object.entries(GREFFES_PAR_REGION).forEach(([region, villes]) => {
+        const group = document.createElement("optgroup");
+        group.label = region;
+        villes.forEach(ville => {
+          const opt = document.createElement("option");
+          opt.value = ville;
+          opt.textContent = ville;
+          group.appendChild(opt);
+        });
+        fragment.appendChild(group);
+      });
+      if (config.includeAutre) {
+        const opt = document.createElement("option");
+        opt.value = "Autre";
+        opt.textContent = "Autre";
+        fragment.appendChild(opt);
+      }
+      select.replaceChildren(fragment);
+      if (currentValue) {
+        select.value = currentValue;
+      }
+    }
+    function createGreffeAutocomplete(config) {
+      const { input, panel, select, includeAll, includeAutre } = config;
+      if (!input || !panel || !select) return;
+      let activeIndex = -1;
+      let open = false;
+
+      const getSelectableItems = () => Array.from(panel.querySelectorAll(".autocomplete-item"));
+      const setActiveIndex = index => {
+        const items = getSelectableItems();
+        items.forEach(item => item.classList.remove("active"));
+        if (!items.length) {
+          activeIndex = -1;
+          return;
+        }
+        activeIndex = Math.max(0, Math.min(index, items.length - 1));
+        items[activeIndex].classList.add("active");
+        items[activeIndex].scrollIntoView({ block: "nearest" });
+      };
+      const closePanel = () => {
+        open = false;
+        panel.classList.remove("open");
+        if (includeAll && select.value === "" && input.value.trim() === "") {
+          input.value = "Tous";
+        }
+      };
+      const openPanel = () => {
+        if (open) return;
+        open = true;
+        panel.classList.add("open");
+      };
+      const selectValue = value => {
+        select.value = value;
+        input.value = value || (includeAll ? "Tous" : "");
+        closePanel();
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+      };
+      const renderPanel = () => {
+        const query = normalizeText(input.value.trim());
+        panel.innerHTML = "";
+        if (includeAll && !query) {
+          const allBtn = document.createElement("button");
+          allBtn.type = "button";
+          allBtn.className = "autocomplete-item";
+          allBtn.dataset.value = "";
+          allBtn.textContent = "Tous";
+          panel.appendChild(allBtn);
+        }
+        Object.entries(GREFFES_PAR_REGION).forEach(([region, villes]) => {
+          const filtered = query
+            ? villes.filter(ville => normalizeText(ville).includes(query))
+            : villes;
+          if (!filtered.length) return;
+          const group = document.createElement("div");
+          group.className = "autocomplete-group";
+          group.textContent = region;
+          panel.appendChild(group);
+          filtered.forEach(ville => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "autocomplete-item";
+            btn.dataset.value = ville;
+            btn.textContent = ville;
+            panel.appendChild(btn);
+          });
+        });
+        if (includeAutre && (!query || normalizeText("autre").includes(query))) {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "autocomplete-item";
+          btn.dataset.value = "Autre";
+          btn.textContent = "Autre";
+          panel.appendChild(btn);
+        }
+        setActiveIndex(0);
+      };
+
+      input.addEventListener("focus", () => {
+        if (includeAll && select.value === "" && input.value === "Tous") {
+          input.value = "";
+        }
+        renderPanel();
+        openPanel();
+      });
+      input.addEventListener("input", () => {
+        if (input.value.trim() === "") {
+          select.value = "";
+          select.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+        renderPanel();
+        openPanel();
+      });
+      input.addEventListener("keydown", event => {
+        const items = getSelectableItems();
+        if (!items.length && (event.key === "ArrowDown" || event.key === "ArrowUp")) {
+          renderPanel();
+          openPanel();
+          return;
+        }
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          if (!open) {
+            renderPanel();
+            openPanel();
+          }
+          setActiveIndex(activeIndex + 1);
+        } else if (event.key === "ArrowUp") {
+          event.preventDefault();
+          if (!open) {
+            renderPanel();
+            openPanel();
+          }
+          setActiveIndex(activeIndex - 1);
+        } else if (event.key === "Enter") {
+          if (!open) return;
+          event.preventDefault();
+          const item = items[activeIndex];
+          if (item) selectValue(item.dataset.value || "");
+        } else if (event.key === "Escape") {
+          closePanel();
+        }
+      });
+      panel.addEventListener("click", event => {
+        const target = event.target.closest(".autocomplete-item");
+        if (!target) return;
+        selectValue(target.dataset.value || "");
+      });
+      document.addEventListener("click", event => {
+        if (event.target === input || panel.contains(event.target)) return;
+        closePanel();
+      });
+
+      if (select.value) {
+        input.value = select.value;
+      } else if (includeAll) {
+        input.value = "Tous";
+      }
+    }
+
+    function buildKpiFilters(data) {
+      if (!kpiFilterGreffe && !kpiFilterPeriode && !kpiFilterFormalite) return;
+      const periodes = getAvailablePeriods(data, 24);
+      const currentValue = kpiFilterPeriode ? kpiFilterPeriode.value : "";
+      setSelectOptions(kpiFilterPeriode, periodes, "Toutes", currentValue);
+      if (kpiFilterPeriode && currentValue && !periodes.includes(currentValue)) {
+        const current = getCurrentPeriod();
+        kpiFilterPeriode.value = periodes.includes(current) ? current : "";
+      }
+      setSelectOptions(kpiFilterFormalite, FORMALITES, "Toutes", kpiFilterFormalite ? kpiFilterFormalite.value : "");
+    }
+
+    function getKpiFilters() {
+      return {
+        greffe: kpiFilterGreffe ? kpiFilterGreffe.value : "",
+        formalite: kpiFilterFormalite ? kpiFilterFormalite.value : "",
+        periode: kpiFilterPeriode ? kpiFilterPeriode.value : ""
+      };
+    }
+
+    function applyKpiFilters(data, filters) {
+      return data.filter(item => {
+        if (filters.greffe && normalizeText(item.greffe) !== normalizeText(filters.greffe)) return false;
+        if (filters.formalite && item.formalite !== filters.formalite) return false;
+        if (filters.periode && item.periode !== filters.periode) return false;
+        return true;
+      });
+    }
+
+    function renderKpiDetail(filters) {
+      if (!kpiDetail) return;
+      const chips = [
+        `Greffe : ${filters.greffe || "Toutes"}`,
+        `Période : ${filters.periode || "Toutes"}`,
+        `Formalité : ${filters.formalite || "Toutes"}`
+      ];
+      kpiDetail.innerHTML = chips.map(chip => `<span class="filter-chip">${chip}</span>`).join("");
+      if (motionEnabled()) {
+        animateIn(kpiDetail, { duration: motion.fast });
+      }
+    }
+
+    function renderKpiDetailTable(items) {
+      if (!kpiDetailTable || !kpiPageInfo || !kpiPagePrev || !kpiPageNext) return;
+      const totalPages = Math.max(1, Math.ceil(items.length / kpiPageSize));
+      kpiDetailPage = Math.min(kpiDetailPage, totalPages);
+      const start = (kpiDetailPage - 1) * kpiPageSize;
+      const slice = items.slice(start, start + kpiPageSize);
+      renderTable(slice, kpiDetailTable, false);
+      if (motionEnabled()) {
+        animateIn(kpiDetailTable, { duration: motion.fast });
+      }
+      kpiPageInfo.textContent = `Page ${kpiDetailPage} / ${totalPages}`;
+      kpiPagePrev.disabled = kpiDetailPage === 1;
+      kpiPageNext.disabled = kpiDetailPage === totalPages;
+    }
+
+
+
+    
+
+
+
+    function buildGraphFilters() {
+      if (!graphGreffeList || !graphFormaliteList || !graphPeriodeFrom || !graphPeriodeTo) return;
+
+      const data = loadData();
+
+      const greffes = [...new Set(data.map(item => item.greffe))].sort();
+
+      if (listState.greffes.size === 0) {
+
+        greffes.forEach(g => listState.greffes.add(g));
+
+      }
+
+      if (listState.formalites.size === 0) {
+
+        FORMALITES.forEach(f => listState.formalites.add(f));
+
+      }
+
+      buildCheckboxList(graphGreffeList, greffes, graphGreffeSearch.value, null, listState.greffes);
+
+      buildCheckboxList(graphFormaliteList, FORMALITES, graphFormaliteSearch.value, FORMALITE_LABELS, listState.formalites);
+
+
+
+
+
+      const periodes = getAvailablePeriods(data, 24);
+      const fromValue = graphPeriodeFrom.value;
+      const toValue = graphPeriodeTo.value;
+      const perOptions = periodes.map(p => `<option value=\"${p}\">${p}</option>`).join("");
+      graphPeriodeFrom.innerHTML = `<option value=\"\">Du</option>${perOptions}`;
+      graphPeriodeTo.innerHTML = `<option value=\"\">Au</option>${perOptions}`;
+      if (fromValue && periodes.includes(fromValue)) {
+        graphPeriodeFrom.value = fromValue;
+      } else if (fromValue) {
+        const current = getCurrentPeriod();
+        if (periodes.includes(current)) graphPeriodeFrom.value = current;
+      }
+      if (toValue && periodes.includes(toValue)) {
+        graphPeriodeTo.value = toValue;
+      } else if (toValue) {
+        const current = getCurrentPeriod();
+        if (periodes.includes(current)) graphPeriodeTo.value = current;
+      }
+
+
+
+
+
+
+
+      updateListCount(graphGreffeList, greffeCount, listState.greffes);
+
+      updateListCount(graphFormaliteList, formaliteCount, listState.formalites);
+
+    }
+
+
+
+
+
+
+
+    function buildCheckboxList(container, items, filterText, labels, selectedSet) {
+      if (!container) return;
+      const safeFilter = typeof filterText === "string" ? filterText : "";
+      const safeLabels = labels || null;
+      const safeSelected = selectedSet instanceof Set ? selectedSet : new Set();
+      const query = safeFilter.trim().toLowerCase();
+
+      const html = items
+
+        .filter(item => !query || item.toLowerCase().includes(query))
+
+        .map(item => {
+
+          const label = safeLabels ? (safeLabels[item] || item) : item;
+          const checked = safeSelected.has(item) ? "checked" : "";
+
+          return `
+
+            <label class=\"select-item\">
+
+              <input type=\"checkbox\" value=\"${item}\" ${checked}>
+
+              <span>${label}</span>
+
+            </label>
+
+          `;
+
+
+
+        }).join("");
+
+
+
+      container.innerHTML = html || "<span class=\"note\">Aucun résultat</span>";
+
+
+
+    }
+
+
+
+
+
+
+
+    function getSelectedFromList(container) {
+      if (!container) return [];
+
+      return Array.from(container.querySelectorAll('input[type="checkbox"]:checked'))
+
+        .map(input => input.value);
+
+    }
+
+
+
+    function syncListState(container, targetSet) {
+
+      targetSet.clear();
+
+      getSelectedFromList(container).forEach(value => targetSet.add(value));
+
+    }
+
+
+
+    function updateListCount(container, displayEl, selectedSet) {
+      if (!container || !displayEl) return;
+      const safeSelected = selectedSet instanceof Set ? selectedSet : null;
+      const count = safeSelected ? safeSelected.size : getSelectedFromList(container).length;
+
+      displayEl.textContent = count ? `${count} sélection${count > 1 ? "s" : ""}` : "Tous";
+
+    }
+
+
+
+
+
+    function updateFilterActiveState(filters) {
+      if (!filterGroups || !filterGroups.length) return;
+
+
+
+      filterGroups.forEach(group => group.classList.remove("is-active"));
+
+
+
+      filterGroups.forEach(group => {
+
+
+
+        const key = group.dataset.filterGroup;
+
+
+
+        const isActive = (
+
+
+
+          (key === "greffe" && filters.greffes && filters.greffes.length) ||
+
+
+
+          (key === "formalite" && filters.formalites && filters.formalites.length) ||
+
+
+
+          (key === "periode" && (filters.from || filters.to)) ||
+
+
+
+          (key === "delai" && (filters.min !== 1 || filters.max !== 365)) ||
+
+
+
+          (key === "recherche" && (filters.search || filters.includeComments))
+
+
+
+        );
+
+
+
+        if (isActive) group.classList.add("is-active");
+
+
+
+      });
+
+
+
+    }
+
+
+
+
+
+
+
+    function renderFilterSummary(filters) {
+      const summary = document.getElementById("filter-summary");
+      if (!summary) return;
+
+      const chips = [];
+
+
+
+      const greffeLabel = filters.greffes && filters.greffes.length
+
+
+
+        ? `Greffes : ${filters.greffes.slice(0, 3).join(", ")}${filters.greffes.length > 3 ? "..." : ""}`
+
+
+
+        : "Greffes : Tous";
+
+
+
+      chips.push(greffeLabel);
+
+
+
+
+
+
+
+      const formaliteLabel = filters.formalites && filters.formalites.length
+
+
+
+        ? `Formalités : ${filters.formalites.slice(0, 3).map(f => FORMALITE_LABELS[f] || f).join(", ")}${filters.formalites.length > 3 ? "..." : ""}`
+
+
+
+        : "Formalités : Toutes";
+
+
+
+      chips.push(formaliteLabel);
+
+
+
+
+
+
+
+      if (filters.from || filters.to) {
+
+
+
+        chips.push(`Période : ${filters.from || "?"} à ${filters.to || "?"}`);
+
+
+
+      }
+
+
+
+
+
+
+
+      if (filters.min !== 1 || filters.max !== 365) {
+
+
+
+        chips.push(`Délais : ${filters.min}-${filters.max} j`);
+
+
+
+      }
+
+
+
+
+
+
+
+      if (filters.search) {
+
+
+
+        chips.push(`Recherche : \"${filters.search}\"`);
+
+
+
+      }
+
+
+
+
+
+
+
+      summary.innerHTML = chips.map(chip => `<span class=\"filter-chip\">${chip}</span>`).join("");
+
+
+
+    }
+
+
+
+
+
+
+
+    function pulseKpis() {
+
+
+
+      const targets = kpiCards.filter(Boolean);
+      if (motionEnabled()) {
+        pulse(targets, { duration: motion.micro });
+        return;
+      }
+      targets.forEach(card => {
+        card.classList.remove("pulse");
+        void card.offsetWidth;
+        card.classList.add("pulse");
+      });
+
+
+
+    }
+
+
+
+
+
+
+
+    function getGraphFilters() {
+
+      const greffes = Array.from(listState.greffes);
+
+      const formalites = Array.from(listState.formalites);
+
+      const from = graphPeriodeFrom ? graphPeriodeFrom.value : "";
+
+      const to = graphPeriodeTo ? graphPeriodeTo.value : "";
+
+      const min = graphDelaiMin ? Number(graphDelaiMin.value) || 1 : 1;
+
+      const max = graphDelaiMax ? Number(graphDelaiMax.value) || 365 : 365;
+
+      const search = graphSearch ? graphSearch.value.trim().toLowerCase() : "";
+
+      const includeComments = graphSearchComments ? graphSearchComments.checked : false;
+
+
+
+      return {
+
+
+
+        greffes: greffes.length ? greffes : null,
+
+        formalites: formalites.length ? formalites : null,
+
+        from,
+
+
+
+        to,
+
+
+
+        min,
+
+
+
+        max,
+
+
+
+        search,
+
+
+
+        includeComments
+
+
+
+      };
+
+
+
+    }
+
+
+
+
+
+
+
+    function applyGraphFilters(data, filters) {
+
+
+
+      const fromDate = parsePeriode(filters.from);
+
+
+
+      const toDate = parsePeriode(filters.to);
+
+
+
+      const min = Math.max(1, filters.min);
+
+
+
+      const max = Math.min(365, filters.max);
+
+
+
+
+
+
+
+      return data.filter(item => {
+
+
+
+        if (filters.greffes && !filters.greffes.includes(item.greffe)) return false;
+
+
+
+        if (filters.formalites && !filters.formalites.includes(item.formalite)) return false;
+
+
+
+        if (item.delai < min || item.delai > max) return false;
+
+
+
+
+
+
+
+        const itemDate = parsePeriode(item.periode);
+
+
+
+        if (fromDate && itemDate && itemDate < fromDate) return false;
+
+
+
+        if (toDate && itemDate && itemDate > toDate) return false;
+
+
+
+
+
+
+
+        if (filters.search) {
+
+
+
+          const inGreffe = item.greffe.toLowerCase().includes(filters.search);
+
+
+
+          const inComment = filters.includeComments && (item.commentaire || "").toLowerCase().includes(filters.search);
+
+
+
+          if (!inGreffe && !inComment) return false;
+
+
+
+        }
+
+
+
+        return true;
+
+
+
+      });
+
+
+
+    }
+
+
+
+
+
+
+
+    function computeMinMax(items) {
+
+
+
+      if (!items.length) return { min: null, max: null };
+
+
+
+      const delays = items.map(item => item.delai);
+
+
+
+      return { min: Math.min(...delays), max: Math.max(...delays) };
+
+
+
+    }
+
+
+
+
+
+
+
+    function computeLastPeriode(items) {
+
+
+
+      const dates = items.map(item => parsePeriode(item.periode)).filter(Boolean);
+
+
+
+      if (!dates.length) return "-";
+
+
+
+      const maxDate = new Date(Math.max(...dates));
+
+
+
+      return formatPeriode(maxDate);
+
+
+
+    }
+
+
+
+
+
+
+
+    function sizeCanvas(canvas) {
+
+
+
+      const dpr = window.devicePixelRatio || 1;
+
+
+
+      const rect = canvas.getBoundingClientRect();
+
+
+
+      canvas.width = rect.width * dpr;
+
+
+
+      canvas.height = rect.height * dpr;
+
+
+
+      const ctx = canvas.getContext("2d");
+
+
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+
+
+      return ctx;
+
+
+
+    }
+
+
+
+
+
+
+
+    function resolvePadding(padding) {
+      if (typeof padding === "number") {
+        return { top: padding, right: padding, bottom: padding, left: padding };
+      }
+
+      const safe = padding || {};
+      return {
+        top: Number.isFinite(safe.top) ? safe.top : 24,
+        right: Number.isFinite(safe.right) ? safe.right : 24,
+        bottom: Number.isFinite(safe.bottom) ? safe.bottom : 32,
+        left: Number.isFinite(safe.left) ? safe.left : 48
+      };
+    }
+
+
+
+
+
+
+
+    function drawAxes(ctx, width, height, padding, maxValue, unitLabel, labelAxis) {
+      const safeUnit = typeof unitLabel === "string" ? unitLabel : "";
+      const safeAxis = typeof labelAxis === "string" ? labelAxis : "y";
+      const p = resolvePadding(padding);
+
+
+
+      const chartWidth = width - p.left - p.right;
+
+
+
+      const chartHeight = height - p.top - p.bottom;
+
+
+
+
+
+
+
+      ctx.strokeStyle = "#cbb8aa";
+
+
+
+      ctx.lineWidth = 1.2;
+
+
+
+      ctx.beginPath();
+
+
+
+      ctx.moveTo(p.left, p.top);
+
+
+
+      ctx.lineTo(p.left, height - p.bottom);
+
+
+
+      ctx.lineTo(width - p.right, height - p.bottom);
+
+
+
+      ctx.stroke();
+
+
+
+
+
+
+
+      const steps = 4;
+
+
+
+      ctx.strokeStyle = "rgba(90, 77, 69, 0.12)";
+
+
+
+      ctx.lineWidth = 1;
+
+
+
+      if (safeAxis === "x") {
+
+
+
+        for (let i = 0; i <= steps; i += 1) {
+
+
+
+          const x = p.left + (chartWidth / steps) * i;
+
+
+
+          ctx.beginPath();
+
+
+
+          ctx.moveTo(x, p.top);
+
+
+
+          ctx.lineTo(x, height - p.bottom);
+
+
+
+          ctx.stroke();
+
+
+
+        }
+
+
+
+      } else {
+
+
+
+        for (let i = 0; i <= steps; i += 1) {
+
+
+
+          const y = p.top + (chartHeight / steps) * i;
+
+
+
+          ctx.beginPath();
+
+
+
+          ctx.moveTo(p.left, y);
+
+
+
+          ctx.lineTo(width - p.right, y);
+
+
+
+          ctx.stroke();
+
+
+
+        }
+
+
+
+      }
+
+
+
+
+
+
+
+      if (maxValue) {
+
+
+
+        ctx.fillStyle = "#5a4d45";
+
+
+
+        ctx.font = "11px Segoe UI";
+
+
+
+        if (safeAxis === "x") {
+
+
+
+          for (let i = 0; i <= steps; i += 1) {
+
+
+
+            const value = Math.round((maxValue / steps) * i);
+
+
+
+            const x = p.left + (chartWidth / steps) * i;
+
+
+
+            ctx.fillText(value, x - 6, height - p.bottom + 16);
+
+
+
+          }
+
+
+
+          if (safeUnit) {
+
+
+
+            ctx.fillText(safeUnit, width - p.right - 28, height - p.bottom + 16);
+
+
+
+          }
+
+
+
+        } else {
+
+
+
+          for (let i = 0; i <= steps; i += 1) {
+
+
+
+            const value = Math.round((maxValue / steps) * (steps - i));
+
+
+
+            const y = p.top + (chartHeight / steps) * i;
+
+
+
+            ctx.fillText(value, Math.max(6, p.left - 34), y + 4);
+
+
+
+          }
+
+
+
+          if (safeUnit) {
+
+
+
+            ctx.fillText(safeUnit, p.left, p.top - 6);
+
+
+
+          }
+
+
+
+        }
+
+
+
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    function drawMonthlyChart(items) {
+
+
+
+      const canvas = chartMonthly;
+
+
+
+      const ctx = sizeCanvas(canvas);
+
+
+
+      const width = canvas.clientWidth;
+
+
+
+      const height = canvas.clientHeight;
+
+
+
+      ctx.clearRect(0, 0, width, height);
+
+
+
+      const padding = { top: 28, right: 24, bottom: 44, left: 58 };
+
+
+
+      const p = resolvePadding(padding);
+
+
+
+      chartState.monthly.points = [];
+
+
+
+      chartState.monthly.seriesKeys = [];
+
+
+
+
+
+
+
+      if (!items.length) {
+
+
+
+        drawAxes(ctx, width, height, padding, 10, "jours", "x");
+
+
+
+        legendMonthly.innerHTML = "";
+
+
+
+        setEmptyState(
+
+
+
+          document.getElementById("empty-monthly"),
+
+
+
+          true,
+
+
+
+          "Aucune donnée pour ces filtres.<br>Essayez d'élargir la période ou de sélectionner « Tous » les greffes."
+
+
+
+        );
+
+
+
+        return;
+
+
+
+      }
+
+
+
+      setEmptyState(document.getElementById("empty-monthly"), false);
+
+
+
+
+
+
+
+      const metric = graphMetric.value;
+
+
+
+      const multi = graphMulti.checked;
+
+
+
+      const grouped = {};
+
+
+
+      items.forEach(item => {
+
+
+
+        if (!grouped[item.periode]) grouped[item.periode] = [];
+
+
+
+        grouped[item.periode].push(item);
+
+
+
+      });
+
+
+
+
+
+
+
+      const periodes = Object.keys(grouped)
+
+
+
+        .map(p => ({ label: p, date: parsePeriode(p) }))
+
+
+
+        .filter(item => item.date)
+
+
+
+        .sort((a, b) => a.date - b.date);
+
+
+
+
+
+
+
+      const series = {};
+
+
+
+      if (multi) {
+
+
+
+        FORMALITES.forEach(formalite => { series[formalite] = []; });
+
+
+
+        periodes.forEach(p => {
+
+
+
+          FORMALITES.forEach(formalite => {
+
+
+
+            const subset = grouped[p.label].filter(item => item.formalite === formalite);
+
+
+
+            const stats = computeStats(subset);
+
+
+
+            const value = metric === "mediane" ? stats.mediane : stats.moyenne;
+
+
+
+            series[formalite].push({ periode: p.label, value: value || 0 });
+
+
+
+          });
+
+
+
+        });
+
+
+
+      } else {
+
+
+
+        series[metric] = periodes.map(p => {
+
+
+
+          const stats = computeStats(grouped[p.label]);
+
+
+
+          const value = metric === "mediane" ? stats.mediane : stats.moyenne;
+
+
+
+          return { periode: p.label, value: value || 0 };
+
+
+
+        });
+
+
+
+      }
+
+
+
+
+
+
+
+      const seriesNames = Object.keys(series);
+
+
+
+      chartState.monthly.seriesKeys = seriesNames;
+
+
+
+      const hasVisible = seriesNames.some(name => chartState.monthly.activeSeries.has(name));
+
+
+
+      if (!hasVisible) {
+
+
+
+        chartState.monthly.activeSeries.clear();
+
+
+
+        seriesNames.forEach(name => chartState.monthly.activeSeries.add(name));
+
+
+
+      }
+
+
+
+
+
+
+
+      legendMonthly.innerHTML = seriesNames.map(name => {
+
+
+
+        const color = SERIES_COLORS[name] || "#0f5f5c";
+
+
+
+        const inactive = chartState.monthly.activeSeries.has(name) ? "" : "inactive";
+
+
+
+        const label = FORMALITE_LABELS[name] || METRIC_LABELS[name] || name;
+
+
+
+        return `<button class="legend-item ${inactive}" data-series="${name}"><span style="background:${color}"></span>${label}</button>`;
+
+
+
+      }).join("");
+
+
+
+      if (multi && seriesNames.length) {
+
+
+
+        legendMonthly.innerHTML += `<button class="legend-item" data-action="all">Tout afficher</button>`;
+
+
+
+      }
+
+
+
+
+
+
+
+      const allValues = seriesNames.flatMap(name => {
+
+
+
+        if (!chartState.monthly.activeSeries.has(name)) return [];
+
+
+
+        return series[name].map(item => item.value);
+
+
+
+      }).filter(v => v > 0);
+
+
+
+      if (!allValues.length) {
+
+
+
+        drawAxes(ctx, width, height, padding, 10, "jours");
+
+
+
+        setEmptyState(
+
+
+
+          document.getElementById("empty-monthly"),
+
+
+
+          true,
+
+
+
+          "Activez au moins une série pour afficher la courbe."
+
+
+
+        );
+
+
+
+        return;
+
+
+
+      }
+
+
+
+      setEmptyState(document.getElementById("empty-monthly"), false);
+
+
+
+      const maxValue = allValues.length ? Math.max(...allValues) : 1;
+
+
+
+      drawAxes(ctx, width, height, padding, maxValue, "jours", "x");
+
+
+
+      const xStep = periodes.length > 1 ? (width - p.left - p.right) / (periodes.length - 1) : 0;
+
+
+
+
+
+
+
+      seriesNames.forEach(key => {
+
+
+
+        if (!chartState.monthly.activeSeries.has(key)) return;
+
+
+
+        const points = series[key];
+
+
+
+        const color = SERIES_COLORS[key] || "#0f5f5c";
+
+
+
+        ctx.strokeStyle = color;
+
+
+
+        ctx.fillStyle = color;
+
+
+
+        ctx.lineWidth = 2;
+
+
+
+        ctx.beginPath();
+
+
+
+        points.forEach((point, idx) => {
+
+
+
+          const x = p.left + idx * xStep;
+
+
+
+          const y = height - p.bottom - (point.value / maxValue) * (height - p.top - p.bottom);
+
+
+
+          if (idx === 0) ctx.moveTo(x, y);
+
+
+
+          else ctx.lineTo(x, y);
+
+
+
+        });
+
+
+
+        ctx.stroke();
+
+
+
+        points.forEach((point, idx) => {
+
+
+
+          const x = p.left + idx * xStep;
+
+
+
+          const y = height - p.bottom - (point.value / maxValue) * (height - p.top - p.bottom);
+
+
+
+          ctx.beginPath();
+
+
+
+          ctx.arc(x, y, 3, 0, Math.PI * 2);
+
+
+
+          ctx.fill();
+
+
+
+          chartState.monthly.points.push({
+
+
+
+            x,
+
+
+
+            y,
+
+
+
+            label: point.periode,
+
+
+
+            value: point.value,
+
+
+
+            series: key
+
+
+
+          });
+
+
+
+        });
+
+
+
+      });
+
+
+
+
+
+
+
+      ctx.fillStyle = "#5a4d45";
+
+
+
+      ctx.font = "12px Segoe UI";
+
+
+
+      const labelStep = periodes.length > 18 ? 3 : periodes.length > 12 ? 2 : 1;
+
+
+
+      periodes.forEach((p, idx) => {
+
+
+
+        if (idx % labelStep !== 0) return;
+
+
+
+        const x = p.left + idx * xStep;
+
+
+
+        ctx.fillText(p.label, x - 18, height - 10);
+
+
+
+      });
+
+
+
+    }
+
+
+
+
+
+
+
+    function drawGreffeChart(items) {
+
+
+
+      const canvas = chartGreffe;
+
+
+
+      const ctx = sizeCanvas(canvas);
+
+
+
+      const width = canvas.clientWidth;
+
+
+
+      const height = canvas.clientHeight;
+
+
+
+      ctx.clearRect(0, 0, width, height);
+
+
+
+      const padding = { top: 24, right: 40, bottom: 36, left: 140 };
+
+
+
+      const p = resolvePadding(padding);
+
+
+
+      chartState.greffe.bars = [];
+
+
+
+
+
+
+
+      if (!items.length) {
+
+
+
+        drawAxes(ctx, width, height, padding, 10, "jours");
+
+
+
+        setEmptyState(
+
+
+
+          document.getElementById("empty-greffe"),
+
+
+
+          true,
+
+
+
+          "Aucune donnée pour ces filtres.<br>Essayez d'élargir la période ou de sélectionner « Tous » les greffes."
+
+
+
+        );
+
+
+
+        return;
+
+
+
+      }
+
+
+
+      setEmptyState(document.getElementById("empty-greffe"), false);
+
+
+
+
+
+
+
+      const grouped = {};
+
+
+
+      items.forEach(item => {
+
+
+
+        if (!grouped[item.greffe]) grouped[item.greffe] = [];
+
+
+
+        grouped[item.greffe].push(item.delai);
+
+
+
+      });
+
+
+
+
+
+
+
+      let entries = Object.keys(grouped).map(key => {
+
+
+
+        const values = grouped[key];
+
+
+
+        const mean = values.reduce((acc, val) => acc + val, 0) / values.length;
+
+
+
+        return { greffe: key, value: mean };
+
+
+
+      });
+
+
+
+
+
+
+
+      const direction = graphSort.value;
+
+
+
+      entries.sort((a, b) => direction === "asc" ? a.value - b.value : b.value - a.value);
+
+
+
+      const limit = Number(graphTop.value) || 10;
+
+
+
+      entries = entries.slice(0, limit);
+
+
+
+
+
+
+
+      const maxValue = Math.max(...entries.map(e => e.value));
+
+
+
+      drawAxes(ctx, width, height, padding, maxValue, "jours");
+
+
+
+      const barHeight = (height - p.top - p.bottom) / entries.length;
+
+
+
+
+
+
+
+      ctx.font = "12px Segoe UI";
+
+
+
+      entries.forEach((entry, idx) => {
+
+
+
+        const y = p.top + idx * barHeight + 6;
+
+
+
+        const barWidth = ((width - p.left - p.right) * entry.value) / maxValue;
+
+
+
+        ctx.fillStyle = "#d97706";
+
+
+
+        ctx.fillRect(p.left, y, barWidth, barHeight - 12);
+
+
+
+        ctx.fillStyle = "#5a4d45";
+
+
+
+        const maxLabelLen = 16;
+
+
+
+        const label = entry.greffe.length > maxLabelLen ? `${entry.greffe.slice(0, maxLabelLen - 1)}` : entry.greffe;
+
+
+
+        ctx.fillText(label, 8, y + 12);
+
+
+
+        ctx.fillText(entry.value.toFixed(1).replace(".0", ""), p.left + barWidth + 6, y + 12);
+
+
+
+        chartState.greffe.bars.push({
+
+
+
+          x: p.left,
+
+
+
+          y,
+
+
+
+          width: barWidth,
+
+
+
+          height: barHeight - 12,
+
+
+
+          label: entry.greffe,
+
+
+
+          value: entry.value
+
+
+
+        });
+
+
+
+      });
+
+
+
+    }
+
+
+
+
+
+
+
+    function drawHistogram(items) {
+
+
+
+      const canvas = chartHisto;
+
+
+
+      const ctx = sizeCanvas(canvas);
+
+
+
+      const width = canvas.clientWidth;
+
+
+
+      const height = canvas.clientHeight;
+
+
+
+      ctx.clearRect(0, 0, width, height);
+
+
+
+      const padding = { top: 24, right: 20, bottom: 36, left: 52 };
+
+
+
+      const p = resolvePadding(padding);
+
+
+
+      chartState.histo.bars = [];
+
+
+
+
+
+
+
+      if (!items.length) {
+
+
+
+        drawAxes(ctx, width, height, padding, 10, "contrib.");
+
+
+
+        setEmptyState(
+
+
+
+          document.getElementById("empty-histo"),
+
+
+
+          true,
+
+
+
+          "Aucune donnée pour ces filtres.<br>Essayez d'élargir la période ou de sélectionner « Tous » les greffes."
+
+
+
+        );
+
+
+
+        return;
+
+
+
+      }
+
+
+
+      setEmptyState(document.getElementById("empty-histo"), false);
+
+
+
+
+
+
+
+      const bins = [
+
+
+
+        { label: "0-7", min: 0, max: 7, count: 0 },
+
+
+
+        { label: "8-14", min: 8, max: 14, count: 0 },
+
+
+
+        { label: "15-30", min: 15, max: 30, count: 0 },
+
+
+
+        { label: "31-60", min: 31, max: 60, count: 0 },
+
+
+
+        { label: "61+", min: 61, max: 365, count: 0 }
+
+
+
+      ];
+
+
+
+
+
+
+
+      items.forEach(item => {
+
+
+
+        const bin = bins.find(b => item.delai >= b.min && item.delai <= b.max);
+
+
+
+        if (bin) bin.count += 1;
+
+
+
+      });
+
+
+
+
+
+
+
+      const maxCount = Math.max(...bins.map(b => b.count)) || 1;
+
+
+
+      drawAxes(ctx, width, height, padding, maxCount, "contrib.");
+
+
+
+      const barWidth = (width - p.left - p.right) / bins.length;
+
+
+
+
+
+
+
+      bins.forEach((bin, idx) => {
+
+
+
+        const barHeight = ((height - p.top - p.bottom) * bin.count) / maxCount;
+
+
+
+        const x = p.left + idx * barWidth + 8;
+
+
+
+        const y = height - p.bottom - barHeight;
+
+
+
+        ctx.fillStyle = "#0f5f5c";
+
+
+
+        ctx.fillRect(x, y, barWidth - 16, barHeight);
+
+
+
+        ctx.fillStyle = "#5a4d45";
+
+
+
+        const textWidth = ctx.measureText(bin.label).width;
+
+
+
+        const labelX = x + (barWidth - 16) / 2 - textWidth / 2;
+
+
+
+        ctx.fillText(bin.label, labelX, height - 10);
+
+
+
+        ctx.fillText(bin.count, x, y - 6);
+
+
+
+        chartState.histo.bars.push({
+
+
+
+          x,
+
+
+
+          y,
+
+
+
+          width: barWidth - 16,
+
+
+
+          height: barHeight,
+
+
+
+          label: bin.label,
+
+
+
+          value: bin.count
+
+
+
+        });
+
+
+
+      });
+
+
+
+    }
+
+
+
+
+
+
+
+    function getMousePos(canvas, event) {
+
+
+
+      const rect = canvas.getBoundingClientRect();
+
+
+
+      return {
+
+
+
+        x: event.clientX - rect.left,
+
+
+
+        y: event.clientY - rect.top
+
+
+
+      };
+
+
+
+    }
+
+
+
+
+
+
+
+    // Canvas tooltips are handled manually for clarity and performance.
+
+
+
+    function showTooltip(tooltipEl, x, y, text, container) {
+
+
+
+      const bounds = container.getBoundingClientRect();
+
+
+
+      const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+
+
+      const safeX = clamp(x, 40, bounds.width - 20);
+
+
+
+      const safeY = clamp(y, 30, bounds.height - 10);
+
+
+
+      tooltipEl.textContent = text;
+
+
+
+      tooltipEl.style.left = `${safeX}px`;
+
+
+
+      tooltipEl.style.top = `${safeY}px`;
+
+
+
+      if (motionEnabled()) {
+        window.anime.remove(tooltipEl);
+        window.anime({
+          targets: tooltipEl,
+          opacity: [0, 1],
+          translateY: [6, 0],
+          duration: motionDuration(motion.micro),
+          easing: motion.easingOut
+        });
+      } else {
+        tooltipEl.style.opacity = "1";
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    function hideTooltip(tooltipEl) {
+
+
+
+      if (motionEnabled()) {
+        window.anime.remove(tooltipEl);
+        window.anime({
+          targets: tooltipEl,
+          opacity: [1, 0],
+          translateY: [0, 6],
+          duration: motionDuration(motion.micro),
+          easing: motion.easingIn
+        });
+      } else {
+        tooltipEl.style.opacity = "0";
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    function setEmptyState(el, show, message) {
+
+
+
+      if (!el) return;
+
+
+
+      if (message) el.innerHTML = message;
+
+
+
+      el.classList.toggle("visible", show);
+      if (show) {
+        animateIn(el, { duration: motion.fast });
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    function handleMonthlyHover(event) {
+
+
+
+      const pos = getMousePos(chartMonthly, event);
+
+
+
+      let nearest = null;
+
+
+
+      chartState.monthly.points.forEach(point => {
+
+
+
+        const dist = Math.hypot(point.x - pos.x, point.y - pos.y);
+
+
+
+        if (dist < 8 && (!nearest || dist < nearest.dist)) {
+
+
+
+          nearest = { ...point, dist };
+
+
+
+        }
+
+
+
+      });
+
+
+
+      if (nearest) {
+
+
+
+        const label = FORMALITE_LABELS[nearest.series] || METRIC_LABELS[nearest.series] || nearest.series;
+
+
+
+        showTooltip(
+
+
+
+          tooltipMonthly,
+
+
+
+          nearest.x,
+
+
+
+          nearest.y,
+
+
+
+          `${label}  Période ${nearest.label}  ${formatNumber(nearest.value)} jours`,
+
+
+
+          chartMonthly.parentElement
+
+
+
+        );
+
+
+
+      } else {
+
+
+
+        hideTooltip(tooltipMonthly);
+
+
+
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    function handleGreffeHover(event) {
+
+
+
+      const pos = getMousePos(chartGreffe, event);
+
+
+
+      const hit = chartState.greffe.bars.find(bar => (
+
+
+
+        pos.x >= bar.x &&
+
+
+
+        pos.x <= bar.x + bar.width &&
+
+
+
+        pos.y >= bar.y &&
+
+
+
+        pos.y <= bar.y + bar.height
+
+
+
+      ));
+
+
+
+      if (hit) {
+
+
+
+        showTooltip(
+
+
+
+          tooltipGreffe,
+
+
+
+          pos.x,
+
+
+
+          pos.y,
+
+
+
+          `${hit.label}  ${formatNumber(hit.value)} jours`,
+
+
+
+          chartGreffe.parentElement
+
+
+
+        );
+
+
+
+      } else {
+
+
+
+        hideTooltip(tooltipGreffe);
+
+
+
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    function handleHistoHover(event) {
+
+
+
+      const pos = getMousePos(chartHisto, event);
+
+
+
+      const hit = chartState.histo.bars.find(bar => (
+
+
+
+        pos.x >= bar.x &&
+
+
+
+        pos.x <= bar.x + bar.width &&
+
+
+
+        pos.y >= bar.y &&
+
+
+
+        pos.y <= bar.y + bar.height
+
+
+
+      ));
+
+
+
+      if (hit) {
+
+
+
+        showTooltip(
+
+
+
+          tooltipHisto,
+
+
+
+          pos.x,
+
+
+
+          pos.y,
+
+
+
+          `${hit.label} jours  ${hit.value} contributions`,
+
+
+
+          chartHisto.parentElement
+
+
+
+        );
+
+
+
+      } else {
+
+
+
+        hideTooltip(tooltipHisto);
+
+
+
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    function renderGraphTable(items) {
+      if (!graphTable || !pageInfo || !pagePrev || !pageNext) return;
+
+
+
+      const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
+
+
+
+      currentPage = Math.min(currentPage, totalPages);
+
+
+
+      const start = (currentPage - 1) * pageSize;
+
+
+
+      const slice = items.slice(start, start + pageSize);
+
+
+
+      renderTable(slice, graphTable, graphSearchComments.checked);
+      if (motionEnabled()) {
+        animateIn(graphTable, { duration: motion.fast });
+      }
+
+
+
+      pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
+
+
+
+      pagePrev.disabled = currentPage === 1;
+
+
+
+      pageNext.disabled = currentPage === totalPages;
+
+
+
+    }
+
+
+
+
+
+
+
+    function renderGraphiques() {
+
+
+
+      const data = loadData();
+      buildKpiFilters(data);
+      const kpiFilters = getKpiFilters();
+      const filtered = applyKpiFilters(data, kpiFilters);
+
+
+
+
+
+
+
+      const stats = computeStats(filtered);
+
+
+
+      const minmax = computeMinMax(filtered);
+
+
+
+      animateCount(kpiCount, stats.count, { duration: motion.medium, format: value => Math.round(value) });
+
+      if (Number.isFinite(stats.moyenne)) {
+        animateCount(kpiMean, stats.moyenne, { duration: motion.medium, format: value => formatNumber(value) });
+      } else if (kpiMean) {
+        kpiMean.textContent = "-";
+      }
+
+      if (Number.isFinite(stats.mediane)) {
+        animateCount(kpiMedian, stats.mediane, { duration: motion.medium, format: value => formatNumber(value) });
+      } else if (kpiMedian) {
+        kpiMedian.textContent = "-";
+      }
+
+      kpiMinMax.textContent = minmax.min ? `${minmax.min} / ${minmax.max}` : "-";
+
+
+
+      kpiLast.textContent = computeLastPeriode(filtered);
+
+      pulseKpis();
+
+      updateFilterActiveState(getGraphFilters());
+      updateListCount(graphGreffeList, greffeCount, listState.greffes);
+      updateListCount(graphFormaliteList, formaliteCount, listState.formalites);
+      renderFilterSummary(getGraphFilters());
+      renderKpiDetail(kpiFilters);
+      renderKpiDetailTable(filtered);
+
+      if (motionEnabled()) {
+        animateIn(document.querySelectorAll(".chart-card"), { duration: motion.fast });
+        animateIn(kpiDetailTable, { duration: motion.fast });
+      }
+
+
+
+
+
+      drawMonthlyChart(filtered);
+
+
+
+      drawGreffeChart(filtered);
+
+
+
+      drawHistogram(filtered);
+
+
+
+      renderGraphTable(filtered);
+
+
+
+    }
+
+
+
+
+
+
+
+    function resetGraphFilters() {
+      if (!graphPeriodeFrom || !graphPeriodeTo || !graphDelaiMin || !graphDelaiMax || !graphSearch) return;
+
+
+
+      graphPeriodeFrom.value = "";
+
+      graphPeriodeTo.value = "";
+
+      graphDelaiMin.value = "";
+
+      graphDelaiMax.value = "";
+
+      graphSearch.value = "";
+
+      if (graphSearchComments && toggleComments) {
+        graphSearchComments.checked = toggleComments.checked;
+      }
+
+      currentPage = 1;
+
+      graphGreffeSearch.value = "";
+
+      graphFormaliteSearch.value = "";
+
+      listState.greffes.clear();
+
+      listState.formalites.clear();
+
+      buildGraphFilters();
+
+      updateListCount(graphGreffeList, greffeCount, listState.greffes);
+
+      updateListCount(graphFormaliteList, formaliteCount, listState.formalites);
+
+      const filters = getGraphFilters();
+
+      updateFilterActiveState(filters);
+
+      renderFilterSummary(filters);
+
+    }
+
+
+
+
+
+    function applyRangeShortcut(months) {
+      if (!graphPeriodeFrom || !graphPeriodeTo) return;
+
+
+
+      const data = loadData();
+
+
+
+      const periodes = collectPeriodes(data);
+
+
+
+      if (!periodes.length) return;
+
+
+
+      const end = periodes[periodes.length - 1];
+
+
+
+      const startIndex = Math.max(0, periodes.length - months);
+
+
+
+      const start = periodes[startIndex];
+
+
+
+      graphPeriodeFrom.value = start;
+
+
+
+      graphPeriodeTo.value = end;
+
+
+
+      updateFilterActiveState(getGraphFilters());
+
+
+
+    }
+
+
+
+
+
+
+
+    function loadDemoData(mode) {
+
+
+
+      fetch("demo-data.json")
+
+
+
+        .then(response => {
+
+
+
+          if (!response.ok) throw new Error("fetch failed");
+
+
+
+          return response.json();
+
+
+
+        })
+
+
+
+        .then(payload => {
+
+
+
+          const incoming = Array.isArray(payload) ? payload : payload.contributions;
+
+
+
+          if (!Array.isArray(incoming)) throw new Error("invalid");
+
+
+
+          const data = loadData();
+
+
+
+          const merged = mode === "replace" ? incoming : data.concat(incoming);
+
+
+
+          saveData(merged);
+
+
+
+          buildGraphFilters();
+
+
+
+          renderDashboard();
+
+
+
+          resetGraphFilters();
+
+
+
+          renderGraphiques();
+
+
+
+        })
+
+
+
+        .catch(() => {
+
+
+
+          alert("Chargement automatique impossible. Sélectionnez demo-data.json manuellement.");
+
+
+
+          demoFile.click();
+
+
+
+        });
+
+
+
+    }
+
+
+
+
+
+
+
+    if (greffeSelect) {
+      buildGreffeSelectOptions(greffeSelect, { placeholder: "Sélectionner", includeAutre: true });
+      createGreffeAutocomplete({
+        input: greffeInput,
+        panel: greffePanel,
+        select: greffeSelect,
+        includeAll: false,
+        includeAutre: true
+      });
+    }
+    if (kpiFilterGreffe) {
+      buildGreffeSelectOptions(kpiFilterGreffe, { placeholder: "Tous" });
+      createGreffeAutocomplete({
+        input: kpiFilterGreffeInput,
+        panel: kpiFilterGreffePanel,
+        select: kpiFilterGreffe,
+        includeAll: true,
+        includeAutre: false
+      });
+    }
+
+    greffeSelect.addEventListener("change", () => {
+
+
+
+      const isOther = greffeSelect.value === "Autre";
+
+
+
+      greffeAutreWrap.style.display = isOther ? "block" : "none";
+
+
+
+      if (!isOther) {
+
+
+
+        greffeAutreInput.value = "";
+
+
+
+      }
+
+
+
+    });
+
+
+
+
+
+
+
+    fabButton.addEventListener("click", openModal);
+
+
+
+    modalClose.addEventListener("click", closeModal);
+
+
+
+    modalCancel.addEventListener("click", closeModal);
+
+
+
+    modalOverlay.addEventListener("click", event => {
+
+
+
+      if (event.target === modalOverlay) closeModal();
+
+
+
+    });
+
+
+
+    document.addEventListener("keydown", event => {
+
+
+
+      if (event.key === "Escape" && modalOverlay.classList.contains("open")) {
+
+
+
+        closeModal();
+
+
+
+      }
+
+
+
+    });
+
+
+
+
+
+
+
+    form.addEventListener("submit", event => {
+
+
+
+      event.preventDefault();
+
+
+
+      resetSuccess();
+
+
+
+
+
+
+
+      const greffe = normalizeGreffe();
+
+
+
+      const formalite = document.getElementById("formalite").value.trim();
+
+
+
+      const delaiValue = Number(document.getElementById("delai").value);
+
+
+
+      const periode = periodeSelect.value.trim();
+
+
+
+      const commentaire = document.getElementById("commentaire").value.trim();
+
+
+
+
+
+
+
+      if (!greffe || !formalite || !periode || !Number.isInteger(delaiValue)) {
+
+
+
+        alert("Merci de compléter tous les champs obligatoires.");
+
+
+
+        return;
+
+
+
+      }
+
+
+
+
+
+
+
+      if (delaiValue < 1 || delaiValue > 365) {
+
+
+
+        alert("Le délai doit être compris entre 1 et 365 jours.");
+
+
+
+        return;
+
+
+
+      }
+
+
+
+
+
+
+
+      if (greffeSelect.value === "Autre" && greffe.length < 2) {
+
+
+
+        alert("Merci de préciser le greffe.");
+
+
+
+        return;
+
+
+
+      }
+
+
+
+
+
+
+
+      if (commentaire.length > 250) {
+
+
+
+        alert("Le commentaire est limité à 250 caractères.");
+
+
+
+        return;
+
+
+
+      }
+
+
+
+
+
+
+
+      const data = loadData();
+
+
+
+      data.unshift({
+
+
+
+        id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+
+
+
+        createdAt: new Date().toISOString(),
+
+
+
+        greffe,
+
+
+
+        formalite,
+
+
+
+        delai: delaiValue,
+
+
+
+        periode,
+
+
+
+        commentaire
+
+
+
+      });
+
+
+
+      saveData(data);
+
+
+
+      form.reset();
+
+
+
+      greffeAutreWrap.style.display = "none";
+
+
+
+      if (motionEnabled()) {
+      document.addEventListener("click", event => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        window.anime.remove(button);
+        window.anime({
+          targets: button,
+          scale: [1, 0.98, 1],
+          duration: motionDuration(motion.micro),
+          easing: motion.easingOut
+        });
+      });
+    }
+
+    buildPeriodeOptions();
+
+
+
+      successMsg.style.display = "inline-block";
+
+
+
+      renderDashboard();
+
+
+
+      buildGraphFilters();
+
+
+
+      setTimeout(() => {
+
+
+
+        closeModal();
+
+
+
+      }, 800);
+
+
+
+    });
+
+
+
+
+
+
+
+    if (filterGreffe) {
+      filterGreffe.addEventListener("change", renderDashboard);
+    }
+
+    if (filterFormalite) {
+      filterFormalite.addEventListener("change", renderDashboard);
+    }
+
+    if (toggleComments) {
+      toggleComments.addEventListener("change", () => {
+
+
+
+        renderDashboard();
+
+
+
+        if (graphSearchComments) {
+          graphSearchComments.checked = toggleComments.checked;
+        }
+
+
+
+      });
+    }
+
+
+
+
+
+
+
+    exportBtn.addEventListener("click", () => {
+
+
+
+      const data = loadData();
+
+
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+
+
+
+      const url = URL.createObjectURL(blob);
+
+
+
+      const link = document.createElement("a");
+
+
+
+      link.href = url;
+
+
+
+      link.download = "contributions-gtc.json";
+
+
+
+      document.body.appendChild(link);
+
+
+
+      link.click();
+
+
+
+      link.remove();
+
+
+
+      URL.revokeObjectURL(url);
+
+
+
+    });
+
+
+
+
+
+
+
+    importBtn.addEventListener("click", () => {
+
+
+
+      importFile.click();
+
+
+
+    });
+
+
+
+
+
+
+
+    importFile.addEventListener("change", event => {
+
+
+
+      const file = event.target.files[0];
+
+
+
+      if (!file) return;
+
+
+
+      const reader = new FileReader();
+
+
+
+      reader.onload = () => {
+
+
+
+        try {
+
+
+
+          const parsed = JSON.parse(reader.result);
+
+
+
+          const incoming = Array.isArray(parsed) ? parsed : parsed.contributions;
+
+
+
+          if (!Array.isArray(incoming)) {
+
+
+
+            alert("Fichier JSON invalide.");
+
+
+
+            return;
+
+
+
+          }
+
+
+
+          const data = loadData();
+
+
+
+          const merged = data.concat(incoming.filter(item => item && item.greffe && item.formalite));
+
+
+
+          saveData(merged);
+
+
+
+          renderDashboard();
+
+
+
+          buildGraphFilters();
+
+
+
+        } catch {
+
+
+
+          alert("Impossible de lire le fichier.");
+
+
+
+        } finally {
+
+
+
+          importFile.value = "";
+
+
+
+        }
+
+
+
+      };
+
+
+
+      reader.readAsText(file);
+
+
+
+    });
+
+
+
+
+
+
+
+    resetBtn.addEventListener("click", () => {
+
+
+
+      if (confirm("Supprimer toutes les contributions locales ?")) {
+
+
+
+        localStorage.removeItem(STORAGE_KEY);
+
+
+
+        renderDashboard();
+
+
+
+        buildGraphFilters();
+
+
+
+        resetGraphFilters();
+
+
+
+        renderGraphiques();
+
+
+
+      }
+
+
+
+    });
+
+
+
+
+
+
+
+    demoBtn.addEventListener("click", () => {
+
+
+
+      const data = loadData();
+
+
+
+      if (!data.length) {
+
+
+
+        loadDemoData("replace");
+
+
+
+        return;
+
+
+
+      }
+
+
+
+      const merge = confirm("Des données existent déjà. OK pour fusionner, Annuler pour remplacer.");
+
+
+
+      loadDemoData(merge ? "merge" : "replace");
+
+
+
+    });
+
+
+
+
+
+
+
+    demoBtnAnalytics.addEventListener("click", () => {
+
+
+
+      const data = loadData();
+
+
+
+      if (!data.length) {
+
+
+
+        loadDemoData("replace");
+
+
+
+        return;
+
+
+
+      }
+
+
+
+      const merge = confirm("Des données existent déjà. OK pour fusionner, Annuler pour remplacer.");
+
+
+
+      loadDemoData(merge ? "merge" : "replace");
+
+
+
+    });
+
+
+
+
+
+
+
+    demoFile.addEventListener("change", event => {
+
+
+
+      const file = event.target.files[0];
+
+
+
+      if (!file) return;
+
+
+
+      const reader = new FileReader();
+
+
+
+      reader.onload = () => {
+
+
+
+        try {
+
+
+
+          const parsed = JSON.parse(reader.result);
+
+
+
+          const incoming = Array.isArray(parsed) ? parsed : parsed.contributions;
+
+
+
+          if (!Array.isArray(incoming)) throw new Error("invalid");
+
+
+
+          const data = loadData();
+
+
+
+          const merge = data.length ? confirm("Fusionner les données de démo ? Annuler = remplacer.") : false;
+
+
+
+          const merged = merge ? data.concat(incoming) : incoming;
+
+
+
+          saveData(merged);
+
+
+
+          buildGraphFilters();
+
+
+
+          renderDashboard();
+
+
+
+          resetGraphFilters();
+
+
+
+          renderGraphiques();
+
+
+
+        } catch {
+
+
+
+          alert("Fichier démo invalide.");
+
+
+
+        } finally {
+
+
+
+          demoFile.value = "";
+
+
+
+        }
+
+
+
+      };
+
+
+
+      reader.readAsText(file);
+
+
+
+    });
+
+
+
+
+
+
+
+    // Single-page view: no tab switching required.
+
+
+
+
+
+
+
+    if (graphApply) {
+      graphApply.addEventListener("click", () => {
+
+
+
+        currentPage = 1;
+
+
+
+        renderGraphiques();
+
+
+
+      });
+    }
+
+
+
+
+
+
+
+    if (graphReset) {
+      graphReset.addEventListener("click", () => {
+
+
+
+        resetGraphFilters();
+
+
+
+        renderGraphiques();
+
+
+
+      });
+    }
+
+
+
+
+
+
+
+    if (filterToggle && filterPanel) {
+      filterToggle.addEventListener("click", () => {
+
+        const isCollapsed = filterPanel.classList.toggle("is-collapsed");
+
+        if (!isCollapsed) {
+
+          filterPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        }
+
+
+      });
+    }
+
+
+
+
+
+
+
+    if (graphMetric) {
+      graphMetric.addEventListener("change", () => {
+
+
+
+        chartState.monthly.activeSeries.clear();
+
+
+
+        renderGraphiques();
+
+
+
+      });
+    }
+
+
+
+    if (graphMulti) {
+      graphMulti.addEventListener("change", () => {
+
+
+
+        chartState.monthly.activeSeries.clear();
+
+
+
+        renderGraphiques();
+
+
+
+      });
+    }
+
+
+
+    if (graphSort) {
+      graphSort.addEventListener("change", renderGraphiques);
+    }
+
+    if (graphTop) {
+      graphTop.addEventListener("change", renderGraphiques);
+    }
+
+
+
+
+
+
+
+    if (graphGreffeList) {
+      graphGreffeList.addEventListener("change", () => {
+
+      syncListState(graphGreffeList, listState.greffes);
+
+      updateListCount(graphGreffeList, greffeCount, listState.greffes);
+
+      updateFilterActiveState(getGraphFilters());
+
+      });
+    }
+
+
+
+    if (graphFormaliteList) {
+      graphFormaliteList.addEventListener("change", () => {
+
+      syncListState(graphFormaliteList, listState.formalites);
+
+      updateListCount(graphFormaliteList, formaliteCount, listState.formalites);
+
+      updateFilterActiveState(getGraphFilters());
+
+      });
+    }
+
+
+
+    if (graphGreffeSearch) {
+      graphGreffeSearch.addEventListener("input", () => {
+
+      buildGraphFilters();
+
+      updateFilterActiveState(getGraphFilters());
+
+      });
+    }
+
+
+
+    if (graphFormaliteSearch) {
+      graphFormaliteSearch.addEventListener("input", () => {
+
+      buildGraphFilters();
+
+      updateFilterActiveState(getGraphFilters());
+
+      });
+    }
+
+
+
+
+
+    [graphPeriodeFrom, graphPeriodeTo, graphDelaiMin, graphDelaiMax, graphSearch, graphSearchComments]
+      .filter(Boolean)
+      .forEach(el => {
+
+
+
+        el.addEventListener("input", () => updateFilterActiveState(getGraphFilters()));
+
+
+
+        el.addEventListener("change", () => updateFilterActiveState(getGraphFilters()));
+
+
+
+      });
+
+
+
+
+
+
+
+    if (greffeSelectAll) {
+      greffeSelectAll.addEventListener("click", () => {
+
+      listState.greffes.clear();
+
+      const allGreffes = Array.from(new Set(loadData().map(item => item.greffe)));
+
+      allGreffes.forEach(g => listState.greffes.add(g));
+
+      buildGraphFilters();
+
+      updateListCount(graphGreffeList, greffeCount, listState.greffes);
+
+      updateFilterActiveState(getGraphFilters());
+
+      });
+    }
+
+
+
+    if (greffeDeselectAll) {
+      greffeDeselectAll.addEventListener("click", () => {
+
+      listState.greffes.clear();
+
+      buildGraphFilters();
+
+      updateListCount(graphGreffeList, greffeCount, listState.greffes);
+
+      updateFilterActiveState(getGraphFilters());
+
+      });
+    }
+
+
+
+    if (formaliteSelectAll) {
+      formaliteSelectAll.addEventListener("click", () => {
+
+      listState.formalites.clear();
+
+      FORMALITES.forEach(f => listState.formalites.add(f));
+
+      buildGraphFilters();
+
+      updateListCount(graphFormaliteList, formaliteCount, listState.formalites);
+
+      updateFilterActiveState(getGraphFilters());
+
+      });
+    }
+
+
+
+    if (formaliteDeselectAll) {
+      formaliteDeselectAll.addEventListener("click", () => {
+
+      listState.formalites.clear();
+
+      buildGraphFilters();
+
+      updateListCount(graphFormaliteList, formaliteCount, listState.formalites);
+
+      updateFilterActiveState(getGraphFilters());
+
+      });
+    }
+
+    if (kpiFilterGreffe) {
+      kpiFilterGreffe.addEventListener("change", () => {
+        kpiDetailPage = 1;
+        renderGraphiques();
+      });
+    }
+    if (kpiFilterPeriode) {
+      kpiFilterPeriode.addEventListener("change", () => {
+        kpiDetailPage = 1;
+        renderGraphiques();
+      });
+    }
+    if (kpiFilterFormalite) {
+      kpiFilterFormalite.addEventListener("change", () => {
+        kpiDetailPage = 1;
+        renderGraphiques();
+      });
+    }
+
+    if (kpiPagePrev) {
+      kpiPagePrev.addEventListener("click", () => {
+        kpiDetailPage = Math.max(1, kpiDetailPage - 1);
+        renderGraphiques();
+      });
+    }
+
+    if (kpiPageNext) {
+      kpiPageNext.addEventListener("click", () => {
+        kpiDetailPage += 1;
+        renderGraphiques();
+      });
+    }
+
+
+
+
+
+    document.querySelectorAll(".chip-btn").forEach(btn => {
+
+
+
+      btn.addEventListener("click", () => {
+
+
+
+        document.querySelectorAll(".chip-btn").forEach(b => b.classList.remove("active"));
+
+
+
+        btn.classList.add("active");
+
+
+
+        applyRangeShortcut(Number(btn.dataset.range));
+
+
+
+      });
+
+
+
+    });
+
+
+
+
+
+
+
+    legendMonthly.addEventListener("click", event => {
+
+
+
+      const target = event.target.closest(".legend-item");
+
+
+
+      if (!target) return;
+
+
+
+      if (target.dataset.action === "all") {
+
+
+
+        chartState.monthly.activeSeries.clear();
+
+
+
+        (chartState.monthly.seriesKeys || []).forEach(series => chartState.monthly.activeSeries.add(series));
+
+
+
+        renderGraphiques();
+
+
+
+        return;
+
+
+
+      }
+
+
+
+      const series = target.dataset.series;
+
+
+
+      if (chartState.monthly.activeSeries.has(series)) {
+
+
+
+        chartState.monthly.activeSeries.delete(series);
+
+
+
+      } else {
+
+
+
+        chartState.monthly.activeSeries.add(series);
+
+
+
+      }
+
+
+
+      renderGraphiques();
+
+
+
+    });
+
+
+
+
+
+
+
+    chartMonthly.addEventListener("mousemove", handleMonthlyHover);
+
+
+
+    chartMonthly.addEventListener("mouseleave", () => hideTooltip(tooltipMonthly));
+
+
+
+    chartGreffe.addEventListener("mousemove", handleGreffeHover);
+
+
+
+    chartGreffe.addEventListener("mouseleave", () => hideTooltip(tooltipGreffe));
+
+
+
+    chartHisto.addEventListener("mousemove", handleHistoHover);
+
+
+
+    chartHisto.addEventListener("mouseleave", () => hideTooltip(tooltipHisto));
+
+
+
+
+
+
+
+    if (pagePrev) {
+      pagePrev.addEventListener("click", () => {
+
+
+
+        currentPage = Math.max(1, currentPage - 1);
+
+
+
+        renderGraphiques();
+
+
+
+      });
+    }
+
+
+
+
+
+
+
+    if (pageNext) {
+      pageNext.addEventListener("click", () => {
+
+
+
+        currentPage += 1;
+
+
+
+        renderGraphiques();
+
+
+
+      });
+    }
+
+
+
+
+
+
+
+    backToTop.addEventListener("click", () => {
+
+
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+
+
+    });
+
+
+
+
+
+
+
+    window.addEventListener("scroll", () => {
+
+
+
+      if (window.scrollY > 420) {
+
+
+
+        backToTop.style.opacity = "1";
+
+
+
+        backToTop.style.pointerEvents = "auto";
+
+
+
+      } else {
+
+
+
+        backToTop.style.opacity = "0";
+
+
+
+        backToTop.style.pointerEvents = "none";
+
+
+
+      }
+
+
+
+    });
+
+
+
+
+
+
+
+    window.addEventListener("resize", () => {
+
+
+
+      renderGraphiques();
+
+
+
+    });
+
+
+
+
+
+
+
+    if (motionEnabled()) {
+      document.addEventListener("click", event => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        window.anime.remove(button);
+        window.anime({
+          targets: button,
+          scale: [1, 0.98, 1],
+          duration: motionDuration(motion.micro),
+          easing: motion.easingOut
+        });
+      });
+    }
+
+    buildPeriodeOptions();
+
+    buildGraphFilters();
+
+    resetGraphFilters();
+
+    renderDashboard();
+
+    renderGraphiques();
+
+
+
+  </script>
+
+
+
+</body>
+
+
+
+</html>
+
+
+
+
+
+
+
+
+
