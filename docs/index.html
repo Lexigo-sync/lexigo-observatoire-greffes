@@ -1,3 +1,8 @@
+<!--
+  CONFIGURATION: set API_URL in the script below to your Apps Script Web App URL.
+  Expected JSON (GET): [{createdAt, greffe, formalite, delai, periode, commentaire}]
+  Recommended Google Sheet columns: createdAt | greffe | formalite | delai | periode | commentaire
+-->
 <!doctype html>
 
 
@@ -3426,45 +3431,9 @@
   <!-- BLOC : En-tête / Hero -->
   <!-- Rôle : titre, description et statut de stockage -->
   <!-- Impact : positionne le contexte et les alertes -->
-  <!-- ============================= -->
-  <header class="wrap">
+  
 
 
-
-    <div class="hero">
-
-
-
-      <h1>Délais des Greffes (GTC)  Observatoire participatif</h1>
-
-
-
-      <p>Contributions anonymes  Données indicatives  Analyse par période, greffe et formalité.</p>
-
-
-
-      <div class="page-header">
-
-
-
-        <span class="meta">Plateforme participative anonyme  données indicatives</span>
-
-
-
-      </div>
-
-
-
-    </div>
-
-
-
-    <p class="note" id="storage-warning" role="status" aria-live="polite" style="display: none;"></p>
-
-
-
-
-  </header>
 
 
 
@@ -3473,6 +3442,8 @@
 
 
   <main class="wrap" id="main-content">
+
+    <p class="note" id="storage-warning" role="status" aria-live="polite" style="display: none;"></p>
 
 
 
@@ -3484,7 +3455,13 @@
       <!-- Impact : alimente les cartes KPI et les filtres dédiés -->
       <!-- ============================= -->
       <section class="card" id="kpi-block">
-        <h2>Indicateurs clés</h2>
+        <div class="section-head">
+          <div>
+            <h2>Indicateurs clés</h2>
+            <p class="subtle">Données communautaires — indicatives — non officielles.</p>
+          </div>
+          <button class="ghost" id="refresh-btn" type="button">Actualiser</button>
+        </div>
         <!-- ============================= -->
         <!-- BLOC : Filtres KPI -->
         <!-- Rôle : filtrer les indicateurs par greffe / période / formalité -->
@@ -3763,76 +3740,8 @@
 
 
       </section>
+
 <!-- ============================= -->
-      <!-- BLOC : Actions -->
-      <!-- Rôle : import/export/démo/reset des données -->
-      <!-- Impact : modifie le stockage local et les vues -->
-      <!-- ============================= -->
-      <section class="card">
-
-
-
-          <h2>Actions</h2>
-
-
-
-          <div class="actions">
-
-
-
-            <!-- ============================= -->
-            <!-- BLOC : Export JSON -->
-            <!-- Rôle : exporter les contributions locales -->
-            <!-- Impact : génère un fichier JSON à partager -->
-            <!-- ============================= -->
-            <button class="ghost" id="export-btn" type="button">Exporter JSON</button>
-
-
-
-            <!-- ============================= -->
-            <!-- BLOC : Import JSON -->
-            <!-- Rôle : importer un fichier JSON utilisateur -->
-            <!-- Impact : fusionne ou remplace les données locales -->
-            <!-- ============================= -->
-            <button class="ghost" id="import-btn" type="button">Importer JSON</button>
-
-
-
-            <!-- ============================= -->
-            <!-- BLOC : Données de démonstration -->
-            <!-- Rôle : charger un jeu d'exemple pour l'analyse -->
-            <!-- Impact : remplit le stockage local selon le mode -->
-            <!-- ============================= -->
-            <button class="ghost" id="demo-btn-analytics" type="button">Charger des données de démo</button>
-
-
-
-            <!-- ============================= -->
-            <!-- BLOC : Réinitialisation -->
-            <!-- Rôle : purge complète du stockage local -->
-            <!-- Impact : remet à zéro tableaux et graphiques -->
-            <!-- ============================= -->
-            <button class="warn" id="reset-btn" type="button">Réinitialiser</button>
-
-
-
-            <input id="import-file" type="file" accept="application/json" hidden>
-
-
-
-            <input id="demo-file" type="file" accept="application/json" hidden>
-
-
-
-          </div>
-
-
-
-      </section>
-
-
-
-      <!-- ============================= -->
       <!-- BLOC : Détail (filtres KPI) -->
       <!-- Rôle : récapitulatif des filtres actifs -->
       <!-- Impact : reflète les indicateurs clés -->
@@ -3868,7 +3777,7 @@
 
 
 
-          <p class="note">Les délais sont des moyennes et médianes calculées à partir des contributions locales. Les résultats peuvent varier selon la période, la charge du greffe ou la complexité des dossiers. Ce prototype n'établit aucun classement officiel.</p>
+          <p class="note">Les délais sont des moyennes et médianes calculées à partir des contributions. Les résultats peuvent varier selon la période, la charge du greffe ou la complexité des dossiers. Cette page n'établit aucun classement officiel.</p>
 
 
 
@@ -3876,7 +3785,7 @@
 
 
 
-          <p class="note">Aucune donnée personnelle collectée. Données stockées localement sur votre navigateur.</p>
+          <p class="note">Aucune donnée personnelle collectée. Données stockées sur une base partagée (Google Sheets) — sans données personnelles.</p>
 
 
 
@@ -3959,7 +3868,7 @@
 
 
 
-          <p class="subtle">Aucune donnée personnelle. Stockage local (prototype).</p>
+          <p class="subtle">Contributions anonymes — données indicatives.</p>
 
 
 
@@ -4145,14 +4054,7 @@
 
 
           <div class="actions">
-
-
-
-            <button class="ghost" id="demo-btn" type="button">Charger des données de démo</button>
-
-
-
-            <span class="success" id="success-msg" role="status" aria-live="polite">Merci ! Votre contribution est enregistrée localement.</span>
+<span class="success" id="success-msg" role="status" aria-live="polite">Merci ! Votre contribution a été enregistrée.</span>
 
 
 
@@ -4202,7 +4104,9 @@
 
 
 
-    const STORAGE_KEY = "gtcContributions";
+    const API_URL = "https://script.google.com/macros/s/AKfycbwBexfEuT5yvVZi_WoMhOG5A7MXhWTwgEd1mXCaK4_JL97kk0khqE_HHZochKMCfll3/exec"; // ex: https://script.google.com/macros/s/XXXX/exec
+    const API_TIMEOUT_MS = 12000;
+    let remoteData = [];
 
 
 
@@ -4549,42 +4453,9 @@
 
 
     const statCount = document.getElementById("stat-count");
-
-
-
-
-
-
-
-    const exportBtn = document.getElementById("export-btn");
-
-
-
-    const importBtn = document.getElementById("import-btn");
-
-
-
-    const resetBtn = document.getElementById("reset-btn");
-
-
-
-    const importFile = document.getElementById("import-file");
-
-
-
-
-
-
-
-    const demoBtn = document.getElementById("demo-btn");
-
-
-
-    const demoBtnAnalytics = document.getElementById("demo-btn-analytics");
-
-
-
-    const demoFile = document.getElementById("demo-file");
+    const storageWarning = document.getElementById("storage-warning");
+    const refreshBtn = document.getElementById("refresh-btn");
+    const formError = document.getElementById("form-error");
 
 
 
@@ -4918,63 +4789,86 @@
 
     };
 
-
-
-
-
-    function loadData() {
-
-
-
-      const raw = localStorage.getItem(STORAGE_KEY);
-
-
-
-      if (!raw) return [];
-
-
-
-      try {
-
-
-
-        const parsed = JSON.parse(raw);
-
-
-
-        return Array.isArray(parsed) ? parsed : [];
-
-
-
-      } catch {
-
-
-
-        return [];
-
-
-
+    function setStorageStatus(message) {
+      if (!storageWarning) return;
+      if (!message) {
+        storageWarning.textContent = "";
+        storageWarning.style.display = "none";
+        return;
       }
-
-
-
+      storageWarning.textContent = message;
+      storageWarning.style.display = "block";
     }
 
-
-
-
-
-
-
-    function saveData(data) {
-
-
-
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-
-
-
+    function showFormError(message) {
+      if (!formError) return;
+      formError.textContent = message;
+      formError.style.display = "block";
     }
+
+    function clearFormError() {
+      if (!formError) return;
+      formError.textContent = "";
+      formError.style.display = "none";
+    }
+
+    function escapeHtml(value) {
+      const str = value == null ? "" : String(value);
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    async function fetchWithTimeout(url, options = {}) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+      try {
+        return await fetch(url, { ...options, signal: controller.signal });
+      } finally {
+        clearTimeout(timeout);
+      }
+    }
+
+    async function loadRemoteData() {
+      setStorageStatus("Chargement des donn?es...");
+      let ok = false;
+      try {
+        const response = await fetchWithTimeout(API_URL, { method: "GET" });
+        if (!response.ok) throw new Error("bad_status");
+        const payload = await response.json();
+        const incoming = Array.isArray(payload) ? payload : payload.contributions;
+        if (!Array.isArray(incoming)) throw new Error("invalid_payload");
+        remoteData = incoming
+          .map(item => {
+            const delai = Number(item.delai);
+            return {
+              createdAt: item.createdAt || new Date().toISOString(),
+              greffe: String(item.greffe || "").trim(),
+              formalite: String(item.formalite || "").trim(),
+              delai: Number.isFinite(delai) ? delai : NaN,
+              periode: String(item.periode || "").trim(),
+              commentaire: typeof item.commentaire === "string" ? item.commentaire.trim() : ""
+            };
+          })
+          .filter(item => item.greffe && item.formalite && Number.isFinite(item.delai) && item.periode);
+        ok = true;
+      } catch (error) {
+        remoteData = [];
+        setStorageStatus("Impossible de charger les donn?es pour le moment");
+      } finally {
+        buildPeriodeOptions();
+        buildGraphFilters();
+        renderDashboard();
+        renderGraphiques();
+        if (ok) {
+          setStorageStatus("");
+        }
+      }
+    }
+
 
 
 
@@ -5067,7 +4961,7 @@
 
 
       if (!periodeSelect) return;
-      const data = loadData();
+      const data = remoteData;
       const periodes = getAvailablePeriods(data, 24);
       const current = getCurrentPeriod();
       const currentValue = periodeSelect.value;
@@ -5301,14 +5195,12 @@
 
 
 
-                const date = new Date(item.createdAt).toLocaleDateString("fr-FR");
-
-
-
-                const formaliteLabel = FORMALITE_LABELS[item.formalite] || item.formalite;
-
-
-
+                const dateValue = item.createdAt ? new Date(item.createdAt) : null;
+                const date = dateValue && !Number.isNaN(dateValue.getTime()) ? dateValue.toLocaleDateString("fr-FR") : "-";
+                const formaliteLabel = FORMALITE_LABELS[item.formalite] || item.formalite || "-";
+                const safeGreffe = escapeHtml(item.greffe || "-");
+                const safeFormalite = escapeHtml(formaliteLabel);
+                const safeComment = escapeHtml(item.commentaire || "-");
                 return `
 
 
@@ -5321,11 +5213,11 @@
 
 
 
-                    <td>${item.greffe}</td>
+                    <td>${safeGreffe}</td>
 
 
 
-                    <td>${formaliteLabel}</td>
+                    <td>${safeFormalite}</td>
 
 
 
@@ -5337,7 +5229,7 @@
 
 
 
-                    ${showComments ? `<td>${item.commentaire || "-"}</td>` : ""}
+                    ${showComments ? `<td>${safeComment}</td>` : ""}
 
 
 
@@ -5419,7 +5311,7 @@
 
 
 
-      const data = loadData();
+      const data = remoteData;
 
 
 
@@ -5447,7 +5339,9 @@
 
 
 
-      renderTable(filtered, tableWrap, toggleComments.checked);
+      const showComments = toggleComments ? toggleComments.checked : false;
+
+      renderTable(filtered, tableWrap, showComments);
 
 
 
@@ -5461,11 +5355,13 @@
 
     function resetSuccess() {
 
+      if (successMsg) {
 
+        successMsg.style.display = "none";
 
-      successMsg.style.display = "none";
+      }
 
-
+      clearFormError();
 
     }
 
@@ -5917,7 +5813,7 @@
     function buildGraphFilters() {
       if (!graphGreffeList || !graphFormaliteList || !graphPeriodeFrom || !graphPeriodeTo) return;
 
-      const data = loadData();
+      const data = remoteData;
 
       const greffes = [...new Set(data.map(item => item.greffe))].sort();
 
@@ -8240,7 +8136,7 @@
 
 
 
-      const data = loadData();
+      const data = remoteData;
       buildKpiFilters(data);
       const kpiFilters = getKpiFilters();
       const filtered = applyKpiFilters(data, kpiFilters);
@@ -8373,7 +8269,7 @@
 
 
 
-      const data = loadData();
+      const data = remoteData;
 
 
 
@@ -8406,98 +8302,6 @@
 
 
       updateFilterActiveState(getGraphFilters());
-
-
-
-    }
-
-
-
-
-
-
-
-    function loadDemoData(mode) {
-
-
-
-      fetch("demo-data.json")
-
-
-
-        .then(response => {
-
-
-
-          if (!response.ok) throw new Error("fetch failed");
-
-
-
-          return response.json();
-
-
-
-        })
-
-
-
-        .then(payload => {
-
-
-
-          const incoming = Array.isArray(payload) ? payload : payload.contributions;
-
-
-
-          if (!Array.isArray(incoming)) throw new Error("invalid");
-
-
-
-          const data = loadData();
-
-
-
-          const merged = mode === "replace" ? incoming : data.concat(incoming);
-
-
-
-          saveData(merged);
-
-
-
-          buildGraphFilters();
-
-
-
-          renderDashboard();
-
-
-
-          resetGraphFilters();
-
-
-
-          renderGraphiques();
-
-
-
-        })
-
-
-
-        .catch(() => {
-
-
-
-          alert("Chargement automatique impossible. Sélectionnez demo-data.json manuellement.");
-
-
-
-          demoFile.click();
-
-
-
-        });
 
 
 
@@ -8610,219 +8414,149 @@
 
 
 
-    form.addEventListener("submit", event => {
-
-
+    form.addEventListener("submit", async event => {
 
       event.preventDefault();
 
-
-
       resetSuccess();
 
-
-
-
+      clearFormError();
 
 
 
       const greffe = normalizeGreffe();
 
-
-
       const formalite = document.getElementById("formalite").value.trim();
-
-
 
       const delaiValue = Number(document.getElementById("delai").value);
 
-
-
       const periode = periodeSelect.value.trim();
-
-
 
       const commentaire = document.getElementById("commentaire").value.trim();
 
 
 
+      if (!greffe || !formalite || !periode || !Number.isFinite(delaiValue)) {
 
-
-
-
-      if (!greffe || !formalite || !periode || !Number.isInteger(delaiValue)) {
-
-
-
-        alert("Merci de compléter tous les champs obligatoires.");
-
-
+        showFormError("Merci de compléter tous les champs obligatoires.");
 
         return;
-
-
 
       }
 
 
 
+      if (!FORMALITES.includes(formalite)) {
 
+        showFormError("Merci de sélectionner un type de formalité valide.");
+
+        return;
+
+      }
 
 
 
       if (delaiValue < 1 || delaiValue > 365) {
 
-
-
-        alert("Le délai doit être compris entre 1 et 365 jours.");
-
-
+        showFormError("Le délai doit être compris entre 1 et 365 jours.");
 
         return;
 
-
-
       }
-
-
-
-
 
 
 
       if (greffeSelect.value === "Autre" && greffe.length < 2) {
 
-
-
-        alert("Merci de préciser le greffe.");
-
-
+        showFormError("Merci de préciser le greffe.");
 
         return;
-
-
 
       }
 
 
 
+      if (!/^(0[1-9]|1[0-2])\/\d{4}$/.test(periode)) {
 
+        showFormError("Merci de renseigner une période au format MM/YYYY.");
+
+        return;
+
+      }
 
 
 
       if (commentaire.length > 250) {
 
-
-
-        alert("Le commentaire est limité à 250 caractères.");
-
-
+        showFormError("Le commentaire est limité à 250 caractères.");
 
         return;
-
-
 
       }
 
 
 
-
-
-
-
-      const data = loadData();
-
-
-
-      data.unshift({
-
-
-
-        id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-
-
-
-        createdAt: new Date().toISOString(),
-
-
+      const payload = {
 
         greffe,
 
-
-
         formalite,
-
-
 
         delai: delaiValue,
 
-
-
         periode,
-
-
 
         commentaire
 
-
-
-      });
-
-
-
-      saveData(data);
+      };
 
 
 
-      form.reset();
+      try {
 
+        const response = await fetchWithTimeout(API_URL, {
 
+          method: "POST",
 
-      greffeAutreWrap.style.display = "none";
+          headers: { "Content-Type": "application/json" },
 
+          body: JSON.stringify(payload)
 
-
-      if (motionEnabled()) {
-      document.addEventListener("click", event => {
-        const button = event.target.closest("button");
-        if (!button) return;
-        window.anime.remove(button);
-        window.anime({
-          targets: button,
-          scale: [1, 0.98, 1],
-          duration: motionDuration(motion.micro),
-          easing: motion.easingOut
         });
-      });
-    }
 
-    buildPeriodeOptions();
+        const result = await response.json().catch(() => ({}));
 
+        if (!response.ok || !result || result.ok !== true) {
 
+          throw new Error(result && result.error ? result.error : "Impossible d'enregistrer la contribution.");
 
-      successMsg.style.display = "inline-block";
+        }
 
+        form.reset();
 
+        greffeAutreWrap.style.display = "none";
 
-      renderDashboard();
+        if (successMsg) {
 
+          successMsg.textContent = "Merci ! Votre contribution a été enregistrée.";
 
+          successMsg.style.display = "inline-block";
 
-      buildGraphFilters();
+        }
 
+        loadRemoteData();
 
+        setTimeout(() => {
 
-      setTimeout(() => {
+          closeModal();
 
+        }, 800);
 
+      } catch (error) {
 
-        closeModal();
+        showFormError(error && error.message ? error.message : "Impossible d'enregistrer la contribution.");
 
-
-
-      }, 800);
-
-
+      }
 
     });
 
@@ -8838,6 +8572,14 @@
 
     if (filterFormalite) {
       filterFormalite.addEventListener("change", renderDashboard);
+    }
+
+    if (refreshBtn) {
+      refreshBtn.addEventListener("click", () => {
+
+        loadRemoteData();
+
+      });
     }
 
     if (toggleComments) {
@@ -8857,402 +8599,6 @@
 
       });
     }
-
-
-
-
-
-
-
-    exportBtn.addEventListener("click", () => {
-
-
-
-      const data = loadData();
-
-
-
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-
-
-
-      const url = URL.createObjectURL(blob);
-
-
-
-      const link = document.createElement("a");
-
-
-
-      link.href = url;
-
-
-
-      link.download = "contributions-gtc.json";
-
-
-
-      document.body.appendChild(link);
-
-
-
-      link.click();
-
-
-
-      link.remove();
-
-
-
-      URL.revokeObjectURL(url);
-
-
-
-    });
-
-
-
-
-
-
-
-    importBtn.addEventListener("click", () => {
-
-
-
-      importFile.click();
-
-
-
-    });
-
-
-
-
-
-
-
-    importFile.addEventListener("change", event => {
-
-
-
-      const file = event.target.files[0];
-
-
-
-      if (!file) return;
-
-
-
-      const reader = new FileReader();
-
-
-
-      reader.onload = () => {
-
-
-
-        try {
-
-
-
-          const parsed = JSON.parse(reader.result);
-
-
-
-          const incoming = Array.isArray(parsed) ? parsed : parsed.contributions;
-
-
-
-          if (!Array.isArray(incoming)) {
-
-
-
-            alert("Fichier JSON invalide.");
-
-
-
-            return;
-
-
-
-          }
-
-
-
-          const data = loadData();
-
-
-
-          const merged = data.concat(incoming.filter(item => item && item.greffe && item.formalite));
-
-
-
-          saveData(merged);
-
-
-
-          renderDashboard();
-
-
-
-          buildGraphFilters();
-
-
-
-        } catch {
-
-
-
-          alert("Impossible de lire le fichier.");
-
-
-
-        } finally {
-
-
-
-          importFile.value = "";
-
-
-
-        }
-
-
-
-      };
-
-
-
-      reader.readAsText(file);
-
-
-
-    });
-
-
-
-
-
-
-
-    resetBtn.addEventListener("click", () => {
-
-
-
-      if (confirm("Supprimer toutes les contributions locales ?")) {
-
-
-
-        localStorage.removeItem(STORAGE_KEY);
-
-
-
-        renderDashboard();
-
-
-
-        buildGraphFilters();
-
-
-
-        resetGraphFilters();
-
-
-
-        renderGraphiques();
-
-
-
-      }
-
-
-
-    });
-
-
-
-
-
-
-
-    demoBtn.addEventListener("click", () => {
-
-
-
-      const data = loadData();
-
-
-
-      if (!data.length) {
-
-
-
-        loadDemoData("replace");
-
-
-
-        return;
-
-
-
-      }
-
-
-
-      const merge = confirm("Des données existent déjà. OK pour fusionner, Annuler pour remplacer.");
-
-
-
-      loadDemoData(merge ? "merge" : "replace");
-
-
-
-    });
-
-
-
-
-
-
-
-    demoBtnAnalytics.addEventListener("click", () => {
-
-
-
-      const data = loadData();
-
-
-
-      if (!data.length) {
-
-
-
-        loadDemoData("replace");
-
-
-
-        return;
-
-
-
-      }
-
-
-
-      const merge = confirm("Des données existent déjà. OK pour fusionner, Annuler pour remplacer.");
-
-
-
-      loadDemoData(merge ? "merge" : "replace");
-
-
-
-    });
-
-
-
-
-
-
-
-    demoFile.addEventListener("change", event => {
-
-
-
-      const file = event.target.files[0];
-
-
-
-      if (!file) return;
-
-
-
-      const reader = new FileReader();
-
-
-
-      reader.onload = () => {
-
-
-
-        try {
-
-
-
-          const parsed = JSON.parse(reader.result);
-
-
-
-          const incoming = Array.isArray(parsed) ? parsed : parsed.contributions;
-
-
-
-          if (!Array.isArray(incoming)) throw new Error("invalid");
-
-
-
-          const data = loadData();
-
-
-
-          const merge = data.length ? confirm("Fusionner les données de démo ? Annuler = remplacer.") : false;
-
-
-
-          const merged = merge ? data.concat(incoming) : incoming;
-
-
-
-          saveData(merged);
-
-
-
-          buildGraphFilters();
-
-
-
-          renderDashboard();
-
-
-
-          resetGraphFilters();
-
-
-
-          renderGraphiques();
-
-
-
-        } catch {
-
-
-
-          alert("Fichier démo invalide.");
-
-
-
-        } finally {
-
-
-
-          demoFile.value = "";
-
-
-
-        }
-
-
-
-      };
-
-
-
-      reader.readAsText(file);
-
-
-
-    });
 
 
 
@@ -9464,7 +8810,7 @@
 
       listState.greffes.clear();
 
-      const allGreffes = Array.from(new Set(loadData().map(item => item.greffe)));
+      const allGreffes = Array.from(new Set(remoteData.map(item => item.greffe)));
 
       allGreffes.forEach(g => listState.greffes.add(g));
 
@@ -9826,15 +9172,7 @@
       });
     }
 
-    buildPeriodeOptions();
-
-    buildGraphFilters();
-
-    resetGraphFilters();
-
-    renderDashboard();
-
-    renderGraphiques();
+    loadRemoteData();
 
 
 
