@@ -917,6 +917,64 @@
 
     }
 
+    .primary .btn-spinner {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.45);
+      border-top-color: #fff;
+      display: inline-block;
+      opacity: 0;
+      margin-left: 8px;
+      animation: spin 0.9s linear infinite;
+      vertical-align: middle;
+    }
+
+    .primary.is-loading .btn-spinner {
+      opacity: 1;
+    }
+
+    .primary.is-loading {
+      cursor: not-allowed;
+      box-shadow: 0 10px 20px rgba(54, 79, 107, 0.2);
+    }
+
+    .primary.is-success {
+      background: #166534;
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(22, 101, 52, 0.25);
+    }
+
+    .save-status {
+      display: none;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(54, 79, 107, 0.08);
+      align-items: center;
+      gap: 8px;
+    }
+
+    .save-status.is-visible {
+      display: inline-flex;
+    }
+
+    .save-status.is-success {
+      color: #166534;
+      background: rgba(22, 101, 52, 0.12);
+    }
+
+    .save-status.is-error {
+      color: #b42318;
+      background: rgba(180, 35, 24, 0.12);
+    }
+
+    .save-status.is-warn {
+      color: #7a4a14;
+      background: rgba(223, 202, 130, 0.2);
+    }
+
     .autocomplete {
       position: relative;
       width: 100%;
@@ -1954,6 +2012,136 @@
 
 
 
+    }
+
+    /* ============================= */
+    /* BLOC CSS : Loading Popup */
+    /* Role : overlay bloque et statut de chargement */
+    /* ============================= */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(20, 26, 34, 0.42);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 70;
+    }
+
+    .loading-overlay.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .loading-modal {
+      width: min(480px, 100%);
+      background: linear-gradient(180deg, #fffdf8 0%, #fbf8f0 100%);
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 45px rgba(20, 26, 34, 0.18);
+      padding: 26px 24px;
+      display: grid;
+      gap: 12px;
+      text-align: center;
+      transform: translateY(6px) scale(0.98);
+      transition: transform 0.2s ease;
+    }
+
+    .loading-overlay.is-open .loading-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .loading-spinner {
+      position: relative;
+      width: 62px;
+      height: 62px;
+      margin: 4px auto 6px;
+      display: grid;
+      place-items: center;
+    }
+
+    .loading-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 3px solid rgba(54, 79, 107, 0.18);
+      border-top-color: var(--primary);
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 0 6px rgba(223, 202, 130, 0.12);
+      opacity: 0;
+    }
+
+    .loading-symbol {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .loading-overlay.is-loading .loading-ring {
+      opacity: 1;
+    }
+
+    .loading-overlay.is-success .loading-symbol.is-success {
+      opacity: 1;
+      transform: scale(1);
+      color: #166534;
+    }
+
+    .loading-overlay.is-error .loading-symbol.is-error {
+      opacity: 1;
+      transform: scale(1);
+      color: #b42318;
+    }
+
+    .loading-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      color: var(--ink);
+    }
+
+    .loading-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .loading-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .loading-actions button {
+      display: none;
+    }
+
+    .loading-overlay.is-error .loading-actions button {
+      display: inline-flex;
+    }
+
+    body.loading-open {
+      overflow: hidden;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
     }
 
 
@@ -3425,6 +3613,21 @@
 
 <body>
 
+  <div id="loading-overlay" class="loading-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="loading-modal" role="document">
+      <div class="loading-spinner" aria-hidden="true">
+        <div class="loading-ring"></div>
+        <div class="loading-symbol is-success">✓</div>
+        <div class="loading-symbol is-error">!</div>
+      </div>
+      <div class="loading-title" id="loading-title" aria-live="polite"></div>
+      <div class="loading-subtitle" id="loading-subtitle" aria-live="polite"></div>
+      <div class="loading-actions">
+        <button class="ghost" id="loading-retry" type="button">Réessayer</button>
+      </div>
+    </div>
+  </div>
+
 
 
   <!-- ============================= -->
@@ -4057,7 +4260,9 @@
 
 
 
-          </div>
+              <div class="save-status" id="save-status" role="status" aria-live="polite"></div>
+
+</div>
 
 
 
@@ -4077,7 +4282,10 @@
 
 
 
-        <button class="primary" form="contribution-form" type="submit">Enregistrer</button>
+        <button class="primary" id="submit-contribution" form="contribution-form" type="submit">
+          <span class="btn-label">Enregistrer</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
 
 
 
@@ -4416,6 +4624,9 @@
 
 
     const successMsg = document.getElementById("success-msg");
+    const submitBtn = document.getElementById("submit-contribution");
+    const submitLabel = submitBtn ? submitBtn.querySelector(".btn-label") : null;
+    const saveStatus = document.getElementById("save-status");
 
 
 
@@ -4454,6 +4665,10 @@
     const statCount = document.getElementById("stat-count");
     const storageWarning = document.getElementById("storage-warning");
     const refreshBtn = document.getElementById("refresh-btn");
+    const loadingOverlay = document.getElementById("loading-overlay");
+    const loadingTitle = document.getElementById("loading-title");
+    const loadingSubtitle = document.getElementById("loading-subtitle");
+    const loadingRetry = document.getElementById("loading-retry");
     const formError = document.getElementById("form-error");
 
 
@@ -4785,6 +5000,58 @@
 
     };
 
+    let isLoading = false;
+    let loadingCloseTimer = null;
+    let isSaving = false;
+    let saveLatencyTimer = null;
+
+    // Save UX state helpers.
+    function setSaveStatusMessage(message, tone) {
+      if (!saveStatus) return;
+      saveStatus.classList.remove("is-visible", "is-success", "is-error", "is-warn");
+      if (!message) {
+        saveStatus.textContent = "";
+        return;
+      }
+      saveStatus.textContent = message;
+      saveStatus.classList.add("is-visible");
+      if (tone === "success") saveStatus.classList.add("is-success");
+      if (tone === "error") saveStatus.classList.add("is-error");
+      if (tone === "warn") saveStatus.classList.add("is-warn");
+    }
+
+    function setSaveButtonState(state) {
+      if (!submitBtn) return;
+      submitBtn.classList.remove("is-loading", "is-success");
+      if (state === "loading") {
+        submitBtn.classList.add("is-loading");
+        submitBtn.disabled = true;
+        if (submitLabel) submitLabel.textContent = "Enregistrement en cours?";
+        if (form) form.setAttribute("aria-busy", "true");
+      } else if (state === "success") {
+        submitBtn.classList.add("is-success");
+        submitBtn.disabled = true;
+        if (submitLabel) submitLabel.textContent = "Enregistré ✅";
+        if (form) form.setAttribute("aria-busy", "false");
+      } else {
+        submitBtn.disabled = false;
+        if (submitLabel) submitLabel.textContent = "Enregistrer";
+        if (form) form.setAttribute("aria-busy", "false");
+      }
+    }
+
+    function resetSaveState() {
+      if (saveLatencyTimer) {
+        clearTimeout(saveLatencyTimer);
+        saveLatencyTimer = null;
+      }
+      isSaving = false;
+      setSaveButtonState("idle");
+      setSaveStatusMessage("");
+      if (modalCancel) modalCancel.disabled = false;
+      if (modalClose) modalClose.disabled = false;
+    }
+
     function setStorageStatus(message) {
       if (!storageWarning) return;
       if (!message) {
@@ -4794,6 +5061,67 @@
       }
       storageWarning.textContent = message;
       storageWarning.style.display = "block";
+    }
+
+    function setLoadingPopupMode(mode, { title, subtitle, errorDetails } = {}) {
+      if (!loadingOverlay) return;
+      loadingOverlay.classList.remove("is-loading", "is-success", "is-error");
+      loadingOverlay.classList.add(`is-${mode}`);
+      if (loadingTitle) loadingTitle.textContent = title || "";
+      if (loadingSubtitle) {
+        const parts = [];
+        if (subtitle) parts.push(subtitle);
+        if (errorDetails) parts.push(errorDetails);
+        loadingSubtitle.textContent = parts.join(" ");
+      }
+      if (loadingRetry) {
+        loadingRetry.style.display = mode === "error" ? "inline-flex" : "none";
+      }
+    }
+
+    function openLoadingPopup({ title, subtitle, mode = "loading" } = {}) {
+      if (!loadingOverlay) return;
+      if (loadingCloseTimer) {
+        clearTimeout(loadingCloseTimer);
+        loadingCloseTimer = null;
+      }
+      setLoadingPopupMode(mode, { title, subtitle });
+      loadingOverlay.classList.add("is-open");
+      loadingOverlay.setAttribute("aria-hidden", "false");
+      document.body.classList.add("loading-open");
+      if (motionEnabled()) {
+        animateIn(loadingOverlay, { duration: motion.fast });
+        animateIn(loadingOverlay.querySelector(".loading-modal"), { duration: motion.fast });
+      }
+    }
+
+    function closeLoadingPopup({ delayMs = 0 } = {}) {
+      if (!loadingOverlay) return;
+      if (loadingCloseTimer) {
+        clearTimeout(loadingCloseTimer);
+        loadingCloseTimer = null;
+      }
+      const doClose = () => {
+        if (motionEnabled()) {
+          animateOut(loadingOverlay, { duration: motion.fast });
+          animateOut(loadingOverlay.querySelector(".loading-modal"), { duration: motion.fast });
+          const wait = motionDuration(motion.fast);
+          loadingCloseTimer = setTimeout(() => {
+            loadingOverlay.classList.remove("is-open");
+            loadingOverlay.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("loading-open");
+          }, wait);
+        } else {
+          loadingOverlay.classList.remove("is-open");
+          loadingOverlay.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("loading-open");
+        }
+      };
+      if (delayMs) {
+        loadingCloseTimer = setTimeout(doClose, delayMs);
+      } else {
+        doClose();
+      }
     }
 
     function showFormError(message) {
@@ -4844,8 +5172,21 @@
       return `${mm}/${yyyy}`;
     }
 
-    async function loadRemoteData() {
-      setStorageStatus("Chargement des donn?es...");
+    async function loadRemoteData(options = {}) {
+      if (isLoading) return;
+      isLoading = true;
+
+      const source = options.source || "initial";
+      const isRefresh = source === "refresh";
+      const popupTitle = isRefresh ? "Actualisation en cours…" : "Chargement des données…";
+      const popupSubtitle = "Merci de patienter";
+
+      if (refreshBtn) {
+        refreshBtn.disabled = true;
+      }
+
+      openLoadingPopup({ title: popupTitle, subtitle: popupSubtitle, mode: "loading" });
+
       let ok = false;
       try {
         const response = await fetchWithTimeout(API_URL, { method: "GET" });
@@ -4869,15 +5210,29 @@
         ok = true;
       } catch (error) {
         remoteData = [];
-        setStorageStatus("Impossible de charger les donn?es pour le moment");
+        setLoadingPopupMode("error", {
+          title: "Erreur de chargement ❌",
+          subtitle: "Vérifiez votre connexion puis réessayez.",
+          errorDetails: error && error.message === "invalid_payload"
+            ? "Les données reçues sont invalides."
+            : ""
+        });
       } finally {
         buildPeriodeOptions();
         buildGraphFilters();
         renderDashboard();
         renderGraphiques();
         if (ok) {
-          setStorageStatus("");
+          setLoadingPopupMode("success", {
+            title: "Chargement terminé ✅",
+            subtitle: "Les données sont à jour."
+          });
+          closeLoadingPopup({ delayMs: 900 });
         }
+        if (refreshBtn) {
+          refreshBtn.disabled = false;
+        }
+        isLoading = false;
       }
     }
 
@@ -5410,6 +5765,7 @@
 
 
       resetSuccess();
+      resetSaveState();
 
       if (motionEnabled() && modalOverlay && modal) {
         window.anime.remove([modalOverlay, modal]);
@@ -5454,7 +5810,9 @@
 
     function closeModal() {
 
-
+      if (isSaving) {
+        return;
+      }
 
       if (motionEnabled() && modalOverlay && modal) {
         window.anime.remove([modalOverlay, modal]);
@@ -8524,9 +8882,22 @@
 
       event.preventDefault();
 
+      if (isSaving) return;
+      isSaving = true;
+
       resetSuccess();
 
       clearFormError();
+      setSaveButtonState("loading");
+      setSaveStatusMessage("Enregistrement en cours?");
+      if (modalCancel) modalCancel.disabled = true;
+      if (modalClose) modalClose.disabled = true;
+
+      saveLatencyTimer = setTimeout(() => {
+        if (isSaving) {
+          setSaveStatusMessage("Connexion en cours, merci de patienter?", "warn");
+        }
+      }, 4500);
 
 
 
@@ -8544,7 +8915,8 @@
 
       if (!greffe || !formalite || !periode || !Number.isFinite(delaiValue)) {
 
-        showFormError("Merci de compléter tous les champs obligatoires.");
+        resetSaveState();
+        showFormError("Merci de compl?ter tous les champs obligatoires.");
 
         return;
 
@@ -8554,7 +8926,8 @@
 
       if (!FORMALITES.includes(formalite)) {
 
-        showFormError("Merci de sélectionner un type de formalité valide.");
+        resetSaveState();
+        showFormError("Merci de s?lectionner un type de formalit? valide.");
 
         return;
 
@@ -8564,7 +8937,8 @@
 
       if (delaiValue < 1 || delaiValue > 365) {
 
-        showFormError("Le délai doit être compris entre 1 et 365 jours.");
+        resetSaveState();
+        showFormError("Le d?lai doit ?tre compris entre 1 et 365 jours.");
 
         return;
 
@@ -8574,7 +8948,8 @@
 
       if (greffeSelect.value === "Autre" && greffe.length < 2) {
 
-        showFormError("Merci de préciser le greffe.");
+        resetSaveState();
+        showFormError("Merci de pr?ciser le greffe.");
 
         return;
 
@@ -8584,7 +8959,8 @@
 
       if (!/^(0[1-9]|1[0-2])\/\d{4}$/.test(periode)) {
 
-        showFormError("Merci de renseigner une période au format MM/YYYY.");
+        resetSaveState();
+        showFormError("Merci de renseigner une p?riode au format MM/YYYY.");
 
         return;
 
@@ -8594,7 +8970,8 @@
 
       if (commentaire.length > 250) {
 
-        showFormError("Le commentaire est limité à 250 caractères.");
+        resetSaveState();
+        showFormError("Le commentaire est limit? ? 250 caract?res.");
 
         return;
 
@@ -8638,13 +9015,21 @@
 
         }
 
+        if (saveLatencyTimer) {
+          clearTimeout(saveLatencyTimer);
+          saveLatencyTimer = null;
+        }
+        isSaving = false;
+        setSaveButtonState("success");
+        setSaveStatusMessage("Contribution enregistr?e avec succ?s.", "success");
+
         form.reset();
 
         greffeAutreWrap.style.display = "none";
 
         if (successMsg) {
 
-          successMsg.textContent = "Merci ! Votre contribution a été enregistrée.";
+          successMsg.textContent = "Merci ! Votre contribution a ?t? enregistr?e.";
 
           successMsg.style.display = "inline-block";
 
@@ -8655,18 +9040,24 @@
         setTimeout(() => {
 
           closeModal();
+          resetSaveState();
 
-        }, 800);
+        }, 700);
 
       } catch (error) {
 
+        if (saveLatencyTimer) {
+          clearTimeout(saveLatencyTimer);
+          saveLatencyTimer = null;
+        }
+        isSaving = false;
+        setSaveButtonState("idle");
+        setSaveStatusMessage("Une erreur est survenue, veuillez r?essayer.", "error");
         showFormError(error && error.message ? error.message : "Impossible d'enregistrer la contribution.");
 
       }
 
     });
-
-
 
 
 
@@ -8683,8 +9074,14 @@
     if (refreshBtn) {
       refreshBtn.addEventListener("click", () => {
 
-        loadRemoteData();
+        loadRemoteData({ source: "refresh" });
 
+      });
+    }
+
+    if (loadingRetry) {
+      loadingRetry.addEventListener("click", () => {
+        loadRemoteData({ source: "refresh" });
       });
     }
 
