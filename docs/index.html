@@ -3493,7 +3493,6 @@
         <div class="kpi-grid">
           <div class="kpi" id="kpi-card-count"><small>Contributions</small><strong id="kpi-count">0</strong><span class="note"> Volume total</span></div>
           <div class="kpi" id="kpi-card-mean"><small>Moyenne</small><strong id="kpi-mean">-</strong><span class="note"> Délai moyen</span></div>
-          <div class="kpi" id="kpi-card-median"><small>Médiane</small><strong id="kpi-median">-</strong><span class="note"> Délai central</span></div>
           <div class="kpi" id="kpi-card-minmax"><small>Min / Max</small><strong id="kpi-minmax">-</strong><span class="note"> Plage observée</span></div>
           <div class="kpi" id="kpi-card-last"><small>Dernière période</small><strong id="kpi-last">-</strong><span class="note"> Mois récent</span></div>
         </div>
@@ -4605,8 +4604,6 @@
 
 
 
-    const kpiMedian = document.getElementById("kpi-median");
-
 
 
     const kpiMinMax = document.getElementById("kpi-minmax");
@@ -4629,7 +4626,6 @@
 
 
 
-      document.getElementById("kpi-card-median"),
 
 
 
@@ -4832,6 +4828,22 @@
       }
     }
 
+    function parseDelaiValue(value) {
+      if (typeof value === "number") return value;
+      if (value == null) return NaN;
+      const normalized = String(value).trim().replace(",", ".");
+      const parsed = Number(normalized);
+      return Number.isFinite(parsed) ? parsed : NaN;
+    }
+
+    function normalizePeriodeString(periode) {
+      const date = parsePeriode(periode);
+      if (!date) return "";
+      const mm = String(date.getMonth() + 1).padStart(2, "0");
+      const yyyy = date.getFullYear();
+      return `${mm}/${yyyy}`;
+    }
+
     async function loadRemoteData() {
       setStorageStatus("Chargement des donn?es...");
       let ok = false;
@@ -4843,13 +4855,13 @@
         if (!Array.isArray(incoming)) throw new Error("invalid_payload");
         remoteData = incoming
           .map(item => {
-            const delai = Number(item.delai);
+            const delai = parseDelaiValue(item.delai);
             return {
               createdAt: item.createdAt || new Date().toISOString(),
               greffe: String(item.greffe || "").trim(),
               formalite: String(item.formalite || "").trim(),
               delai: Number.isFinite(delai) ? delai : NaN,
-              periode: String(item.periode || "").trim(),
+              periode: normalizePeriodeString(item.periode),
               commentaire: typeof item.commentaire === "string" ? item.commentaire.trim() : ""
             };
           })
@@ -4877,25 +4889,37 @@
 
 
     function parsePeriode(periode) {
-
-
-
       if (!periode) return null;
+      const raw = String(periode).trim();
+      if (!raw) return null;
 
+      let yyyy = null;
+      let mm = null;
 
+      const isoMatch = raw.match(/^(\d{4})[\/-](\d{1,2})(?:[\/-](\d{1,2}))?$/);
+      if (isoMatch) {
+        yyyy = Number(isoMatch[1]);
+        mm = Number(isoMatch[2]);
+      } else {
+        const mmMatch = raw.match(/^(\d{1,2})[\/-](\d{4})$/);
+        if (mmMatch) {
+          mm = Number(mmMatch[1]);
+          yyyy = Number(mmMatch[2]);
+        }
+      }
 
-      const [mm, yyyy] = periode.split("/").map(Number);
-
-
-
-      if (!mm || !yyyy) return null;
-
-
+      if (!yyyy || !mm || mm < 1 || mm > 12) {
+        const isoDateMatch = raw.match(/^\d{4}-\d{2}-\d{2}/);
+        if (isoDateMatch) {
+          const parsed = new Date(raw);
+          if (!Number.isNaN(parsed.getTime())) {
+            return new Date(parsed.getFullYear(), parsed.getMonth(), 1);
+          }
+        }
+        return null;
+      }
 
       return new Date(yyyy, mm - 1, 1);
-
-
-
     }
 
 
@@ -5071,12 +5095,10 @@
 
 
     function computeStats(items) {
-
-
-
-      const delays = items.map(item => item.delai).sort((a, b) => a - b);
-
-
+      const delays = items
+        .map(item => parseDelaiValue(item.delai))
+        .filter(Number.isFinite)
+        .sort((a, b) => a - b);
 
       if (!delays.length) return { moyenne: null, mediane: null, count: 0 };
 
@@ -6655,6 +6677,62 @@
 
 
 
+    function getNiceStep(value, targetSteps = 4) {
+      if (!Number.isFinite(value) || value <= 0) return 1;
+      const rough = value / targetSteps;
+      const pow10 = Math.pow(10, Math.floor(Math.log10(rough)));
+      const fraction = rough / pow10;
+      let niceFraction = 1;
+      if (fraction <= 1) niceFraction = 1;
+      else if (fraction <= 2) niceFraction = 2;
+      else if (fraction <= 5) niceFraction = 5;
+      else niceFraction = 10;
+      return niceFraction * pow10;
+    }
+
+    function drawMonthlyAxes(ctx, width, height, padding, minY, maxY, periodes, xFromDate) {
+      const p = resolvePadding(padding);
+      const chartHeight = height - p.top - p.bottom;
+      const range = Math.max(1, maxY - minY);
+
+      ctx.strokeStyle = "#cbb8aa";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(p.left, p.top);
+      ctx.lineTo(p.left, height - p.bottom);
+      ctx.lineTo(width - p.right, height - p.bottom);
+      ctx.stroke();
+
+      const step = getNiceStep(range);
+      const start = Math.floor(minY / step) * step;
+      const end = Math.ceil(maxY / step) * step;
+
+      ctx.strokeStyle = "rgba(90, 77, 69, 0.12)";
+      ctx.lineWidth = 1;
+      for (let value = start; value <= end + 0.0001; value += step) {
+        const y = height - p.bottom - ((value - minY) / range) * chartHeight;
+        ctx.beginPath();
+        ctx.moveTo(p.left, y);
+        ctx.lineTo(width - p.right, y);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = "#5a4d45";
+      ctx.font = "11px Segoe UI";
+      for (let value = start; value <= end + 0.0001; value += step) {
+        const y = height - p.bottom - ((value - minY) / range) * chartHeight;
+        ctx.fillText(Math.round(value), Math.max(6, p.left - 34), y + 4);
+      }
+      ctx.fillText("jours", p.left, p.top - 6);
+
+      const labelStep = periodes.length <= 8 ? 1 : periodes.length <= 16 ? 2 : periodes.length <= 24 ? 3 : 4;
+      periodes.forEach((pItem, idx) => {
+        if (idx % labelStep !== 0) return;
+        const x = xFromDate(pItem.date);
+        ctx.fillText(pItem.label, x - 18, height - 10);
+      });
+    }
+
     function drawMonthlyChart(items) {
 
 
@@ -6797,6 +6875,68 @@
 
 
 
+      if (!periodes.length) {
+
+
+
+        drawAxes(ctx, width, height, padding, 10, "jours", "x");
+
+
+
+        legendMonthly.innerHTML = "";
+
+
+
+        setEmptyState(
+
+
+
+          document.getElementById("empty-monthly"),
+
+
+
+          true,
+
+
+
+          "Aucune p‚riode valide pour afficher la courbe."
+
+
+
+        );
+
+
+
+        const sample = items.map(item => item.periode).filter(Boolean).slice(0, 10);
+
+
+
+        console.warn(
+
+
+
+          "[Evolution mensuelle] Aucune periode valide apres filtrage.",
+
+
+
+          { totalItems: items.length, samplePeriodes: sample }
+
+
+
+        );
+
+
+
+        return;
+
+
+
+      }
+
+
+
+
+
 
 
       const series = {};
@@ -6831,7 +6971,7 @@
 
 
 
-            series[formalite].push({ periode: p.label, value: value || 0 });
+            series[formalite].push({ xDate: p.date, xLabel: p.label, yValue: value || 0 });
 
 
 
@@ -6859,7 +6999,7 @@
 
 
 
-          return { periode: p.label, value: value || 0 };
+          return { xDate: p.date, xLabel: p.label, yValue: value || 0 };
 
 
 
@@ -6955,7 +7095,7 @@
 
 
 
-        return series[name].map(item => item.value);
+        return series[name].map(item => item.yValue);
 
 
 
@@ -7003,15 +7143,19 @@
 
 
 
-      const maxValue = allValues.length ? Math.max(...allValues) : 1;
+      const minValue = Math.min(...allValues);
+      const maxValue = Math.max(...allValues);
+      const minY = Math.max(0, Math.floor(minValue - 2));
+      const maxY = Math.ceil(maxValue + 2);
+      const yRange = Math.max(1, maxY - minY);
+      const dateMin = periodes[0].date;
+      const dateMax = periodes[periodes.length - 1].date;
+      const xRange = dateMax - dateMin || 1;
+      const xFromDate = date => p.left + ((date - dateMin) / xRange) * (width - p.left - p.right);
 
 
 
-      drawAxes(ctx, width, height, padding, maxValue, "jours", "x");
-
-
-
-      const xStep = periodes.length > 1 ? (width - p.left - p.right) / (periodes.length - 1) : 0;
+      drawMonthlyAxes(ctx, width, height, padding, minY, maxY, periodes, xFromDate);
 
 
 
@@ -7027,7 +7171,7 @@
 
 
 
-        const points = series[key];
+        const points = series[key].slice().sort((a, b) => a.xDate - b.xDate);
 
 
 
@@ -7055,11 +7199,11 @@
 
 
 
-          const x = p.left + idx * xStep;
+          const x = xFromDate(point.xDate);
 
 
 
-          const y = height - p.bottom - (point.value / maxValue) * (height - p.top - p.bottom);
+          const y = height - p.bottom - ((point.yValue - minY) / yRange) * (height - p.top - p.bottom);
 
 
 
@@ -7083,11 +7227,11 @@
 
 
 
-          const x = p.left + idx * xStep;
+          const x = xFromDate(point.xDate);
 
 
 
-          const y = height - p.bottom - (point.value / maxValue) * (height - p.top - p.bottom);
+          const y = height - p.bottom - ((point.yValue - minY) / yRange) * (height - p.top - p.bottom);
 
 
 
@@ -7115,11 +7259,11 @@
 
 
 
-            label: point.periode,
+            xLabel: point.xLabel,
 
 
 
-            value: point.value,
+            yValue: point.yValue,
 
 
 
@@ -7140,38 +7284,6 @@
 
 
 
-
-
-
-      ctx.fillStyle = "#5a4d45";
-
-
-
-      ctx.font = "12px Segoe UI";
-
-
-
-      const labelStep = periodes.length > 18 ? 3 : periodes.length > 12 ? 2 : 1;
-
-
-
-      periodes.forEach((p, idx) => {
-
-
-
-        if (idx % labelStep !== 0) return;
-
-
-
-        const x = p.left + idx * xStep;
-
-
-
-        ctx.fillText(p.label, x - 18, height - 10);
-
-
-
-      });
 
 
 
@@ -7884,7 +7996,7 @@
 
 
 
-          `${label}  Période ${nearest.label}  ${formatNumber(nearest.value)} jours`,
+          `${label}  Période ${nearest.xLabel}  ${formatNumber(nearest.yValue)} jours`,
 
 
 
@@ -8161,12 +8273,6 @@
         animateCount(kpiMean, stats.moyenne, { duration: motion.medium, format: value => formatNumber(value) });
       } else if (kpiMean) {
         kpiMean.textContent = "-";
-      }
-
-      if (Number.isFinite(stats.mediane)) {
-        animateCount(kpiMedian, stats.mediane, { duration: motion.medium, format: value => formatNumber(value) });
-      } else if (kpiMedian) {
-        kpiMedian.textContent = "-";
       }
 
       kpiMinMax.textContent = minmax.min ? `${minmax.min} / ${minmax.max}` : "-";
