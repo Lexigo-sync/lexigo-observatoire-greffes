@@ -1853,11 +1853,11 @@
 
 
 
-      right: 22px;
+      right: calc(16px + env(safe-area-inset-right));
 
 
 
-      bottom: 22px;
+      bottom: calc(16px + env(safe-area-inset-bottom));
 
 
 
@@ -1897,27 +1897,17 @@
 
 
 
-      z-index: 50;
-
-
-
-      opacity: 0;
-
-
-
-      transform: translateY(10px);
-
-
-
-      animation: fabIn 0.4s ease forwards;
+      z-index: 9999;
+      opacity: 1;
+      transform: translateY(0);
 
 
 
     }
 
     body.embed .fab {
-      right: 12px;
-      bottom: 12px;
+      right: calc(12px + env(safe-area-inset-right));
+      bottom: calc(12px + env(safe-area-inset-bottom));
     }
 
 
@@ -2212,6 +2202,7 @@
 
 
 
+      max-height: calc(100dvh - 24px);
       max-height: calc(var(--vh, 1vh) * 85);
 
 
@@ -3696,7 +3687,10 @@
             <h2>Délais observés</h2>
             <p class="subtle">Données communautaires — indicatives — non officielles.</p>
           </div>
-          <button class="ghost" id="refresh-btn" type="button">Actualiser</button>
+          <div class="actions">
+            <button class="ghost" id="refresh-btn" type="button">Actualiser</button>
+            <button class="ghost" id="contribute-btn" type="button">Contribuer</button>
+          </div>
         </div>
         <!-- ============================= -->
         <!-- BLOC : Filtres KPI -->
@@ -4558,9 +4552,9 @@
 
     // =============================
     // Motion System (anime.js)
-    // Dur?es : micro 140-200ms, transitions 260-420ms
+    // Durées : micro 140-200ms, transitions 260-420ms
     // Easing : easeOutCubic / easeOutQuad
-    // Accessibilit? : reduced-motion = animations d?sactiv?es
+    // Accessibilité : reduced-motion = animations désactivées
     // =============================
     const motionPrefs = window.matchMedia("(prefers-reduced-motion: reduce)");
     const motion = {
@@ -4696,6 +4690,7 @@
     const statCount = document.getElementById("stat-count");
     const storageWarning = document.getElementById("storage-warning");
     const refreshBtn = document.getElementById("refresh-btn");
+    const contributeBtn = document.getElementById("contribute-btn");
     const loadingOverlay = document.getElementById("loading-overlay");
     const loadingTitle = document.getElementById("loading-title");
     const loadingSubtitle = document.getElementById("loading-subtitle");
@@ -8954,7 +8949,7 @@
       if (!greffe || !formalite || !periode || !Number.isFinite(delaiValue)) {
 
         resetSaveState();
-        showFormError("Merci de compl?ter tous les champs obligatoires.");
+        showFormError("Merci de compléter tous les champs obligatoires.");
 
         return;
 
@@ -8965,7 +8960,7 @@
       if (!FORMALITES.includes(formalite)) {
 
         resetSaveState();
-        showFormError("Merci de s?lectionner un type de formalit? valide.");
+        showFormError("Merci de sélectionner un type de formalité valide.");
 
         return;
 
@@ -8976,7 +8971,7 @@
       if (delaiValue < 1 || delaiValue > 365) {
 
         resetSaveState();
-        showFormError("Le d?lai doit ?tre compris entre 1 et 365 jours.");
+        showFormError("Le délai doit être compris entre 1 et 365 jours.");
 
         return;
 
@@ -8987,7 +8982,7 @@
       if (greffeSelect.value === "Autre" && greffe.length < 2) {
 
         resetSaveState();
-        showFormError("Merci de pr?ciser le greffe.");
+        showFormError("Merci de préciser le greffe.");
 
         return;
 
@@ -8998,7 +8993,7 @@
       if (!/^(0[1-9]|1[0-2])\/\d{4}$/.test(periode)) {
 
         resetSaveState();
-        showFormError("Merci de renseigner une p?riode au format MM/YYYY.");
+        showFormError("Merci de renseigner une période au format MM/YYYY.");
 
         return;
 
@@ -9009,7 +9004,7 @@
       if (commentaire.length > 250) {
 
         resetSaveState();
-        showFormError("Le commentaire est limit? ? 250 caract?res.");
+        showFormError("Le commentaire est limité à 250 caractères.");
 
         return;
 
@@ -9059,7 +9054,7 @@
         }
         isSaving = false;
         setSaveButtonState("success");
-        setSaveStatusMessage("Contribution enregistr?e avec succ?s.", "success");
+        setSaveStatusMessage("Contribution enregistrée avec succès.", "success");
 
         form.reset();
 
@@ -9067,7 +9062,7 @@
 
         if (successMsg) {
 
-          successMsg.textContent = "Merci ! Votre contribution a ?t? enregistr?e.";
+          successMsg.textContent = "Merci ! Votre contribution a été enregistrée.";
 
           successMsg.style.display = "inline-block";
 
@@ -9090,7 +9085,7 @@
         }
         isSaving = false;
         setSaveButtonState("idle");
-        setSaveStatusMessage("Une erreur est survenue, veuillez r?essayer.", "error");
+        setSaveStatusMessage("Une erreur est survenue, veuillez réessayer.", "error");
         showFormError(error && error.message ? error.message : "Impossible d'enregistrer la contribution.");
 
       }
@@ -9115,6 +9110,10 @@
         loadRemoteData({ source: "refresh" });
 
       });
+    }
+
+    if (contributeBtn) {
+      contributeBtn.addEventListener("click", openModal);
     }
 
     if (loadingRetry) {
