@@ -90,13 +90,9 @@
 
 
     html, body {
-
-
-
       height: 100%;
-
-
-
+      width: 100%;
+      overflow-x: hidden;
     }
 
 
@@ -106,29 +102,16 @@
 
 
     body {
-
-
-
       margin: 0;
-
-
-
       font-family: "Segoe UI", "Trebuchet MS", "Verdana", sans-serif;
-
-
-
       color: var(--ink);
-
-
-
       background: radial-gradient(1200px 600px at 80% -10%, #f4ecd6 0%, transparent 60%),
-
                   radial-gradient(900px 500px at -10% 20%, #e8edf2 0%, transparent 55%),
-
                   var(--bg);
+    }
 
-
-
+    body.embed {
+      background: var(--bg);
     }
 
 
@@ -162,21 +145,14 @@
     /* Rôle : centrage, cartes, sections empilées */
     /* ============================= */
     .wrap {
-
-
-
       max-width: 1180px;
-
-
-
       margin: 0 auto;
-
-
-
       padding: 0 18px 48px;
+    }
 
-
-
+    body.embed .wrap {
+      max-width: 100%;
+      padding: 0 12px 32px;
     }
 
 
@@ -434,33 +410,17 @@
 
 
     .card {
-
-
-
       background: var(--card);
-
-
-
       border-radius: 20px;
-
-
-
       padding: 24px;
-
-
-
       box-shadow: var(--shadow);
-
-
-
       border: 1px solid var(--border);
-
-
-
       animation: fadeIn 0.6s ease;
+    }
 
-
-
+    body.embed .card {
+      padding: 18px;
+      box-shadow: var(--shadow-soft);
     }
 
 
@@ -1870,6 +1830,11 @@
 
     }
 
+    body.embed .back-top {
+      left: 12px;
+      bottom: 12px;
+    }
+
 
 
 
@@ -1948,6 +1913,11 @@
 
 
 
+    }
+
+    body.embed .fab {
+      right: 12px;
+      bottom: 12px;
     }
 
 
@@ -2242,7 +2212,7 @@
 
 
 
-      max-height: 85vh;
+      max-height: calc(var(--vh, 1vh) * 85);
 
 
 
@@ -2814,7 +2784,7 @@
 
 
 
-      background: #1f1a17;
+      background: #364f6b;
 
 
 
@@ -2830,11 +2800,15 @@
 
 
 
-      border-radius: 10px;
+      border-radius: 12px;
 
 
 
-      box-shadow: 0 8px 20px rgba(31, 26, 23, 0.2);
+      border: 1px solid rgba(223, 202, 130, 0.45);
+
+
+
+      box-shadow: 0 10px 22px rgba(54, 79, 107, 0.24);
 
 
 
@@ -2951,21 +2925,13 @@
 
 
     canvas {
-
-
-
       width: 100%;
-
-
-
       height: 240px;
-
-
-
       display: block;
+    }
 
-
-
+    body.embed canvas {
+      height: 220px;
     }
 
 
@@ -3577,6 +3543,21 @@
 
     }
 
+    @media (max-width: 900px) {
+      .wrap {
+        padding: 0 14px 36px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .card {
+        padding: 20px;
+      }
+      .kpi-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
 
 
 
@@ -3597,8 +3578,60 @@
 
       }
 
+      .wrap {
+        padding: 0 12px 28px;
+      }
+
+      .card {
+        padding: 16px;
+        border-radius: 16px;
+      }
+
+      canvas {
+        height: 280px;
+      }
+
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .actions button {
+        width: 100%;
+      }
+
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .fab {
+        right: 14px;
+        bottom: 14px;
+      }
+
+      .back-top {
+        left: 14px;
+        bottom: 14px;
+      }
 
 
+
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: clamp(22px, 6vw, 28px);
+      }
+      .hero {
+        padding: 20px;
+        border-radius: 18px;
+      }
+      canvas {
+        height: 300px;
+      }
+      body.embed .card {
+        padding: 14px;
+      }
     }
 
 
@@ -3660,7 +3693,7 @@
       <section class="card" id="kpi-block">
         <div class="section-head">
           <div>
-            <h2>Indicateurs clés</h2>
+            <h2>Délais observés</h2>
             <p class="subtle">Données communautaires — indicatives — non officielles.</p>
           </div>
           <button class="ghost" id="refresh-btn" type="button">Actualiser</button>
@@ -3694,10 +3727,10 @@
         <!-- Impact : reflète les filtres KPI actifs -->
         <!-- ============================= -->
         <div class="kpi-grid">
-          <div class="kpi" id="kpi-card-count"><small>Contributions</small><strong id="kpi-count">0</strong><span class="note"> Volume total</span></div>
           <div class="kpi" id="kpi-card-mean"><small>Moyenne</small><strong id="kpi-mean">-</strong><span class="note"> Délai moyen</span></div>
-          <div class="kpi" id="kpi-card-minmax"><small>Min / Max</small><strong id="kpi-minmax">-</strong><span class="note"> Plage observée</span></div>
           <div class="kpi" id="kpi-card-last"><small>Dernière période</small><strong id="kpi-last">-</strong><span class="note"> Mois récent</span></div>
+          <div class="kpi" id="kpi-card-minmax"><small>Min / Max</small><strong id="kpi-minmax">-</strong><span class="note"> Plage observée</span></div>
+          <div class="kpi" id="kpi-card-count"><small>Contributions</small><strong id="kpi-count">0</strong><span class="note"> Volume total</span></div>
         </div>
       </section>
 
@@ -3747,9 +3780,7 @@
 
 
 
-              <label class="toggle"><input type="checkbox" id="graph-multi"> Courbes multiples</label>
-
-
+              
 
             </div>
 
@@ -3975,19 +4006,23 @@
 
 
 
-          <h2>Comment lire ces données </h2>
+<h3 id="delais-info-title">À propos des délais</h3>
 
+  <p>
+    Les délais présentés correspondent à des estimations issues des déclarations des contributeurs.
+    Cette page n’a aucune valeur de classement officiel.
+  </p>
 
+  <h4>Définitions</h4>
+  <ul>
+    <li><strong>Date de saisie :</strong> date à laquelle la contribution a été enregistrée.</li>
+    <li><strong>Période :</strong> période concernée par la formalité (généralement la période de réalisation de celle-ci).</li>
+  </ul>
 
-          <p class="note">Les délais sont des moyennes et médianes calculées à partir des contributions. Les résultats peuvent varier selon la période, la charge du greffe ou la complexité des dossiers. Cette page n'établit aucun classement officiel.</p>
-
-
-
-          <h3>RGPD</h3>
-
-
-
-          <p class="note">Aucune donnée personnelle collectée. Données stockées sur une base partagée (Google Sheets) — sans données personnelles.</p>
+  <p>
+    Il est recommandé de <strong>sélectionner un greffe via les filtres</strong> afin d’obtenir des données ciblées
+    sur le greffe qui vous intéresse.
+  </p>
 
 
 
@@ -4175,7 +4210,6 @@
 
 
 
-                <option value="Radiation">Radiation</option>
 
 
 
@@ -4239,7 +4273,7 @@
 
 
 
-              <textarea id="commentaire" maxlength="250" placeholder="Contexte utile, sans aucune donnée personnelle."></textarea>
+              <textarea id="commentaire" maxlength="250" placeholder="Commentaires"></textarea>
 
 
 
@@ -4317,7 +4351,7 @@
 
 
 
-    const FORMALITES = ["Immatriculation", "Modification", "Depot des comptes", "Radiation"];
+    const FORMALITES = ["Immatriculation", "Modification", "Depot des comptes"];
 
 
 
@@ -4333,11 +4367,8 @@
 
 
 
-      "Depot des comptes": "Dépôt des comptes",
+      "Depot des comptes": "Dépôt des comptes"
 
-
-
-      Radiation: "Radiation"
 
 
 
@@ -4922,6 +4953,16 @@
 
     const filterPanel = document.querySelector("[data-panel]");
 
+    const isEmbedded = window.self !== window.top;
+    if (isEmbedded) {
+      document.body.classList.add("embed");
+    }
+    const setViewportUnit = () => {
+      document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
+    };
+    setViewportUnit();
+    window.addEventListener("resize", setViewportUnit);
+
 
 
 
@@ -4942,34 +4983,17 @@
 
 
 
+    const CHART_PRIMARY = "#364f6b";
+    const CHART_ACCENT = "#dfca82";
+    const CHART_AXIS = "rgba(54, 79, 107, 0.6)";
+    const CHART_GRID = "rgba(54, 79, 107, 0.15)";
+
     const SERIES_COLORS = {
-
-
-
-      Immatriculation: "#0f5f5c",
-
-
-
-      Modification: "#d97706",
-
-
-
-      "Depot des comptes": "#3a5e8c",
-
-
-
-      Radiation: "#7b3f00",
-
-
-
-      moyenne: "#0f5f5c",
-
-
-
-      mediane: "#d97706"
-
-
-
+      Immatriculation: CHART_PRIMARY,
+      Modification: CHART_PRIMARY,
+      "Depot des comptes": CHART_PRIMARY,
+      moyenne: CHART_PRIMARY,
+      mediane: CHART_ACCENT
     };
 
 
@@ -5026,7 +5050,7 @@
       if (state === "loading") {
         submitBtn.classList.add("is-loading");
         submitBtn.disabled = true;
-        if (submitLabel) submitLabel.textContent = "Enregistrement en cours?";
+        if (submitLabel) submitLabel.textContent = "Enregistrement en cours...";
         if (form) form.setAttribute("aria-busy", "true");
       } else if (state === "success") {
         submitBtn.classList.add("is-success");
@@ -5206,7 +5230,8 @@
               commentaire: typeof item.commentaire === "string" ? item.commentaire.trim() : ""
             };
           })
-          .filter(item => item.greffe && item.formalite && Number.isFinite(item.delai) && item.periode);
+          .filter(item => item.greffe && item.formalite && Number.isFinite(item.delai) && item.periode)
+          .filter(item => item.formalite !== "Radiation");
         ok = true;
       } catch (error) {
         remoteData = [];
@@ -5329,6 +5354,21 @@
       return buildPeriodRange({ monthsBack, minDate });
     }
 
+    function getAllPeriodesSortedDesc(data) {
+      const set = new Set();
+      data.forEach(item => {
+        const normalized = normalizePeriodeString(item.periode);
+        if (normalized) set.add(normalized);
+      });
+      const current = getCurrentPeriod();
+      set.add(current);
+      return [...set]
+        .map(label => ({ label, date: parsePeriode(label) }))
+        .filter(item => item.date)
+        .sort((a, b) => b.date - a.date)
+        .map(item => item.label);
+    }
+
 
 
 
@@ -5341,7 +5381,7 @@
 
       if (!periodeSelect) return;
       const data = remoteData;
-      const periodes = getAvailablePeriods(data, 24);
+      const periodes = getAllPeriodesSortedDesc(data);
       const current = getCurrentPeriod();
       const currentValue = periodeSelect.value;
       const options = ["<option value=\"\">Sélectionner</option>"];
@@ -6129,7 +6169,7 @@
 
     function buildKpiFilters(data) {
       if (!kpiFilterGreffe && !kpiFilterPeriode && !kpiFilterFormalite) return;
-      const periodes = getAvailablePeriods(data, 24);
+      const periodes = getAllPeriodesSortedDesc(data);
       const currentValue = kpiFilterPeriode ? kpiFilterPeriode.value : "";
       setSelectOptions(kpiFilterPeriode, periodes, "Toutes", currentValue);
       if (kpiFilterPeriode && currentValue && !periodes.includes(currentValue)) {
@@ -6819,7 +6859,7 @@
 
 
 
-      ctx.strokeStyle = "#cbb8aa";
+      ctx.strokeStyle = CHART_AXIS;
 
 
 
@@ -6855,7 +6895,7 @@
 
 
 
-      ctx.strokeStyle = "rgba(90, 77, 69, 0.12)";
+      ctx.strokeStyle = CHART_GRID;
 
 
 
@@ -6939,7 +6979,7 @@
 
 
 
-        ctx.fillStyle = "#5a4d45";
+        ctx.fillStyle = CHART_AXIS;
 
 
 
@@ -7053,7 +7093,7 @@
       const chartHeight = height - p.top - p.bottom;
       const range = Math.max(1, maxY - minY);
 
-      ctx.strokeStyle = "#cbb8aa";
+      ctx.strokeStyle = CHART_AXIS;
       ctx.lineWidth = 1.2;
       ctx.beginPath();
       ctx.moveTo(p.left, p.top);
@@ -7065,7 +7105,7 @@
       const start = Math.floor(minY / step) * step;
       const end = Math.ceil(maxY / step) * step;
 
-      ctx.strokeStyle = "rgba(90, 77, 69, 0.12)";
+      ctx.strokeStyle = CHART_GRID;
       ctx.lineWidth = 1;
       for (let value = start; value <= end + 0.0001; value += step) {
         const y = height - p.bottom - ((value - minY) / range) * chartHeight;
@@ -7075,7 +7115,7 @@
         ctx.stroke();
       }
 
-      ctx.fillStyle = "#5a4d45";
+      ctx.fillStyle = CHART_AXIS;
       ctx.font = "11px Segoe UI";
       for (let value = start; value <= end + 0.0001; value += step) {
         const y = height - p.bottom - ((value - minY) / range) * chartHeight;
@@ -7187,7 +7227,7 @@
 
 
 
-      const multi = graphMulti.checked;
+      const multi = graphMulti ? graphMulti.checked : false;
 
 
 
@@ -7409,15 +7449,13 @@
 
 
 
-        const color = SERIES_COLORS[name] || "#0f5f5c";
+        const isActive = chartState.monthly.activeSeries.has(name);
 
-
-
-        const inactive = chartState.monthly.activeSeries.has(name) ? "" : "inactive";
-
-
+        const inactive = isActive ? "" : "inactive";
 
         const label = FORMALITE_LABELS[name] || METRIC_LABELS[name] || name;
+
+        const color = isActive ? CHART_ACCENT : CHART_PRIMARY;
 
 
 
@@ -7533,7 +7571,7 @@
 
 
 
-        const color = SERIES_COLORS[key] || "#0f5f5c";
+        const color = SERIES_COLORS[key] || CHART_PRIMARY;
 
 
 
@@ -7837,7 +7875,7 @@
 
 
 
-        ctx.fillStyle = "#d97706";
+        ctx.fillStyle = CHART_PRIMARY;
 
 
 
@@ -7845,7 +7883,7 @@
 
 
 
-        ctx.fillStyle = "#5a4d45";
+        ctx.fillStyle = CHART_AXIS;
 
 
 
@@ -8077,7 +8115,7 @@
 
 
 
-        ctx.fillStyle = "#0f5f5c";
+        ctx.fillStyle = CHART_PRIMARY;
 
 
 
@@ -8085,7 +8123,7 @@
 
 
 
-        ctx.fillStyle = "#5a4d45";
+        ctx.fillStyle = CHART_AXIS;
 
 
 
@@ -8889,13 +8927,13 @@
 
       clearFormError();
       setSaveButtonState("loading");
-      setSaveStatusMessage("Enregistrement en cours?");
+      setSaveStatusMessage("Enregistrement en cours...");
       if (modalCancel) modalCancel.disabled = true;
       if (modalClose) modalClose.disabled = true;
 
       saveLatencyTimer = setTimeout(() => {
         if (isSaving) {
-          setSaveStatusMessage("Connexion en cours, merci de patienter?", "warn");
+          setSaveStatusMessage("Connexion en cours, merci de patienter...", "warn");
         }
       }, 4500);
 
