@@ -6206,10 +6206,17 @@
 
     function renderKpiDetailTable(items) {
       if (!kpiDetailTable || !kpiPageInfo || !kpiPagePrev || !kpiPageNext) return;
-      const totalPages = Math.max(1, Math.ceil(items.length / kpiPageSize));
+      const sorted = [...items].sort((a, b) => {
+        const ta = a && a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const tb = b && b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        const sa = Number.isFinite(ta) ? ta : 0;
+        const sb = Number.isFinite(tb) ? tb : 0;
+        return sb - sa;
+      });
+      const totalPages = Math.max(1, Math.ceil(sorted.length / kpiPageSize));
       kpiDetailPage = Math.min(kpiDetailPage, totalPages);
       const start = (kpiDetailPage - 1) * kpiPageSize;
-      const slice = items.slice(start, start + kpiPageSize);
+      const slice = sorted.slice(start, start + kpiPageSize);
       renderTable(slice, kpiDetailTable, false);
       if (motionEnabled()) {
         animateIn(kpiDetailTable, { duration: motion.fast });
@@ -8300,25 +8307,63 @@
 
 
 
+    // IMPORTANT: anime.js applique des styles inline (opacity/transform). On doit les nettoyer en hide, sinon l'overlay peut rester visible.
     function setEmptyState(el, show, message) {
-
-
-
       if (!el) return;
 
-
-
-      if (message) el.innerHTML = message;
-
-
-
-      el.classList.toggle("visible", show);
-      if (show) {
-        animateIn(el, { duration: motion.fast });
+      if (typeof message === "string") {
+        el.innerHTML = message;
       }
 
+      const hasAnime = motionEnabled();
 
+      if (hasAnime && window.anime) {
+        window.anime.remove(el);
+      }
 
+      const cleanupInline = () => {
+        el.style.opacity = "";
+        el.style.transform = "";
+      };
+
+      if (show) {
+        // Always start from a clean state to avoid "stuck" inline styles
+        cleanupInline();
+        el.classList.add("visible");
+
+        if (hasAnime && window.anime) {
+          // Force a known start state for the animation
+          el.style.opacity = "0";
+          el.style.transform = "translateY(8px)";
+          window.anime({
+            targets: el,
+            opacity: [0, 1],
+            translateY: [8, 0],
+            duration: motionDuration(motion.fast),
+            easing: motion.easingOut
+          });
+        }
+
+        return;
+      }
+
+      // hide
+      if (hasAnime && window.anime) {
+        window.anime({
+          targets: el,
+          opacity: [1, 0],
+          translateY: [0, 6],
+          duration: motionDuration(motion.fast),
+          easing: motion.easingIn,
+          complete: () => {
+            el.classList.remove("visible");
+            cleanupInline();
+          }
+        });
+      } else {
+        el.classList.remove("visible");
+        cleanupInline();
+      }
     }
 
 
